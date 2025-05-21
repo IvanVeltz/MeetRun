@@ -20,13 +20,7 @@ class InstantMessage
     #[ORM\Column]
     private ?\DateTime $dateMessage = null;
 
-    #[ORM\ManyToOne(inversedBy: 'instantMessages')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $sender = null;
-
-    #[ORM\ManyToOne(inversedBy: 'instantMessagesReceiver')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $receiver = null;
+    
 
     public function getId(): ?int
     {
@@ -57,27 +51,5 @@ class InstantMessage
         return $this;
     }
 
-    public function getSender(): ?User
-    {
-        return $this->sender;
-    }
-
-    public function setSender(?User $sender): static
-    {
-        $this->sender = $sender;
-
-        return $this;
-    }
-
-    public function getReceiver(): ?User
-    {
-        return $this->receiver;
-    }
-
-    public function setReceiver(?User $receiver): static
-    {
-        $this->receiver = $receiver;
-
-        return $this;
-    }
+    
 }

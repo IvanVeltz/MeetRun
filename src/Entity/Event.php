@@ -37,9 +37,6 @@ class Event
     #[ORM\Column(nullable: true)]
     private ?int $capacity = null;
 
-    #[ORM\ManyToOne(inversedBy: 'events')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $organizer = null;
 
     /**
      * @var Collection<int, RegistrationEvent>
@@ -148,17 +145,7 @@ class Event
         return $this;
     }
 
-    public function getOrganizer(): ?User
-    {
-        return $this->organizer;
-    }
-
-    public function setOrganizer(?User $organizer): static
-    {
-        $this->organizer = $organizer;
-
-        return $this;
-    }
+    
 
     /**
      * @return Collection<int, RegistrationEvent>

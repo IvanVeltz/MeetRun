@@ -16,9 +16,7 @@ class RegistrationEvent
     #[ORM\Column]
     private ?int $quantity = null;
 
-    #[ORM\ManyToOne(inversedBy: 'registrationEvents')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
+    
 
     #[ORM\ManyToOne(inversedBy: 'registrationEvents')]
     #[ORM\JoinColumn(nullable: false)]
@@ -37,18 +35,6 @@ class RegistrationEvent
     public function setQuantity(int $quantity): static
     {
         $this->quantity = $quantity;
-
-        return $this;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): static
-    {
-        $this->user = $user;
 
         return $this;
     }
