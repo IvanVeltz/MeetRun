@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -85,6 +86,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\OneToMany(targetEntity: InstantMessage::class, mappedBy: 'receiver', orphanRemoval: true)]
     private Collection $instantMessagesReceiver;
+
+    #[ORM\Column(length: 100)]
+    private ?string $lastName = null;
+
+    #[ORM\Column(length: 100)]
+    private ?string $firstName = null;
+
+    #[ORM\Column]
+    private ?\DateTime $dateOfRegister = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTime $dateOfBirth = null;
+
+    #[ORM\Column]
+    private ?bool $isBanned = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $pictureProfilUrl = null;
+
+    #[ORM\Column(length: 10, nullable: true)]
+    private ?string $postalCode = null;
+
+    #[ORM\Column(length: 100, nullable: true)]
+    private ?string $city = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $bio = null;
 
     public function __construct()
     {
@@ -410,6 +438,114 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $instantMessagesReceiver->setReceiver(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+
+    public function setLastName(string $lastName): static
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    public function getFirstName(): ?string
+    {
+        return $this->firstName;
+    }
+
+    public function setFirstName(string $firstName): static
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    public function getDateOfRegister(): ?\DateTime
+    {
+        return $this->dateOfRegister;
+    }
+
+    public function setDateOfRegister(\DateTime $dateOfRegister): static
+    {
+        $this->dateOfRegister = $dateOfRegister;
+
+        return $this;
+    }
+
+    public function getDateOfBirth(): ?\DateTime
+    {
+        return $this->dateOfBirth;
+    }
+
+    public function setDateOfBirth(?\DateTime $dateOfBirth): static
+    {
+        $this->dateOfBirth = $dateOfBirth;
+
+        return $this;
+    }
+
+    public function isBanned(): ?bool
+    {
+        return $this->isBanned;
+    }
+
+    public function setIsBanned(bool $isBanned): static
+    {
+        $this->isBanned = $isBanned;
+
+        return $this;
+    }
+
+    public function getPictureProfilUrl(): ?string
+    {
+        return $this->pictureProfilUrl;
+    }
+
+    public function setPictureProfilUrl(string $pictureProfilUrl): static
+    {
+        $this->pictureProfilUrl = $pictureProfilUrl;
+
+        return $this;
+    }
+
+    public function getPostalCode(): ?string
+    {
+        return $this->postalCode;
+    }
+
+    public function setPostalCode(?string $postalCode): static
+    {
+        $this->postalCode = $postalCode;
+
+        return $this;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(?string $city): static
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    public function getBio(): ?string
+    {
+        return $this->bio;
+    }
+
+    public function setBio(?string $bio): static
+    {
+        $this->bio = $bio;
 
         return $this;
     }

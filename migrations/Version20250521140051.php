@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250521093313 extends AbstractMigration
+final class Version20250521140051 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -39,13 +39,16 @@ final class Version20250521093313 extends AbstractMigration
             CREATE TABLE post (id INT AUTO_INCREMENT NOT NULL, topic_id INT NOT NULL, user_id INT NOT NULL, message LONGTEXT NOT NULL, date_message DATETIME NOT NULL, INDEX IDX_5A8A6C8D1F55203D (topic_id), INDEX IDX_5A8A6C8DA76ED395 (user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE registration_event (id INT AUTO_INCREMENT NOT NULL, user_id INT NOT NULL, event_id INT NOT NULL, quantity INT NOT NULL, INDEX IDX_B404AA4FA76ED395 (user_id), INDEX IDX_B404AA4F71F7E88B (event_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
+            CREATE TABLE registration_event (id INT AUTO_INCREMENT NOT NULL, event_id INT NOT NULL, user_id INT NOT NULL, quantity INT NOT NULL, INDEX IDX_B404AA4F71F7E88B (event_id), INDEX IDX_B404AA4FA76ED395 (user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
         SQL);
         $this->addSql(<<<'SQL'
             CREATE TABLE topic (id INT AUTO_INCREMENT NOT NULL, category_id INT NOT NULL, user_id INT NOT NULL, title VARCHAR(255) NOT NULL, date_creation DATETIME NOT NULL, is_closed TINYINT(1) NOT NULL, INDEX IDX_9D40DE1B12469DE2 (category_id), INDEX IDX_9D40DE1BA76ED395 (user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE user (id INT AUTO_INCREMENT NOT NULL, level_id INT DEFAULT NULL, email VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL, last_name VARCHAR(100) NOT NULL, first_name VARCHAR(100) NOT NULL, date_of_register DATETIME NOT NULL, date_of_birth DATETIME NOT NULL, is_verified TINYINT(1) NOT NULL, is_banned TINYINT(1) NOT NULL, picture_profil VARCHAR(255) NOT NULL, postal_code VARCHAR(10) NOT NULL, city VARCHAR(100) NOT NULL, bio LONGTEXT DEFAULT NULL, INDEX IDX_8D93D6495FB14BA7 (level_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
+            CREATE TABLE user (id INT AUTO_INCREMENT NOT NULL, email VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, is_verified TINYINT(1) NOT NULL, UNIQUE INDEX UNIQ_IDENTIFIER_EMAIL (email), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
+        SQL);
+        $this->addSql(<<<'SQL'
+            CREATE TABLE user_user (user_source INT NOT NULL, user_target INT NOT NULL, INDEX IDX_F7129A803AD8644E (user_source), INDEX IDX_F7129A80233D34C1 (user_target), PRIMARY KEY(user_source, user_target)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
         SQL);
         $this->addSql(<<<'SQL'
             CREATE TABLE messenger_messages (id BIGINT AUTO_INCREMENT NOT NULL, body LONGTEXT NOT NULL, headers LONGTEXT NOT NULL, queue_name VARCHAR(190) NOT NULL, created_at DATETIME NOT NULL COMMENT '(DC2Type:datetime_immutable)', available_at DATETIME NOT NULL COMMENT '(DC2Type:datetime_immutable)', delivered_at DATETIME DEFAULT NULL COMMENT '(DC2Type:datetime_immutable)', INDEX IDX_75EA56E0FB7336F0 (queue_name), INDEX IDX_75EA56E0E3BD61CE (available_at), INDEX IDX_75EA56E016BA31DB (delivered_at), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
@@ -69,10 +72,10 @@ final class Version20250521093313 extends AbstractMigration
             ALTER TABLE post ADD CONSTRAINT FK_5A8A6C8DA76ED395 FOREIGN KEY (user_id) REFERENCES user (id)
         SQL);
         $this->addSql(<<<'SQL'
-            ALTER TABLE registration_event ADD CONSTRAINT FK_B404AA4FA76ED395 FOREIGN KEY (user_id) REFERENCES user (id)
+            ALTER TABLE registration_event ADD CONSTRAINT FK_B404AA4F71F7E88B FOREIGN KEY (event_id) REFERENCES event (id)
         SQL);
         $this->addSql(<<<'SQL'
-            ALTER TABLE registration_event ADD CONSTRAINT FK_B404AA4F71F7E88B FOREIGN KEY (event_id) REFERENCES event (id)
+            ALTER TABLE registration_event ADD CONSTRAINT FK_B404AA4FA76ED395 FOREIGN KEY (user_id) REFERENCES user (id)
         SQL);
         $this->addSql(<<<'SQL'
             ALTER TABLE topic ADD CONSTRAINT FK_9D40DE1B12469DE2 FOREIGN KEY (category_id) REFERENCES category (id)
@@ -81,7 +84,10 @@ final class Version20250521093313 extends AbstractMigration
             ALTER TABLE topic ADD CONSTRAINT FK_9D40DE1BA76ED395 FOREIGN KEY (user_id) REFERENCES user (id)
         SQL);
         $this->addSql(<<<'SQL'
-            ALTER TABLE user ADD CONSTRAINT FK_8D93D6495FB14BA7 FOREIGN KEY (level_id) REFERENCES level_run (id)
+            ALTER TABLE user_user ADD CONSTRAINT FK_F7129A803AD8644E FOREIGN KEY (user_source) REFERENCES user (id) ON DELETE CASCADE
+        SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE user_user ADD CONSTRAINT FK_F7129A80233D34C1 FOREIGN KEY (user_target) REFERENCES user (id) ON DELETE CASCADE
         SQL);
     }
 
@@ -107,10 +113,10 @@ final class Version20250521093313 extends AbstractMigration
             ALTER TABLE post DROP FOREIGN KEY FK_5A8A6C8DA76ED395
         SQL);
         $this->addSql(<<<'SQL'
-            ALTER TABLE registration_event DROP FOREIGN KEY FK_B404AA4FA76ED395
+            ALTER TABLE registration_event DROP FOREIGN KEY FK_B404AA4F71F7E88B
         SQL);
         $this->addSql(<<<'SQL'
-            ALTER TABLE registration_event DROP FOREIGN KEY FK_B404AA4F71F7E88B
+            ALTER TABLE registration_event DROP FOREIGN KEY FK_B404AA4FA76ED395
         SQL);
         $this->addSql(<<<'SQL'
             ALTER TABLE topic DROP FOREIGN KEY FK_9D40DE1B12469DE2
@@ -119,7 +125,10 @@ final class Version20250521093313 extends AbstractMigration
             ALTER TABLE topic DROP FOREIGN KEY FK_9D40DE1BA76ED395
         SQL);
         $this->addSql(<<<'SQL'
-            ALTER TABLE user DROP FOREIGN KEY FK_8D93D6495FB14BA7
+            ALTER TABLE user_user DROP FOREIGN KEY FK_F7129A803AD8644E
+        SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE user_user DROP FOREIGN KEY FK_F7129A80233D34C1
         SQL);
         $this->addSql(<<<'SQL'
             DROP TABLE category
@@ -147,6 +156,9 @@ final class Version20250521093313 extends AbstractMigration
         SQL);
         $this->addSql(<<<'SQL'
             DROP TABLE user
+        SQL);
+        $this->addSql(<<<'SQL'
+            DROP TABLE user_user
         SQL);
         $this->addSql(<<<'SQL'
             DROP TABLE messenger_messages
