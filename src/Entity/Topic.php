@@ -34,6 +34,10 @@ class Topic
     #[ORM\OneToMany(targetEntity: Post::class, mappedBy: 'topic', orphanRemoval: true)]
     private Collection $posts;
 
+    #[ORM\ManyToOne(inversedBy: 'topics')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
     
 
     public function __construct()
@@ -120,6 +124,18 @@ class Topic
                 $post->setTopic(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

@@ -50,6 +50,10 @@ class Event
     #[ORM\OneToMany(targetEntity: Photo::class, mappedBy: 'event', orphanRemoval: true)]
     private Collection $photos;
 
+    #[ORM\ManyToOne(inversedBy: 'events')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $organizer = null;
+
     public function __construct()
     {
         $this->registrationEvents = new ArrayCollection();
@@ -203,6 +207,18 @@ class Event
                 $photo->setEvent(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getOrganizer(): ?User
+    {
+        return $this->organizer;
+    }
+
+    public function setOrganizer(?User $organizer): static
+    {
+        $this->organizer = $organizer;
 
         return $this;
     }
