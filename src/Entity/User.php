@@ -50,6 +50,9 @@ class User
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $bio = null;
 
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    private ?LevelRun $level = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -195,6 +198,18 @@ class User
     public function setBio(?string $bio): static
     {
         $this->bio = $bio;
+
+        return $this;
+    }
+
+    public function getLevel(): ?LevelRun
+    {
+        return $this->level;
+    }
+
+    public function setLevel(?LevelRun $level): static
+    {
+        $this->level = $level;
 
         return $this;
     }
