@@ -30,7 +30,25 @@
                 <p>Le forum des passionnés t'attend</p>
             </div>
         </section>
+        <section class="events-container">
+            {% for event in events %}
+                <div>
+                    <h3>{{ event.name }}</h3>
+                    <p>Date : {{ event.dateEvent|date('d/m/Y H:i') }}</p>
+                    <p>Description : {{ event.description }}</p>
+                </div>
+            {% endfor %} 
 
+        </section>
+        <section class="users-container">
+            {% for user in users %}
+                <div>
+                    <h3>{{ user.firstName }} {{ user.lastName }}</h3>
+                    <p>Ville : {{ user.city }}</p>
+                </div>
+            {% endfor %}
+
+        </section>
     </main>
 
 </div>
