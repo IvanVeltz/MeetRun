@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Meet & Run{% endblock %}
 
 {% block body %}
 <style>
@@ -8,7 +8,30 @@
 </style>
 
 <div class="example-wrapper">
-    <h1> </h1>
+    <header>
+        
+        <figure>
+            <img src="/img/logo.png" alt="Logo du site">
+            <figcaption>Où chaque course commence par une rencontre</figcaption>
+        </figure>
+    </header>
+    <main>
+        <section class="section-container">
+            <div class="circle">
+                <i class="fas fa-running"></i>
+                <p>Connecte toi à d'autres coureurs</p>
+            </div>
+            <div class="circle">
+                <i class="fas fa-calendar-alt"></i>
+                <p>Rejoins une course ou crée la tienne</p>
+            </div>
+            <div class="circle">
+                <i class="fas fa-comments"></i>
+                <p>Le forum des passionnés t'attend</p>
+            </div>
+        </section>
+
+    </main>
 
 </div>
 {% endblock %}
