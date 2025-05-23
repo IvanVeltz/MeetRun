@@ -31,22 +31,38 @@
             </div>
         </section>
         <section class="events-container">
-            {% for event in events %}
+            <h2>Prochaines courses</h2>
+            <div class="row justify-content-center">
+                {% for event in events %}
+                    <div class="col-md-3">
+                        <div class="card event-card">
+                            <img src="" class="card-img-top" alt="Image de l'événement">
+                            <div class="card-body">
+                                <h3 class="card-title">{{ event.name }}</h3>
+                                <p class="card-text">Date : {{ event.dateEvent|date('d/m/Y H:i') }}</p>
+                                <p class="card-text">{{ event.description }}</p>
+                                <a href="#" class="btn btn-primary">Voir plus</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                
+            </div>
+            <a href="">
                 <div>
-                    <h3>{{ event.name }}</h3>
-                    <p>Date : {{ event.dateEvent|date('d/m/Y H:i') }}</p>
-                    <p>Description : {{ event.description }}</p>
+                    <p>Connectez vous pour voir toutes les courses</p>
                 </div>
-            {% endfor %} 
-
+            </a>
         </section>
         <section class="users-container">
+            <h2>Bienvenue aux nouveau Runners</h2>
+            <div class="users">
             {% for user in users %}
-                <div>
-                    <h3>{{ user.firstName }} {{ user.lastName }}</h3>
-                    <p>Ville : {{ user.city }}</p>
+                <div class="circle-user">
+                    <p>{{ user.firstName|slice(0,1) }} {{ user.lastName|slice(0,1) }}</p>
                 </div>
             {% endfor %}
+        </div>
 
         </section>
     </main>

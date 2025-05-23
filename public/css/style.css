@@ -1,3 +1,4 @@
+
 /* ************NAVBAR************** */
 .navbar {
     position: fixed;
@@ -5,6 +6,7 @@
     width: 100%;
     background-color: #3a4f63; /* Couleur de fond */
     padding: 10px;
+    z-index: 1;
 }
 
 .navbar a{
@@ -39,8 +41,10 @@ figcaption{
     display: flex;
     justify-content: space-around; 
     align-items: center; 
+}
 
-    margin: 40px;
+.section-container, .events-container, .users-container{
+  margin: 40px;
 }
 
 .circle {
@@ -70,6 +74,55 @@ figcaption{
     font-size: larger;
 }
 
+.circle-user {
+  width: 200px;
+  height: 200px;
+  background-color: #3a4f63;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 10px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+h2{
+  text-align: center;
+}
+
+.users-container p{
+  color: white;
+  font-size: xx-large;
+}
+
+.users{
+  display: flex;
+  justify-content: space-around;
+}
+
+/* **** LOGIN *** */
+.form-login{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 100px 0;
+    padding: 0;
+}
+
+form .login{
+  display: flex;
+  justify-content: center;
+}
+
+.form-control{
+  width: 300px;
+  margin: 10px;
+}
 
 
 /* **** FOOTER ***** */
