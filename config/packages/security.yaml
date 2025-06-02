@@ -9,6 +9,9 @@ security:
             entity:
                 class: App\Entity\User
                 property: email
+        oauth_user_provider:
+            id: App\Security\OAuthUserProvider
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -16,11 +19,19 @@ security:
         main:
             lazy: true
             provider: app_user_provider
+            entry_point: form_login
             form_login:
                 login_path: app_login
                 check_path: app_login
                 default_target_path: app_home
                 enable_csrf: true
+            oauth:
+                resource_owners:
+                    google: "/login/check-google"
+                login_path: /login
+                oauth_user_provider:
+                    service: App\Security\OAuthUserProvider
+                default_target_path: app_home
             logout:
                 path: app_logout
                 # where to redirect after logout
@@ -28,6 +39,9 @@ security:
             remember_me:
                 secret: '%kernel.secret%'
                 lifetime: 604800
+            # user_checker: App\Security\UserChecker
+
+            
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
