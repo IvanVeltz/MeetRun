@@ -3,18 +3,31 @@
 {% block title %}Hello UserController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+<div class="user">
+    {% if not app.user %}
+        <p><a class="btn btn-lg btn-primary" href=" {{path('app_login')}} ">Vous devez vous connecter</a></p>
+    {% else %}    
+        <h3>Bienvenue {{app.user.firstName}} {{app.user.lastName}} !!</h3>
+        <p>Pour une expèrience complète, remplissez vtre profil</p>
+    {% endif %}
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <div class="form-login">
+        <figure>
+            <img src="img/logo.png" alt="Logo du site">
+        </figure>
+        {{ form_errors(profilForm) }}
+            
+        {{ form_start(profilForm) }}
+            {{ form_row(profilForm.dateOfBirth) }}
+            {{ form_row(profilForm.pictureProfilUrl) }}
+            {{ form_row(profilForm.postalCode) }}
+            {{ form_row(profilForm.city) }}
+            {{ form_row(profilForm.bio) }}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/wamp64/www/MeetRun/src/Controller/UserController.php</code></li>
-        <li>Your template at <code>C:/wamp64/www/MeetRun/templates/user/index.html.twig</code></li>
-    </ul>
+            <div class="text-center">
+            <button type="submit" class="btn btn-primary">Valider mon profil</button>
+            </div>
+        {{ form_end(profilForm) }}
+    </div>
 </div>
 {% endblock %}

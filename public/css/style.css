@@ -215,3 +215,10 @@ footer {
   flex-direction: column;
   gap: 1em;
 }
+
+.main-container{
+  min-height: 100vh;
+  margin-top: 80px;
+  text-align: center;
+}
+
