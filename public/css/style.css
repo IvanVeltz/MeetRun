@@ -9,6 +9,7 @@
     z-index: 1;
 }
 
+
 .navbar a{
     color: white;
 }
@@ -207,4 +208,10 @@ footer {
   color: #fff;
   font-size: 20px;
   text-decoration: none;
+}
+
+.btn-connexion{
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
 }

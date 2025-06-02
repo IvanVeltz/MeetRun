@@ -14,14 +14,15 @@
         
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg  justify-content-center">
+        <nav class="navbar navbar-expand-lg justify-content-center">
             <a class="navbar-brand" href="/">Menu</a>
             <a class="navbar-brand" href="/">Runners</a>
             <a class="navbar-brand" href="/">Courses</a>
             {% if app.user %}
             <a class="navbar-brand" href="/">Forum</a>
             <a class="navbar-brand" href=" {{ path('app_logout')}}">Se deconnecter</a>
-            <p class="text-white"> {{app.user.firstName}} </p>
+            <a href="{{ path('app_user') }}" class="navbar-brand">{{ app.user.firstName }}</a>
+            
             {% endif %}
         </nav>
         {% block body %}{% endblock %}

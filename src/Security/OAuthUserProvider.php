@@ -46,6 +46,7 @@ class OAuthUserProvider implements UserProviderInterface, OAuthAwareUserProvider
             $user->setFirstName($firstName);
             $user->setLastName($lastName);
             $user->setDateOfRegister(new DateTime());
+            $user->setRoles(["ROLE_USER"]);
             $this->entityManager->persist($user);
             $this->entityManager->flush();
         }

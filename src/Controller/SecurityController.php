@@ -9,18 +9,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
-    // #[Route('/connect/redirect', name: 'hwi_auth_connect')]
-    // public function oauthRedirect(): RedirectResponse
-    // {
-    //     return $this->redirectToRoute('app_login');
-    // }
-
-
-    #[Route('/login/check-google', name: 'google_check')]
-    public function googleCheck()
-    {
-        // Symfony prend automatiquement en charge la réponse OAuth
-    }
+    
 
 
     #[Route(path: '/login', name: 'app_login')]
@@ -46,5 +35,11 @@ class SecurityController extends AbstractController
     public function logout(): void
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+    }
+
+    #[Route('/login/check-google', name: 'google_check')]
+    public function googleCheck()
+    {
+        // Symfony prend automatiquement en charge la réponse OAuth
     }
 }
