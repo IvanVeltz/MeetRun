@@ -24,6 +24,23 @@ final class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $imageFile = $form->get('pictureProfilUrl')->getData(); // Récupéré le fichier
+            
+            if($imageFile) {
+                $mimeType = $imageFile->getMimeType();
+                if ($mimeType === "image/jpeg" || $mimeType === "image/png") {
+                    $fileName = $user->getId() . $user->getFirstName() . $user->getLastName() . '.' . $imageFile->guessExtension(); // Nom du fichier
+                    $imageFile->move('img/', $fileName); // Déplace l’image
+                    
+                    // Met à jour l'entité utilisateur avec le chemin de l’image
+                    $user->setPictureProfilUrl('img/' . $fileName);
+                } else {
+                    $user->setPictureProfilUrl('img/default.jpg'); // Image par défaut
+                }
+            } else {
+                $user->setPictureProfilUrl('img/default.jpg'); // Image par défaut
+            }
+
             $entityManager->persist($user);
             $entityManager->flush();
 

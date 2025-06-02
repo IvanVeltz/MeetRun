@@ -12,6 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class ProfilForm extends AbstractType
@@ -26,7 +27,7 @@ class ProfilForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $bioText = $this->security->getUser()->getBio() ? $this->security->getUser()->getBio() : "Parlez un peu de vous...";
-
+        $user = $this->security->getUser();
         $builder
             ->add('dateOfBirth',DateType::class, [
                 'label' => 'Date de naissance',
@@ -34,6 +35,10 @@ class ProfilForm extends AbstractType
                 'attr' => [
                     'class' => 'form-control',
                 ]
+            ])
+            ->add('existingPicture', HiddenType::class, [
+                'data' => $user->getPictureProfilUrl(), 
+                'mapped' => false,
             ])
             ->add('pictureProfilUrl', FileType::class, [
                 'label' => 'Photo de profil',

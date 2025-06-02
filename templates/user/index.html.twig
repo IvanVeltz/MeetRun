@@ -19,6 +19,12 @@
             
         {{ form_start(profilForm) }}
             {{ form_row(profilForm.dateOfBirth) }}
+            {% if app.user.pictureProfilUrl %}
+                <div class="existing-picture">
+                    <p>Votre photo de profil actuelle :</p>
+                    <img src="{{ asset(app.user.pictureProfilUrl) }}" alt="Photo de profil" class="img-thumbnail" width="150">
+                </div>
+            {% endif %}
             {{ form_row(profilForm.pictureProfilUrl) }}
             {{ form_row(profilForm.postalCode) }}
             {{ form_row(profilForm.city) }}
