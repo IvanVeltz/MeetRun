@@ -12,6 +12,7 @@
             <img src="img/logo.png" alt="Logo du site">
         </figure>
     {{ form_errors(registrationForm) }}
+        <p><a href="{{path('app_login')}}">J'ai déjà un compte, me connecter</a></p>
 
     {{ form_start(registrationForm) }}
         {{ form_row(registrationForm.firstName) }}
