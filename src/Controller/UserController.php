@@ -34,13 +34,8 @@ final class UserController extends AbstractController
                     
                     // Met à jour l'entité utilisateur avec le chemin de l’image
                     $user->setPictureProfilUrl('img/' . $fileName);
-                } else {
-                    $user->setPictureProfilUrl('img/default.jpg'); // Image par défaut
-                }
-            } else {
-                $user->setPictureProfilUrl('img/default.jpg'); // Image par défaut
+                } 
             }
-
             $entityManager->persist($user);
             $entityManager->flush();
 

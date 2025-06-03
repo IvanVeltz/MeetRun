@@ -14,6 +14,21 @@
     color: white;
 }
 
+/* REGISTER */
+.valid{ 
+  color: green; 
+  font-weight: bold;
+}
+.invalid{ 
+  color: red; 
+  font-weight: bold;
+}
+#validationList{
+  list-style: none;
+  padding: 0;
+}
+
+
 
 /* *************HEADER************* */
 

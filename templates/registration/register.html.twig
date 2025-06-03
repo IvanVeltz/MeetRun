@@ -11,22 +11,31 @@
         <figure>
             <img src="img/logo.png" alt="Logo du site">
         </figure>
-    {{ form_errors(registrationForm) }}
-        <p><a href="{{path('app_login')}}">J'ai déjà un compte, me connecter</a></p>
+        {{ form_errors(registrationForm) }}
+            <p><a href="{{path('app_login')}}">J'ai déjà un compte, me connecter</a></p>
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.firstName) }}
-        {{ form_row(registrationForm.lastName) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword) }}
-        <div class="form-check">
-            {{ form_widget(registrationForm.agreeTerms) }} 
-            {{ form_label(registrationForm.agreeTerms) }}
-        </div>
+        {{ form_start(registrationForm) }}
+            {{ form_row(registrationForm.firstName) }}
+            {{ form_row(registrationForm.lastName) }}
+            {{ form_row(registrationForm.email) }}
+            {{ form_row(registrationForm.plainPassword) }}
+            <ul id="validationList">
+                <li id="length" class="invalid">Au moins 12 caractères</li>
+                <li id="uppercase" class="invalid">Au moins une majuscule</li>
+                <li id="lowercase" class="invalid">Au moins une minuscule</li>
+                <li id="number" class="invalid">Au moins un chiffre</li>
+                <li id="specialChar" class="invalid">Au moins un caractère spécial</li>
+                <li id="match" class="invalid">Les mots de passe doivent être identiques</li>
+            </ul>
 
-        <div class="text-center">
-        <button type="submit" class="btn btn-primary">S'inscrire</button>
-        </div>
+            <div class="form-check">
+                {{ form_widget(registrationForm.agreeTerms) }} 
+                {{ form_label(registrationForm.agreeTerms) }}
+            </div>
+
+            <div class="text-center">
+            <button type="submit" class="btn btn-primary" id="registration" disabled>S'inscrire</button>
+            </div>
         {{ form_end(registrationForm) }}
     </div>
 {% endblock %}
