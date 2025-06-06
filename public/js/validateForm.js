@@ -1,22 +1,21 @@
+
 const passwordInput = document.getElementById('registration_form_plainPassword_first'); // On récupere le "premier" mdp
 const confirmPasswordInput = document.getElementById('registration_form_plainPassword_second'); // on recupere le second
 const registerButton = document.getElementById('registration'); // On recupere le bouton de validation
-
 const lengthCheck = document.getElementById('length');
 const uppercaseCheck = document.getElementById('uppercase');
 const lowercaseCheck = document.getElementById('lowercase');
 const numberCheck = document.getElementById('number');
 const specialCharCheck = document.getElementById('specialChar');
 const matchCheck = document.getElementById('match');
-
 const agreeTermsCheckBox = document.getElementById('registration_form_agreeTerms');
 
 document.addEventListener("DOMContentLoaded", () => {
-    
+
     function validateForm() {
         const password = passwordInput.value; // la valeur du premier mdp
         const confirmPassword = confirmPasswordInput.value; // la valuer du second
-        
+
         // Vérifications individuelles des mdp
         const isLengthValid = password.length >= 12;
         const isUppercaseValid = /[A-Z]/.test(password);
@@ -50,4 +49,4 @@ document.addEventListener("DOMContentLoaded", () => {
     passwordInput.addEventListener('input', validateForm);
     confirmPasswordInput.addEventListener('input', validateForm);
     agreeTermsCheckBox.addEventListener('change', validateForm);
-});
+})

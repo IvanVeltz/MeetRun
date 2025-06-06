@@ -23,7 +23,7 @@
   color: red; 
   font-weight: bold;
 }
-#validationList{
+#validationList, #resetValidationList{
   list-style: none;
   padding: 0;
 }
