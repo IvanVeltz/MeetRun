@@ -94,7 +94,6 @@ class ProfilForm extends AbstractType
             ])
             ->add('level', EntityType::class, [
                 'class' => LevelRun::class,
-                'choice_label' => 'description', // Ce qui s'affiche dans la liste
                 'label' => 'Niveau de running',
                 'placeholder' => 'Choisissez votre niveau',
                 'attr' => [
