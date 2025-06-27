@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Form\ProfilForm;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -26,18 +27,31 @@ final class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             
             $imageFile = $form->get('pictureProfilUrl')->getData(); // Récupéré le fichier
+            $filesystem = new Filesystem();
+
             
             if($imageFile) {
                 $mimeType = $imageFile->getMimeType();
                 if ($mimeType === "image/jpeg" || $mimeType === "image/png") {
-                    $fileName = $user->getId() . $user->getFirstName() . $user->getLastName() . '.' . $imageFile->guessExtension(); // Nom du fichier
-                    $imageFile->move('img/', $fileName); // Déplace l’image
+                    $fileName = 'user-'.uniqid().'.'.$imageFile->guessExtension();
+                    $imageFile->move('upload/', $fileName); // Déplace l’image
+
+                    // Supprimer l'ancienne image si elle existe
+                    $oldImage = $user->getPictureProfilUrl();
+                    if ($oldImage && $filesystem->exists($oldImage)){
+                        $filesystem->remove($oldImage);
+                    }
                     
                     // Met à jour l'entité utilisateur avec le chemin de l’image
-                    $user->setPictureProfilUrl('img/' . $fileName);
+                    $user->setPictureProfilUrl('upload/' . $fileName);
                 }
             } else {
-                $user->setPictureProfilUrl('');
+                // Supprimer l'ancienne image si elle existe
+                $oldImage = $user->getPictureProfilUrl();
+                if ($oldImage && $filesystem->exists($oldImage)){
+                    $filesystem->remove($oldImage);
+                }
+                $user->setPictureProfilUrl(null);
             }
             $entityManager->persist($user);
             $entityManager->flush();

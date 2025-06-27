@@ -516,7 +516,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->pictureProfilUrl;
     }
 
-    public function setPictureProfilUrl(string $pictureProfilUrl): static
+    public function setPictureProfilUrl(?string $pictureProfilUrl): static
     {
         $this->pictureProfilUrl = $pictureProfilUrl;
 

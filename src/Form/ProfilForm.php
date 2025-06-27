@@ -78,9 +78,11 @@ class ProfilForm extends AbstractType
                 'choices' => [
                     'Homme' => 'homme',
                     'Femme' => 'femme',
+                    'Autre / Ne se prononce pas' => 'autre'
                 ],
                 'expanded' => true, // Transforme le champ en boutons radio
-                'multiple' => false // Permet de choisir une seule option
+                'multiple' => false, // Permet de choisir une seule option
+                'data' => 'autre'
             ])        
             ->add('bio', TextareaType::class, [
                 'label' => 'Presentation',
