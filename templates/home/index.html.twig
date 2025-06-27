@@ -58,9 +58,15 @@
             <h2>Bienvenue aux nouveau Runners</h2>
             <div class="users">
             {% for user in users %}
+                {% if user.pictureProfilUrl %}
+                <div>
+                    <img src="{{ user.pictureProfilUrl}}" alt="Photo de profil">
+                </div>
+                {% else %}
                 <div class="circle-user">
                     <p>{{ user.firstName|slice(0,1) }} {{ user.lastName|slice(0,1) }}</p>
                 </div>
+                {% endif %}
             {% endfor %}
         </div>
 

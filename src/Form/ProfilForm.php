@@ -15,6 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class ProfilForm extends AbstractType
@@ -56,6 +57,9 @@ class ProfilForm extends AbstractType
                 'attr' => [
                     'class' => 'form-control',
                 ],
+            ])
+            ->add('removePicture', HiddenType::class, [
+                'mapped' => false
             ])
             ->add('postalCode', TextType::class, [
                 'label' => 'Code Postal',

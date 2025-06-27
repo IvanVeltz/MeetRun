@@ -20,12 +20,16 @@
         {{ form_start(profilForm) }}
             {{ form_row(profilForm.dateOfBirth) }}
             {% if app.user.pictureProfilUrl %}
-                <div class="existing-picture">
-                    <p>Votre photo de profil actuelle :</p>
-                    <img src="{{ asset(app.user.pictureProfilUrl) }}" alt="Photo de profil" class="img-thumbnail" width="150">
+                <div class="existing-picture" id="existing-picture">
+                    <p >Votre photo de profil actuelle :</p>
+                    <img src="{{ asset(app.user.pictureProfilUrl) }}" alt="Photo de profil" class="img-thumbnail" id="img-thumbnail" width="150">
+                    <button type="button" class="btn btn-danger btn-sm" id="remove-picture-btn">
+                    &times;
+                    </button>
                 </div>
             {% endif %}
             {{ form_row(profilForm.pictureProfilUrl) }}
+            {{ form_widget(profilForm.removePicture) }}
             {{ form_row(profilForm.postalCode) }}
             {{ form_row(profilForm.city) }}
             {{ form_row(profilForm.sexe) }}
