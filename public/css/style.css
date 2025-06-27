@@ -233,9 +233,21 @@ footer {
 
 .main-container{
   min-height: 100vh;
-  margin-top: 80px;
+  margin-top: 60px;
   text-align: center;
 }
+
+
+#resetPassword {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+  
+  #resetPassword > div {
+ max-width: 500px;
+ width: 100%;
+  }
 
 #resetPassword form div{
   display: flex;

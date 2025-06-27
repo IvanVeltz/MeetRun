@@ -117,6 +117,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $resetToken = null;
 
+    #[ORM\Column(length: 10, nullable: true)]
+    private ?string $sexe = null;
+
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    private ?LevelRun $level = null;
+
     public function __construct()
     {
         $this->topics = new ArrayCollection();
@@ -561,6 +567,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setResetToken(?string $resetToken): static
     {
         $this->resetToken = $resetToken;
+
+        return $this;
+    }
+
+    public function getSexe(): ?string
+    {
+        return $this->sexe;
+    }
+
+    public function setSexe(?string $sexe): static
+    {
+        $this->sexe = $sexe;
+
+        return $this;
+    }
+
+    public function getLevel(): ?LevelRun
+    {
+        return $this->level;
+    }
+
+    public function setLevel(?LevelRun $level): static
+    {
+        $this->level = $level;
 
         return $this;
     }

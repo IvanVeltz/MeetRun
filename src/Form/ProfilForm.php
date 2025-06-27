@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\User;
+use App\Entity\LevelRun;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -12,6 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
@@ -67,6 +69,15 @@ class ProfilForm extends AbstractType
                     'class' => 'form-control',
                 ]
             ])
+            ->add('sexe', ChoiceType::class, [
+                'label' => 'Sexe',
+                'choices' => [
+                    'Homme' => 'homme',
+                    'Femme' => 'femme',
+                ],
+                'expanded' => true, // Transforme le champ en boutons radio
+                'multiple' => false // Permet de choisir une seule option
+            ])        
             ->add('bio', TextareaType::class, [
                 'label' => 'Presentation',
                 'attr' => [
@@ -75,7 +86,15 @@ class ProfilForm extends AbstractType
                     'placeholder' => $bioText,
                 ],
             ])
-        ;
+            ->add('level', EntityType::class, [
+                'class' => LevelRun::class,
+                'choice_label' => 'description', // Ce qui s'affiche dans la liste
+                'label' => 'Niveau de running',
+                'placeholder' => 'Choisissez votre niveau',
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

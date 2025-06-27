@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250521140051 extends AbstractMigration
+final class Version20250627092328 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -45,7 +45,7 @@ final class Version20250521140051 extends AbstractMigration
             CREATE TABLE topic (id INT AUTO_INCREMENT NOT NULL, category_id INT NOT NULL, user_id INT NOT NULL, title VARCHAR(255) NOT NULL, date_creation DATETIME NOT NULL, is_closed TINYINT(1) NOT NULL, INDEX IDX_9D40DE1B12469DE2 (category_id), INDEX IDX_9D40DE1BA76ED395 (user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE user (id INT AUTO_INCREMENT NOT NULL, email VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, is_verified TINYINT(1) NOT NULL, UNIQUE INDEX UNIQ_IDENTIFIER_EMAIL (email), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
+            CREATE TABLE user (id INT AUTO_INCREMENT NOT NULL, level_id INT DEFAULT NULL, email VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, is_verified TINYINT(1) NOT NULL, last_name VARCHAR(100) NOT NULL, first_name VARCHAR(100) NOT NULL, date_of_register DATETIME NOT NULL, date_of_birth DATETIME DEFAULT NULL, is_banned TINYINT(1) NOT NULL, picture_profil_url VARCHAR(255) NOT NULL, postal_code VARCHAR(10) DEFAULT NULL, city VARCHAR(100) DEFAULT NULL, bio LONGTEXT DEFAULT NULL, reset_token VARCHAR(255) DEFAULT NULL, sexe VARCHAR(1) DEFAULT NULL, INDEX IDX_8D93D6495FB14BA7 (level_id), UNIQUE INDEX UNIQ_IDENTIFIER_EMAIL (email), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
         SQL);
         $this->addSql(<<<'SQL'
             CREATE TABLE user_user (user_source INT NOT NULL, user_target INT NOT NULL, INDEX IDX_F7129A803AD8644E (user_source), INDEX IDX_F7129A80233D34C1 (user_target), PRIMARY KEY(user_source, user_target)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
@@ -82,6 +82,9 @@ final class Version20250521140051 extends AbstractMigration
         SQL);
         $this->addSql(<<<'SQL'
             ALTER TABLE topic ADD CONSTRAINT FK_9D40DE1BA76ED395 FOREIGN KEY (user_id) REFERENCES user (id)
+        SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE user ADD CONSTRAINT FK_8D93D6495FB14BA7 FOREIGN KEY (level_id) REFERENCES level_run (id)
         SQL);
         $this->addSql(<<<'SQL'
             ALTER TABLE user_user ADD CONSTRAINT FK_F7129A803AD8644E FOREIGN KEY (user_source) REFERENCES user (id) ON DELETE CASCADE
@@ -123,6 +126,9 @@ final class Version20250521140051 extends AbstractMigration
         SQL);
         $this->addSql(<<<'SQL'
             ALTER TABLE topic DROP FOREIGN KEY FK_9D40DE1BA76ED395
+        SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE user DROP FOREIGN KEY FK_8D93D6495FB14BA7
         SQL);
         $this->addSql(<<<'SQL'
             ALTER TABLE user_user DROP FOREIGN KEY FK_F7129A803AD8644E
