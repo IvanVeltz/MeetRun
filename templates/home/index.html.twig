@@ -4,71 +4,72 @@
 
 {% block body %}
 <style>
-    
+
 </style>
 
-<div class="example-wrapper">
+<div>
     <header>
-        
         <figure>
             <img src="/img/logo.png" alt="Logo du site">
             <figcaption>Où chaque course commence par une rencontre</figcaption>
         </figure>
+        <div class="linear-shadow"></div>
     </header>
     <main>
         <section class="section-container">
-            <div class="circle">
+            <div class="circle" data-aos="fade-up-right">
                 <i class="fas fa-running"></i>
                 <p>Connecte toi à d'autres coureurs</p>
             </div>
-            <div class="circle">
+            <div class="circle" data-aos="fade-up">
                 <i class="fas fa-calendar-alt"></i>
                 <p>Rejoins une course ou crée la tienne</p>
             </div>
-            <div class="circle">
+            <div class="circle" data-aos="fade-up-left">
                 <i class="fas fa-comments"></i>
                 <p>Le forum des passionnés t'attend</p>
             </div>
         </section>
-        <section class="events-container">
+        <section class="events-container" data-aos="fade-up">
             <h2>Prochaines courses</h2>
-            <div class="row justify-content-center">
+            <div class="cards-wrapper">
                 {% for event in events %}
-                    <div class="col-md-3">
-                        <div class="card event-card">
-                            <img src="" class="card-img-top" alt="Image de l'événement">
-                            <div class="card-body">
-                                <h3 class="card-title">{{ event.name }}</h3>
-                                <p class="card-text">Date : {{ event.dateEvent|date('d/m/Y H:i') }}</p>
-                                <p class="card-text">{{ event.description }}</p>
-                                <a href="#" class="btn btn-primary">Voir plus</a>
-                            </div>
-                        </div>
+                <div class="event-card">
+                    <div class="event-card-body">
+                        <!-- <img src="" class="event-card-img" alt="Image de l'événement"> -->
+                        <h3 class="event-title">{{ event.name }}</h3>
+                        <p class="event-date"><i class="fa-solid fa-calendar"></i> {{ event.dateEvent|date('d/m/Y H:i')
+                            }}</p>
+                        <p class="event-location"><i class="fa-solid fa-location-dot"></i> {{ event.postalCode }} {{
+                            event.city }}</p>
+                        <a href="" class="event-link">Voir plus</a>
                     </div>
-                {% endfor %}
-                
-            </div>
-            <a href="">
-                <div>
-                    <p>Connectez vous pour voir toutes les courses</p>
                 </div>
-            </a>
+                {% endfor %}
+            </div>
         </section>
+
         <section class="users-container">
-            <h2>Bienvenue aux nouveau Runners</h2>
+            <h2>Bienvenue aux nouveaux Runners</h2>
             <div class="users">
-            {% for user in users %}
+                {% for user in users %}
                 {% if user.pictureProfilUrl %}
-                <div>
-                    <img src="{{ user.pictureProfilUrl}}" alt="Photo de profil">
+                <div data-aos="flip-up">
+                    <figure>
+                        <img src="{{ user.pictureProfilUrl}}" alt="Photo de profil">
+                    </figure>
+                    <p>{{ user.firstName }} {{ user.lastName|slice(0,1) }}.</p>
                 </div>
                 {% else %}
-                <div class="circle-user">
-                    <p>{{ user.firstName|slice(0,1) }} {{ user.lastName|slice(0,1) }}</p>
+                <div class="user-no-picture">
+                    <div class="circle-user" data-aos="flip-up">
+                        <p>{{ user.firstName|slice(0,1) }} {{ user.lastName|slice(0,1) }}</p>
+                    </div>
+                    <p>{{ user.firstName }} {{ user.lastName|slice(0,1) }}.</p>
                 </div>
                 {% endif %}
-            {% endfor %}
-        </div>
+                {% endfor %}
+            </div>
 
         </section>
     </main>

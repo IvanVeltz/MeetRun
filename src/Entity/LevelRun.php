@@ -64,7 +64,7 @@ class LevelRun
 
     public function __toString(): string
     {
-        return $this->level." : ".$this->description;
+        return $this->level." - ".$this->description;
     }
 
     /**

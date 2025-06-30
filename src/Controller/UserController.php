@@ -9,12 +9,13 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Repository\RegistrationEventRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class UserController extends AbstractController
 {
     #[Route('/user', name: 'app_user')]
-    public function index(Request $request,Security $security, EntityManagerInterface $entityManager): Response
+    public function index(Request $request, Security $security, EntityManagerInterface $entityManager): Response
     {
         $user = $security->getUser();
         if (!$user) {
@@ -26,7 +27,7 @@ final class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             
-            $imageFile = $form->get('pictureProfilUrl')->getData(); // Récupéré le fichier
+            $imageFile = $form->get('pictureProfilUrl')->getData(); // Récupérer le fichier
             $filesystem = new Filesystem();
 
             
@@ -61,6 +62,24 @@ final class UserController extends AbstractController
 
         return $this->render('user/index.html.twig', [
             'profilForm' => $form,
+        ]);
+    }
+
+    #[Route('user/myprofil', name: 'app_my_profil')]
+    public function profil(Security $security, RegistrationEventRepository $registrationEventRepository):response
+    {
+        $user = $security->getUser();
+        if (!$user) {
+            return $this->redirectToRoute('app_login'); // Redirige si aucun utilisateur connecté
+        }
+
+        $registrationNextEvents = $registrationEventRepository->findByUserAndNextEvents($user);
+        $registrationPastEvents = $registrationEventRepository->findByUserAndPastEvents($user);
+
+        return $this->render('user/my_profil.html.twig', [
+            'user' =>$user,
+            'registrationNextEvents' => $registrationNextEvents,
+            'registrationPastEvents' => $registrationPastEvents
         ]);
     }
 }

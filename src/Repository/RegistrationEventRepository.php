@@ -2,9 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
 use App\Entity\RegistrationEvent;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<RegistrationEvent>
@@ -15,6 +16,38 @@ class RegistrationEventRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, RegistrationEvent::class);
     }
+
+    public function findByUserAndNextEvents(User $user): array
+    {
+        $now = new \DateTimeImmutable();
+
+
+        return $this->createQueryBuilder('r')
+            ->innerJoin('r.event', 'e')
+            ->andWhere('r.user = :user')
+            ->andWhere('e.dateEvent > :now')
+            ->setParameter('user', $user)
+            ->setParameter('now', $now)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findByUserAndPastEvents(User $user): array
+    {
+        $now = new \DateTimeImmutable();
+
+
+        return $this->createQueryBuilder('r')
+            ->innerJoin('r.event', 'e')
+            ->andWhere('r.user = :user')
+            ->andWhere('e.dateEvent < :now')
+            ->setParameter('user', $user)
+            ->setParameter('now', $now)
+            ->getQuery()
+            ->getResult();
+    }
+
+
 
     //    /**
     //     * @return RegistrationEvent[] Returns an array of RegistrationEvent objects
