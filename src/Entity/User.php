@@ -595,4 +595,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getAge(): ?int
+    {
+        if (!$this->dateOfBirth) {
+            return null;
+        }
+
+        $now = new \DateTime();
+        return $this->dateOfBirth->diff($now)->y;
+    }
+
 }

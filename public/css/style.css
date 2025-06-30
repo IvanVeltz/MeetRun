@@ -18,7 +18,7 @@ body {
   font-family: var(--body-font);
 }
 
-h2 {
+h2, h4 {
   padding: 1em;
 }
 
@@ -400,4 +400,14 @@ footer {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+/****** PROFIL PAGE *****/
+.profil-container{
+  display: flex ;
+}
+
+.left-container{
+  width: 300px;
+  padding: 30px;
 }

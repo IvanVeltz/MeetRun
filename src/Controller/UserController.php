@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Form\ProfilForm;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Filesystem\Filesystem;
@@ -65,10 +66,11 @@ final class UserController extends AbstractController
         ]);
     }
 
-    #[Route('user/myprofil', name: 'app_my_profil')]
-    public function profil(Security $security, RegistrationEventRepository $registrationEventRepository):response
+    #[Route('user/profil/{id}', name: 'app_profil')]
+    public function profil(int $id, Security $security, RegistrationEventRepository $registrationEventRepository, UserRepository $userRepository):response
     {
-        $user = $security->getUser();
+        $user = $userRepository->findOneBy(['id' => $id]);
+
         if (!$user) {
             return $this->redirectToRoute('app_login'); // Redirige si aucun utilisateur connecté
         }
@@ -76,7 +78,7 @@ final class UserController extends AbstractController
         $registrationNextEvents = $registrationEventRepository->findByUserAndNextEvents($user);
         $registrationPastEvents = $registrationEventRepository->findByUserAndPastEvents($user);
 
-        return $this->render('user/my_profil.html.twig', [
+        return $this->render('user/profil.html.twig', [
             'user' =>$user,
             'registrationNextEvents' => $registrationNextEvents,
             'registrationPastEvents' => $registrationPastEvents

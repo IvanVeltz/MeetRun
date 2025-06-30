@@ -1,0 +1,98 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ user.firstName }}{% endblock %}
+
+{% block body %}
+<div class="profil-container">
+    <div class="left-container">
+        <aside class="infos">
+            <p>
+                {% if user.sexe == 'homme' %}
+                <i class="fa-solid fa-person" style="color: blue"></i>
+                {% elseif user.sexe == 'femme' %}
+                <i class="fa-regular fa-person-dress" style="color: pink"></i>
+                {% endif %}
+                {{ user.firstName }} {{ user.lastName }}
+            </p>
+            <h4>Infos</h4>
+
+            {% if user.city %}
+            <p><i class="fa-solid fa-house"></i>
+                {{ user.city }}
+                {% endif %}
+            </p>
+            {% if user.level %}
+            <p><i class="fa-solid fa-star"></i>
+                {{ user.level.infoProfil }}
+                {% endif %}
+            </p>
+            {% if user.dateOfBirth %}
+            <p>
+                <i class="fa-solid fa-cake-candles"></i> {{ user.getAge }} ans
+                {% endif %}
+            </p>
+            {% if user == app.user %}
+            <a href=" {{ path('app_user') }} "><button>Modifier mon profil</button></a>
+            {% else %}
+            <button> Suivre </button>
+            {% endif %}
+        </aside>
+        <div class="friends">
+            <div class="follow"></div>
+            <h4>Follow</h4>
+            {% for follow in user.follow %}
+                {{ follow.firstName }}
+            {% endfor %}
+            <div class="follower"></div>
+            <h4>Follower</h4>
+            {% for follower in user.followers %}
+                {{ follow.fisrtName }}
+                
+            {% endfor %}
+        </div>
+    </div>
+    <div class="event-container">
+        <div class="events">
+            <h2>Prochaines courses</h2>
+            <div class="cards-wrapper">
+                {% for registrationNextEvent in registrationNextEvents %}
+                <div class="event-card">
+                    <div class="event-card-body">
+                        <!-- <img src="" class="event-card-img" alt="Image de l'événement"> -->
+                        <h3 class="event-title">{{ registrationNextEvent.event.name }}</h3>
+                        <p class="event-date"><i class="fa-solid fa-calendar"></i> {{
+                            registrationNextEvent.event.dateEvent|date('d/m/Y H:i')
+                            }}</p>
+                        <p class="event-location"><i class="fa-solid fa-location-dot"></i> {{
+                            registrationNextEvent.event.postalCode }} {{
+                            registrationNextEvent.event.city }}</p>
+                        <a href="" class="event-link">Voir plus</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="past-races">
+            <h2>Dernières courses</h2>
+            <div class="cards-wrapper">
+                {% for registrationPastEvent in registrationPastEvents %}
+                <div class="event-card">
+                    <div class="event-card-body">
+                        <!-- <img src="" class="event-card-img" alt="Image de l'événement"> -->
+                        <h3 class="event-title">{{ registrationPastEvent.event.name }}</h3>
+                        <p class="event-date"><i class="fa-solid fa-calendar"></i> {{
+                            registrationPastEvent.event.dateEvent|date('d/m/Y H:i')
+                            }}</p>
+                        <p class="event-location"><i class="fa-solid fa-location-dot"></i> {{
+                            registrationPastEvent.event.postalCode }} {{
+                            registrationPastEvent.event.city }}</p>
+                        <a href="" class="event-link">Voir plus</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    
+</div>
+{% endblock %}

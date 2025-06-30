@@ -46,7 +46,6 @@ class LevelRun
     public function setLevel(int $level): static
     {
         $this->level = $level;
-
         return $this;
     }
 
@@ -58,7 +57,6 @@ class LevelRun
     public function setDescription(string $description): static
     {
         $this->description = $description;
-
         return $this;
     }
 
@@ -66,6 +64,17 @@ class LevelRun
     {
         return $this->level." - ".$this->description;
     }
+
+    public function infoProfil(): string
+    {
+        if (empty($this->description)) {
+            return $this->level;
+        }
+
+        return $this->level . " - " . strtok($this->description, ' ');
+    }
+
+
 
     /**
      * @return Collection<int, User>
