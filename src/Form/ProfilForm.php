@@ -82,7 +82,6 @@ class ProfilForm extends AbstractType
                 ],
                 'expanded' => true, // Transforme le champ en boutons radio
                 'multiple' => false, // Permet de choisir une seule option
-                'data' => 'autre'
             ])        
             ->add('bio', TextareaType::class, [
                 'label' => 'Presentation',
@@ -96,6 +95,7 @@ class ProfilForm extends AbstractType
                 'class' => LevelRun::class,
                 'label' => 'Niveau de running',
                 'placeholder' => 'Choisissez votre niveau',
+                'required' => false,
                 'attr' => [
                     'class' => 'form-control',
                 ],

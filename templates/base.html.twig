@@ -25,7 +25,8 @@
         <a class="navbar-brand" href="/">Courses</a>
         <a class="navbar-brand" href="/">Forum</a>
         <a class="navbar-brand" href=" {{ path('app_logout')}}">Se deconnecter</a>
-        <a href="{{ path('app_user') }}" class="navbar-brand">{{ app.user.firstName }}</a>
+        <a href="{{ path('app_profil', { 'id': app.user.id }) }}" class="navbar-brand">{{ app.user.firstName }}</a>
+        <a href="{{ path( 'app_user' ) }}" class="navbar-brand">Mes données personnelles</a>
         {% else %}
 
         <a class="navbar-brand" href="{{ path('app_login') }}">Se connecter</a>

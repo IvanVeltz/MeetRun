@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ user.firstName }}{% endblock %}
+{% block title %}{{ user.firstName }} {{ user.lastName }} {% endblock %}
 
 {% block body %}
 <div class="profil-container">
@@ -32,23 +32,63 @@
                 {% endif %}
             </p>
             {% if user == app.user %}
-            <a href=" {{ path('app_user') }} "><button>Modifier mon profil</button></a>
+            <a href=" {{ path('app_user') }} " class="btn btn-primary">Modifier mon profil</a>
             {% else %}
-            <button> Suivre </button>
+                {% set isFollowed = false %}
+                {% for follower in user.followers %}
+                    {% if follower.userSource.id == app.user.id %}
+                        {% set isFollowed = true %}
+                    {% endif %}
+                {% endfor %}
+
+                {% if not isFollowed %}
+                    <!-- app.user ne suit pas user -->
+                    <a href="{{ path('app_follow_request', { 'id': user.id }) }}" class="btn btn-primary">Suivre</a>
+                {% else %}
+                    <a href="{{ path('app_unfollow_request', { 'id': user.id }) }}" class="btn btn-primary">Ne plus suivre</a>
+                {% endif %}
             {% endif %}
+
+
         </aside>
         <div class="friends">
             <div class="follow"></div>
             <h4>Follow</h4>
-            {% for follow in user.follow %}
-                {{ follow.firstName }}
+            {% for follow in user.follows %}
+            <p>
+                <a href=" {{ path('app_profil', {'id' :  follow.userSource.id}) }} ">
+                    {{ follow.userSource.firstName }} {{ follow.userSource.lastName }}
+                </a>
+            </p>
             {% endfor %}
             <div class="follower"></div>
             <h4>Follower</h4>
             {% for follower in user.followers %}
-                {{ follow.fisrtName }}
-                
+                {% if follower.followAccepted %}
+                <p>
+                    <a href=" {{ path('app_profil', {'id' :  follower.userSource.id}) }} ">
+                        {{ follower.userSource.firstName }} {{ follower.userSource.lastName }}
+                    </a>
+                </p>
+                {% endif %}
             {% endfor %}
+
+            {% if user == app.user %}
+                    
+                <div class="new-follower"></div>
+                <h4>Demande de follow</h4>
+                {% for follower in user.followers %}
+                    {% if not follower.followAccepted %}
+                    <p>
+                        <a href=" {{ path('app_profil', {'id' :  follower.userSource.id}) }} ">
+                            {{ follower.userSource.firstName }} {{ follower.userSource.lastName }}
+                        </a>
+                        <a href="{{ path('app_follow_accept', {'id': follower.id}) }}" class="btn btn-success">Accepter</a>
+                    </p>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+
         </div>
     </div>
     <div class="event-container">
@@ -93,6 +133,6 @@
             </div>
         </div>
     </div>
-    
+
 </div>
 {% endblock %}

@@ -42,10 +42,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?\DateTime $dateOfBirth = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $isBanned = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $pictureProfilUrl = null;
 
     #[ORM\Column(length: 10, nullable: true)]
@@ -69,10 +69,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string The hashed password
      */
-    #[ORM\Column]
+    #[ORM\Column (nullable:true)]
     private ?string $password = null;
 
-    #[ORM\Column]
+    #[ORM\Column (nullable: true)]
     private bool $isVerified = false;
 
     /**
@@ -130,7 +130,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->topics = new ArrayCollection();
         $this->posts = new ArrayCollection();
-        $this->follow = new ArrayCollection();
+        $this->follows = new ArrayCollection();
         $this->followers = new ArrayCollection();
         $this->events = new ArrayCollection();
         $this->registrationEvents = new ArrayCollection();

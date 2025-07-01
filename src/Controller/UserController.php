@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use App\Entity\Follow;
 use App\Form\ProfilForm;
 use App\Repository\UserRepository;
+use App\Repository\FollowRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Filesystem\Filesystem;
@@ -27,30 +30,30 @@ final class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            
+
             $imageFile = $form->get('pictureProfilUrl')->getData(); // Récupérer le fichier
             $filesystem = new Filesystem();
 
-            
-            if($imageFile) {
+
+            if ($imageFile) {
                 $mimeType = $imageFile->getMimeType();
                 if ($mimeType === "image/jpeg" || $mimeType === "image/png") {
-                    $fileName = 'user-'.uniqid().'.'.$imageFile->guessExtension();
+                    $fileName = 'user-' . uniqid() . '.' . $imageFile->guessExtension();
                     $imageFile->move('upload/', $fileName); // Déplace l’image
 
                     // Supprimer l'ancienne image si elle existe
                     $oldImage = $user->getPictureProfilUrl();
-                    if ($oldImage && $filesystem->exists($oldImage)){
+                    if ($oldImage && $filesystem->exists($oldImage)) {
                         $filesystem->remove($oldImage);
                     }
-                    
+
                     // Met à jour l'entité utilisateur avec le chemin de l’image
                     $user->setPictureProfilUrl('upload/' . $fileName);
                 }
             } else {
                 // Supprimer l'ancienne image si elle existe
                 $oldImage = $user->getPictureProfilUrl();
-                if ($oldImage && $filesystem->exists($oldImage)){
+                if ($oldImage && $filesystem->exists($oldImage)) {
                     $filesystem->remove($oldImage);
                 }
                 $user->setPictureProfilUrl(null);
@@ -67,7 +70,7 @@ final class UserController extends AbstractController
     }
 
     #[Route('user/profil/{id}', name: 'app_profil')]
-    public function profil(int $id, Security $security, RegistrationEventRepository $registrationEventRepository, UserRepository $userRepository):response
+    public function profil(int $id, Security $security, RegistrationEventRepository $registrationEventRepository, UserRepository $userRepository): response
     {
         $user = $userRepository->findOneBy(['id' => $id]);
 
@@ -79,9 +82,53 @@ final class UserController extends AbstractController
         $registrationPastEvents = $registrationEventRepository->findByUserAndPastEvents($user);
 
         return $this->render('user/profil.html.twig', [
-            'user' =>$user,
+            'user' => $user,
             'registrationNextEvents' => $registrationNextEvents,
             'registrationPastEvents' => $registrationPastEvents
         ]);
     }
+
+    #[Route('/follow/accept/{id}', name: 'app_follow_accept')]
+    public function acceptFollow(Follow $follow, EntityManagerInterface $entityManager): Response
+    {
+        $follow->setFollowAccepted(true);
+        $entityManager->persist($follower);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_profil', ['id' => $this->getUser()->getId()]);
+    }
+
+
+    #[Route('/follow/request/{id}', name: 'app_follow_request')]
+    public function followRequest(User $user, EntityManagerInterface $entityManager, FollowRepository $followRepository): Response
+    {
+        $currentUser = $this->getUser();
+
+        $follow = new Follow();
+        $follow->setUserSource($currentUser);
+        $follow->setUserTarget($user);
+        $follow->setFollowAccepted(false);
+
+        $entityManager->persist($follow);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_profil', ['id' => $user->getId()]);
+    }
+
+    #[Route('/unfollow/request/{id}', name: 'app_unfollow_request')]
+    public function unfollowRequest(User $user, EntityManagerInterface $entityManager, FollowRepository $followRepository): Response
+    {
+        $currentUser = $this->getUser();
+
+        $follow = $followRepository->findOneBy([
+            'userSource' => $currentUser,
+            'userTarget' => $user
+        ]);
+
+        $entityManager->remove($follow);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_profil', ['id' => $user->getId()]);
+    }
+
 }
