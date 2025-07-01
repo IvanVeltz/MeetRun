@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250627092328 extends AbstractMigration
+final class Version20250701064553 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -25,6 +25,9 @@ final class Version20250627092328 extends AbstractMigration
         SQL);
         $this->addSql(<<<'SQL'
             CREATE TABLE event (id INT AUTO_INCREMENT NOT NULL, organizer_id INT NOT NULL, name VARCHAR(255) NOT NULL, description LONGTEXT DEFAULT NULL, date_event DATETIME NOT NULL, adress VARCHAR(255) NOT NULL, postal_code VARCHAR(10) NOT NULL, city VARCHAR(100) NOT NULL, capacity INT DEFAULT NULL, INDEX IDX_3BAE0AA7876C4DDA (organizer_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
+        SQL);
+        $this->addSql(<<<'SQL'
+            CREATE TABLE follow (id INT AUTO_INCREMENT NOT NULL, user_source_id INT NOT NULL, user_target_id INT NOT NULL, follow_accepted TINYINT(1) NOT NULL, INDEX IDX_6834447095DC9185 (user_source_id), INDEX IDX_68344470156E8682 (user_target_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
         SQL);
         $this->addSql(<<<'SQL'
             CREATE TABLE instant_message (id INT AUTO_INCREMENT NOT NULL, sender_id INT NOT NULL, receiver_id INT NOT NULL, content LONGTEXT NOT NULL, date_message DATETIME NOT NULL, INDEX IDX_D047C08AF624B39D (sender_id), INDEX IDX_D047C08ACD53EDB6 (receiver_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
@@ -45,16 +48,19 @@ final class Version20250627092328 extends AbstractMigration
             CREATE TABLE topic (id INT AUTO_INCREMENT NOT NULL, category_id INT NOT NULL, user_id INT NOT NULL, title VARCHAR(255) NOT NULL, date_creation DATETIME NOT NULL, is_closed TINYINT(1) NOT NULL, INDEX IDX_9D40DE1B12469DE2 (category_id), INDEX IDX_9D40DE1BA76ED395 (user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE user (id INT AUTO_INCREMENT NOT NULL, level_id INT DEFAULT NULL, email VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, is_verified TINYINT(1) NOT NULL, last_name VARCHAR(100) NOT NULL, first_name VARCHAR(100) NOT NULL, date_of_register DATETIME NOT NULL, date_of_birth DATETIME DEFAULT NULL, is_banned TINYINT(1) NOT NULL, picture_profil_url VARCHAR(255) NOT NULL, postal_code VARCHAR(10) DEFAULT NULL, city VARCHAR(100) DEFAULT NULL, bio LONGTEXT DEFAULT NULL, reset_token VARCHAR(255) DEFAULT NULL, sexe VARCHAR(1) DEFAULT NULL, INDEX IDX_8D93D6495FB14BA7 (level_id), UNIQUE INDEX UNIQ_IDENTIFIER_EMAIL (email), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
-        SQL);
-        $this->addSql(<<<'SQL'
-            CREATE TABLE user_user (user_source INT NOT NULL, user_target INT NOT NULL, INDEX IDX_F7129A803AD8644E (user_source), INDEX IDX_F7129A80233D34C1 (user_target), PRIMARY KEY(user_source, user_target)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
+            CREATE TABLE user (id INT AUTO_INCREMENT NOT NULL, level_id INT DEFAULT NULL, email VARCHAR(180) NOT NULL, roles JSON NOT NULL, last_name VARCHAR(100) NOT NULL, first_name VARCHAR(100) NOT NULL, date_of_register DATETIME NOT NULL, date_of_birth DATETIME DEFAULT NULL, is_banned TINYINT(1) NOT NULL, picture_profil_url VARCHAR(255) NOT NULL, postal_code VARCHAR(10) DEFAULT NULL, city VARCHAR(100) DEFAULT NULL, bio LONGTEXT DEFAULT NULL, reset_token VARCHAR(255) DEFAULT NULL, sexe VARCHAR(10) DEFAULT NULL, password VARCHAR(255) NOT NULL, is_verified TINYINT(1) NOT NULL, INDEX IDX_8D93D6495FB14BA7 (level_id), UNIQUE INDEX UNIQ_IDENTIFIER_EMAIL (email), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
         SQL);
         $this->addSql(<<<'SQL'
             CREATE TABLE messenger_messages (id BIGINT AUTO_INCREMENT NOT NULL, body LONGTEXT NOT NULL, headers LONGTEXT NOT NULL, queue_name VARCHAR(190) NOT NULL, created_at DATETIME NOT NULL COMMENT '(DC2Type:datetime_immutable)', available_at DATETIME NOT NULL COMMENT '(DC2Type:datetime_immutable)', delivered_at DATETIME DEFAULT NULL COMMENT '(DC2Type:datetime_immutable)', INDEX IDX_75EA56E0FB7336F0 (queue_name), INDEX IDX_75EA56E0E3BD61CE (available_at), INDEX IDX_75EA56E016BA31DB (delivered_at), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
         SQL);
         $this->addSql(<<<'SQL'
             ALTER TABLE event ADD CONSTRAINT FK_3BAE0AA7876C4DDA FOREIGN KEY (organizer_id) REFERENCES user (id)
+        SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE follow ADD CONSTRAINT FK_6834447095DC9185 FOREIGN KEY (user_source_id) REFERENCES user (id)
+        SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE follow ADD CONSTRAINT FK_68344470156E8682 FOREIGN KEY (user_target_id) REFERENCES user (id)
         SQL);
         $this->addSql(<<<'SQL'
             ALTER TABLE instant_message ADD CONSTRAINT FK_D047C08AF624B39D FOREIGN KEY (sender_id) REFERENCES user (id)
@@ -86,12 +92,6 @@ final class Version20250627092328 extends AbstractMigration
         $this->addSql(<<<'SQL'
             ALTER TABLE user ADD CONSTRAINT FK_8D93D6495FB14BA7 FOREIGN KEY (level_id) REFERENCES level_run (id)
         SQL);
-        $this->addSql(<<<'SQL'
-            ALTER TABLE user_user ADD CONSTRAINT FK_F7129A803AD8644E FOREIGN KEY (user_source) REFERENCES user (id) ON DELETE CASCADE
-        SQL);
-        $this->addSql(<<<'SQL'
-            ALTER TABLE user_user ADD CONSTRAINT FK_F7129A80233D34C1 FOREIGN KEY (user_target) REFERENCES user (id) ON DELETE CASCADE
-        SQL);
     }
 
     public function down(Schema $schema): void
@@ -99,6 +99,12 @@ final class Version20250627092328 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql(<<<'SQL'
             ALTER TABLE event DROP FOREIGN KEY FK_3BAE0AA7876C4DDA
+        SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE follow DROP FOREIGN KEY FK_6834447095DC9185
+        SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE follow DROP FOREIGN KEY FK_68344470156E8682
         SQL);
         $this->addSql(<<<'SQL'
             ALTER TABLE instant_message DROP FOREIGN KEY FK_D047C08AF624B39D
@@ -131,16 +137,13 @@ final class Version20250627092328 extends AbstractMigration
             ALTER TABLE user DROP FOREIGN KEY FK_8D93D6495FB14BA7
         SQL);
         $this->addSql(<<<'SQL'
-            ALTER TABLE user_user DROP FOREIGN KEY FK_F7129A803AD8644E
-        SQL);
-        $this->addSql(<<<'SQL'
-            ALTER TABLE user_user DROP FOREIGN KEY FK_F7129A80233D34C1
-        SQL);
-        $this->addSql(<<<'SQL'
             DROP TABLE category
         SQL);
         $this->addSql(<<<'SQL'
             DROP TABLE event
+        SQL);
+        $this->addSql(<<<'SQL'
+            DROP TABLE follow
         SQL);
         $this->addSql(<<<'SQL'
             DROP TABLE instant_message
@@ -162,9 +165,6 @@ final class Version20250627092328 extends AbstractMigration
         SQL);
         $this->addSql(<<<'SQL'
             DROP TABLE user
-        SQL);
-        $this->addSql(<<<'SQL'
-            DROP TABLE user_user
         SQL);
         $this->addSql(<<<'SQL'
             DROP TABLE messenger_messages
