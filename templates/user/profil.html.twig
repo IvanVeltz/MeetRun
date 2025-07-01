@@ -34,19 +34,19 @@
             {% if user == app.user %}
             <a href=" {{ path('app_user') }} " class="btn btn-primary">Modifier mon profil</a>
             {% else %}
-                {% set isFollowed = false %}
-                {% for follower in user.followers %}
-                    {% if follower.userSource.id == app.user.id %}
-                        {% set isFollowed = true %}
-                    {% endif %}
-                {% endfor %}
+            {% set isFollowed = false %}
+            {% for follower in user.followers %}
+            {% if follower.userSource.id == app.user.id %}
+            {% set isFollowed = true %}
+            {% endif %}
+            {% endfor %}
 
-                {% if not isFollowed %}
-                    <!-- app.user ne suit pas user -->
-                    <a href="{{ path('app_follow_request', { 'id': user.id }) }}" class="btn btn-primary">Suivre</a>
-                {% else %}
-                    <a href="{{ path('app_unfollow_request', { 'id': user.id }) }}" class="btn btn-primary">Ne plus suivre</a>
-                {% endif %}
+            {% if not isFollowed %}
+            <!-- app.user ne suit pas user -->
+            <a href="{{ path('app_follow_request', { 'id': user.id }) }}" class="btn btn-primary">Suivre</a>
+            {% else %}
+            <a href="{{ path('app_unfollow_request', { 'id': user.id }) }}" class="btn btn-primary">Ne plus suivre</a>
+            {% endif %}
             {% endif %}
 
 
@@ -56,37 +56,49 @@
             <h4>Follow</h4>
             {% for follow in user.follows %}
             <p>
-                <a href=" {{ path('app_profil', {'id' :  follow.userSource.id}) }} ">
-                    {{ follow.userSource.firstName }} {{ follow.userSource.lastName }}
+                <a href=" {{ path('app_profil', {'id' :  follow.userTarget.id}) }} ">
+                    {{ follow.userTarget.firstName }} {{ follow.userTarget.lastName }}
                 </a>
+                {% if user == app.user %}
+
+                <a href="{{ path('app_unfollow_request', { 'id': follow.userTarget.id }) }}"><i
+                        class="fa-solid fa-xmark" style="color: red"></i></a>
+                {% endif %}
             </p>
             {% endfor %}
             <div class="follower"></div>
             <h4>Follower</h4>
             {% for follower in user.followers %}
-                {% if follower.followAccepted %}
-                <p>
-                    <a href=" {{ path('app_profil', {'id' :  follower.userSource.id}) }} ">
-                        {{ follower.userSource.firstName }} {{ follower.userSource.lastName }}
-                    </a>
-                </p>
+            {% if follower.followAccepted %}
+            <p>
+                <a href=" {{ path('app_profil', {'id' :  follower.userSource.id}) }} ">
+                    {{ follower.userSource.firstName }} {{ follower.userSource.lastName }}
+                </a>
+                {% if user == app.user %}
+
+                <a href=" {{ path('app_unfollower_request', { 'id': follower.userSource.id }) }}"><i
+                        class="fa-solid fa-xmark" style="color: red"></i></a>
                 {% endif %}
+            </p>
+            {% endif %}
             {% endfor %}
 
             {% if user == app.user %}
-                    
-                <div class="new-follower"></div>
-                <h4>Demande de follow</h4>
-                {% for follower in user.followers %}
-                    {% if not follower.followAccepted %}
-                    <p>
-                        <a href=" {{ path('app_profil', {'id' :  follower.userSource.id}) }} ">
-                            {{ follower.userSource.firstName }} {{ follower.userSource.lastName }}
-                        </a>
-                        <a href="{{ path('app_follow_accept', {'id': follower.id}) }}" class="btn btn-success">Accepter</a>
-                    </p>
-                    {% endif %}
-                {% endfor %}
+
+            <div class="new-follower"></div>
+            <h4>Demande de follow</h4>
+            {% for follower in user.followers %}
+            {% if not follower.followAccepted %}
+            <p>
+                <a href=" {{ path('app_profil', {'id' :  follower.userSource.id}) }} ">
+                    {{ follower.userSource.firstName }} {{ follower.userSource.lastName }}
+                </a>
+                <a href="{{ path('app_follow_accept', {'id': follower.id}) }}" class="btn btn-success">Accepter</a>
+                <a href=" {{ path('app_unfollower_request', { 'id': follower.userSource.id }) }}"><i
+                        class="fa-solid fa-xmark" style="color: red"></i></a>
+            </p>
+            {% endif %}
+            {% endfor %}
             {% endif %}
 
         </div>
@@ -131,6 +143,32 @@
                 </div>
                 {% endfor %}
             </div>
+        </div>
+    </div>
+    <div class="last-activities-forum">
+        <div class="last-posts">
+
+            <h2>Derniers messages sur le forum</h2>
+            {% if lastPosts %}
+            
+            {% for post in lastPosts %}
+            <p> {{ post.message }} </p>
+            {% endfor %}
+            {% else %}
+            <p>Aucun messages postés</p>
+            {% endif %}
+        </div>
+
+        <div class="last-topics">
+            <h2>Derniers sujets créés sur le forum</h2>
+            {% if lastTopics %}
+            
+            {% for topic in lastTopics %}
+            <p> {{ topic.title }} </p>
+            {% endfor %}
+            {% else %}
+            <p>Aucun messages postés</p>
+            {% endif %}
         </div>
     </div>
 

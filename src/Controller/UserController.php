@@ -5,7 +5,9 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\Follow;
 use App\Form\ProfilForm;
+use App\Repository\PostRepository;
 use App\Repository\UserRepository;
+use App\Repository\TopicRepository;
 use App\Repository\FollowRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -70,7 +72,13 @@ final class UserController extends AbstractController
     }
 
     #[Route('user/profil/{id}', name: 'app_profil')]
-    public function profil(int $id, Security $security, RegistrationEventRepository $registrationEventRepository, UserRepository $userRepository): response
+    public function profil(
+        int $id, 
+        Security $security, 
+        RegistrationEventRepository $registrationEventRepository, 
+        UserRepository $userRepository, 
+        PostRepository $postRepository,
+        TopicRepository $topicRepository): response
     {
         $user = $userRepository->findOneBy(['id' => $id]);
 
@@ -80,11 +88,14 @@ final class UserController extends AbstractController
 
         $registrationNextEvents = $registrationEventRepository->findByUserAndNextEvents($user);
         $registrationPastEvents = $registrationEventRepository->findByUserAndPastEvents($user);
-
+        $lastPosts = $postRepository->findBy(['user' => $user], ['dateMessage' => 'DESC'], 5);
+        $lastTopics = $topicRepository->findBy(['user' => $user], ['dateCreation' => 'DESC'], 3);
         return $this->render('user/profil.html.twig', [
             'user' => $user,
             'registrationNextEvents' => $registrationNextEvents,
-            'registrationPastEvents' => $registrationPastEvents
+            'registrationPastEvents' => $registrationPastEvents,
+            'lastPosts' => $lastPosts,
+            'lastTopics' => $lastTopics
         ]);
     }
 
@@ -92,7 +103,7 @@ final class UserController extends AbstractController
     public function acceptFollow(Follow $follow, EntityManagerInterface $entityManager): Response
     {
         $follow->setFollowAccepted(true);
-        $entityManager->persist($follower);
+        $entityManager->persist($follow);
         $entityManager->flush();
 
         return $this->redirectToRoute('app_profil', ['id' => $this->getUser()->getId()]);
@@ -116,7 +127,7 @@ final class UserController extends AbstractController
     }
 
     #[Route('/unfollow/request/{id}', name: 'app_unfollow_request')]
-    public function unfollowRequest(User $user, EntityManagerInterface $entityManager, FollowRepository $followRepository): Response
+    public function unfollowRequest(User $user, EntityManagerInterface $entityManager, FollowRepository $followRepository, Request $request): Response
     {
         $currentUser = $this->getUser();
 
@@ -128,7 +139,32 @@ final class UserController extends AbstractController
         $entityManager->remove($follow);
         $entityManager->flush();
 
+        
+        // Redirection vers la page précédente
+        $referer = $request->headers->get('referer');
+        if ($referer) {
+            return $this->redirect($referer);
+        }
+
+
         return $this->redirectToRoute('app_profil', ['id' => $user->getId()]);
     }
+
+    #[Route('/unfollower/request/{id}', name: 'app_unfollower_request')]
+    public function unfollowerRequest(User $user, EntityManagerInterface $entityManager, FollowRepository $followRepository): Response
+    {
+        $currentUser = $this->getUser();
+
+        $follow = $followRepository->findOneBy([
+            'userSource' => $user,
+            'userTarget' => $currentUser
+        ]);
+
+        $entityManager->remove($follow);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_profil', ['id' => $currentUser->getId()]);
+    }
+
 
 }
