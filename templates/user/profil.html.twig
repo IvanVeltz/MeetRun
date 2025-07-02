@@ -6,12 +6,7 @@
 <div class="profil-container">
     <div class="left-container">
         <aside class="infos">
-            <p>
-                {% if user.sexe == 'homme' %}
-                <i class="fa-solid fa-person" style="color: blue"></i>
-                {% elseif user.sexe == 'femme' %}
-                <i class="fa-regular fa-person-dress" style="color: pink"></i>
-                {% endif %}
+            <p class="name-user">
                 {{ user.firstName }} {{ user.lastName }}
             </p>
             <h4>Infos</h4>

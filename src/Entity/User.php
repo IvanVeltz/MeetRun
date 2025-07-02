@@ -124,6 +124,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Follow::class, mappedBy: 'userTarget', orphanRemoval: true)]
     private Collection $followers;
 
+    #[ORM\Column]
+    private ?bool $createdByGoogle = null;
+
 
 
     public function __construct()
@@ -615,6 +618,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $follower->setUserTarget(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isCreatedByGoogle(): ?bool
+    {
+        return $this->createdByGoogle;
+    }
+
+    public function setCreatedByGoogle(bool $createdByGoogle): static
+    {
+        $this->createdByGoogle = $createdByGoogle;
 
         return $this;
     }

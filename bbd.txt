@@ -1,0 +1,123 @@
+INSERT INTO level_run (level, description) VALUES
+(1, 'Débutant : Coureur(euse) novice n’ayant jamais couru ou reprenant après une longue pause. Objectif : courir 20 à 30 minutes sans s’arrêter.'),
+(2, 'Intermédiaire : Peut courir 5 à 10 km sans difficulté majeure, à un rythme modéré. Commence à intégrer des séances variées (fractionné, côtes, etc.).'),
+(3, 'Confirmé : Capable de courir régulièrement entre 10 et 15 km. Suit un plan structuré avec des objectifs comme améliorer l’endurance ou la vitesse.'),
+(4, 'Avancé : S’entraîne 4 à 5 fois par semaine. Prépare des distances longues (semi-marathon ou plus) avec une bonne maîtrise des allures et de la récupération.'),
+(5, 'Expert : Coureur(euse) très expérimenté(e), engagé(e) dans la performance ou la compétition. Volume hebdomadaire élevé et suivi de plans personnalisés.');
+
+INSERT INTO `user` 
+(`level_id`, `email`, `roles`, `last_name`, `first_name`, `date_of_register`, `date_of_birth`, `is_banned`, `picture_profil_url`, `postal_code`, `city`, `bio`, `reset_token`, `sexe`, `password`, `is_verified`, `created_by_google`)
+VALUES
+(1, 'marie.dupont@example.com', '["ROLE_USER"]', 'Dupont', 'Marie', '2025-06-01 09:00:00', '1995-04-12', 0, NULL, '75012', 'Paris', 'Passionnée de running depuis 2 ans.', NULL, 'femme', 'hashed_password_1', 1, 0),
+(2, 'antoine.martin@example.com', '["ROLE_USER"]', 'Martin', 'Antoine', '2025-06-15 14:30:00', '1987-11-08', 0, NULL, '69003', 'Lyon', 'Prépare son premier semi-marathon.', NULL, 'homme', 'hashed_password_2', 1, 1),
+(3, 'julie.moreau@example.com', '["ROLE_USER"]', 'Moreau', 'Julie', '2025-05-10 17:45:00', '1992-01-20', 0, NULL, '33000', 'Bordeaux', 'Coach sportive et fan de trail.', NULL, 'femme', 'hashed_password_3', 1, 0),
+(2, 'lucas.bernard@example.com', '["ROLE_USER"]', 'Bernard', 'Lucas', '2025-04-21 11:15:00', '2000-09-14', 0, NULL, '31000', 'Toulouse', 'Étudiant, court tous les matins.', NULL, 'homme', 'hashed_password_4', 0, 1),
+(3, 'emma.gerard@example.com', '["ROLE_USER"]', 'Gérard', 'Emma', '2025-03-13 08:20:00', '1998-07-30', 0, NULL, '44000', 'Nantes', 'Aime repousser ses limites sur les longues distances.', NULL, 'femme', 'hashed_password_5', 1, 1),
+(1, 'maxime.robert@example.com', '["ROLE_USER"]', 'Robert', 'Maxime', '2025-05-25 10:10:00', '1985-06-05', 1, NULL, '06000', 'Nice', 'Ancien coureur pro, aujourd’hui blessé.', NULL, 'homme', 'hashed_password_6', 0, 0),
+(4, 'lea.laurent@example.com', '["ROLE_USER"]', 'Laurent', 'Léa', '2025-01-09 13:55:00', '1991-02-22', 0, NULL, '13001', 'Marseille', 'Pratique le running pour le bien-être.', NULL, 'femme', 'hashed_password_7', 1, 1),
+(5, 'paul.renaud@example.com', '["ROLE_USER"]', 'Renaud', 'Paul', '2025-06-28 16:00:00', '1978-03-18', 0, NULL, '67000', 'Strasbourg', 'Marathonien chevronné.', NULL, 'homme', 'hashed_password_8', 1, 0),
+(3, 'camille.dubois@example.com', '["ROLE_USER"]', 'Dubois', 'Camille', '2025-02-17 07:40:00', '1999-12-01', 0, NULL, '34000', 'Montpellier', 'Sportive polyvalente, adore les défis.', NULL, 'femme', 'hashed_password_9', 0, 0),
+(2, 'hugo.lemaitre@example.com', '["ROLE_USER"]', 'Lemaitre', 'Hugo', '2025-06-30 20:00:00', '1990-10-10', 0, NULL, '35000', 'Rennes', 'Course à pied et montagne au programme.', NULL, 'homme', 'hashed_password_10', 1, 1);
+
+INSERT INTO event (organizer_id, name, description, date_event, adress, postal_code, city, capacity) VALUES
+(1, 'La Strasbourgeoise', 'Course solidaire de 5 km au cœur de Strasbourg, dédiée à la lutte contre le cancer du sein. Ambiance conviviale et festive.', '2025-10-05 10:00:00', 'Parc de l\'Orangerie', '67000', 'Strasbourg', 3000),
+
+(2, 'Semi-Marathon de Mulhouse', 'Course de 21,1 km sur un parcours urbain rapide, idéale pour les records personnels. Nombreux points d\'animation.', '2025-09-14 09:00:00', 'Stade de l\'Ill', '68100', 'Mulhouse', 2000),
+
+(3, 'Course des Châteaux d\'Ottrott', 'Trail de 13 km à travers les sentiers forestiers des Vosges, avec vue sur les châteaux d’Ottrott. Dénivelé modéré.', '2025-10-19 08:30:00', 'Rue Principale', '67530', 'Ottrott', 800),
+
+(4, 'Foulées de Schiltigheim', 'Parcours plat et rapide dans le centre-ville de Schiltigheim. Format 5 km et 10 km pour tous niveaux.', '2025-08-24 10:00:00', 'Place de la Mairie', '67300', 'Schiltigheim', 1500),
+
+(5, 'Trail du Mont Sainte-Odile', 'Trail exigeant de 26 km avec fort dénivelé, idéal pour les amoureux de la montagne et de la nature.', '2025-09-28 07:30:00', 'Parking du Maennelstein', '67530', 'Ottrott', 600),
+
+(1, 'Corrida de Noël de Sélestat', 'Course nocturne déguisée de 7 km dans les rues illuminées de Sélestat. Ambiance festive et familiale.', '2025-12-13 18:00:00', 'Place d\'Armes', '67600', 'Sélestat', 2500),
+
+(3, '10 km de Colmar', 'Course rapide en plein cœur de Colmar. Événement populaire avec animations et ravitaillements bien organisés.', '2025-09-07 09:30:00', 'Parc du Champ de Mars', '68000', 'Colmar', 1800);
+
+INSERT INTO `registration_event` (`event_id`, `user_id`, `quantity`) VALUES
+(1, 2, 1),
+(1, 5, 1),
+(2, 3, 1),
+(2, 7, 1),
+(3, 8, 1),
+(3, 4, 1),
+(4, 1, 1),
+(4, 6, 1),
+(5, 9, 1),
+(5, 10, 1),
+(6, 1, 1),
+(6, 3, 1);
+
+INSERT INTO category (name) VALUES
+  ('Entraînement'),
+  ('Équipement'),
+  ('Compétitions');
+
+INSERT INTO topic (category_id, user_id, title, date_creation, is_closed) VALUES
+  (1, 1, 'Plan d\'entraînement pour un 10 km', '2024-01-02 12:00:00', 0),
+  (1, 2, 'Courir tous les jours : bonne idée ?', '2024-01-04 12:00:00', 0),
+  (1, 3, 'Améliorer son endurance', '2024-01-06 12:00:00', 0),
+
+  (2, 2, 'Chaussures pour pronateur ou supinateur ?', '2024-01-08 12:00:00', 0),
+  (2, 3, 'Montres GPS : lesquelles choisir ?', '2024-01-10 12:00:00', 0),
+  (2, 4, 'Vêtements pour courir l\'hiver', '2024-01-12 12:00:00', 0),
+
+  (3, 1, 'Préparation pour un semi-marathon', '2024-01-14 12:00:00', 0),
+  (3, 4, 'Gestion du stress avant une course', '2024-01-16 12:00:00', 0),
+  (3, 5, 'Récit de ma première course officielle', '2024-01-18 12:00:00', 0);
+
+
+INSERT INTO post (topic_id, user_id, message, date_message) VALUES
+(1, 1, 'Je pense que courir tous les jours peut mener au surentraînement.', '2024-01-03 00:00:00'),
+(1, 2, 'Tu peux aussi essayer le fractionné, c\'est excellent pour progresser.', '2024-01-03 03:00:00'),
+(1, 3, 'Le stress monte avant la course, des astuces pour se calmer ?', '2024-01-03 06:00:00'),
+(1, 4, 'Je fais un semi dans 2 mois, je suis preneur de conseils !', '2024-01-03 09:00:00'),
+(1, 5, 'La montre Garmin Forerunner 255 est top pour le suivi d\'entraînement.', '2024-01-03 13:00:00'),
+
+(2, 1, 'Le stress monte avant la course, des astuces pour se calmer ?', '2024-01-05 02:00:00'),
+(2, 2, 'Tu peux aussi essayer le fractionné, c\'est excellent pour progresser.', '2024-01-05 03:00:00'),
+(2, 3, 'Je pense que courir tous les jours peut mener au surentraînement.', '2024-01-05 06:00:00'),
+(2, 4, 'Moi j’ai galéré sur les 5 derniers km, mais quel bonheur à l’arrivée !', '2024-01-05 10:00:00'),
+(2, 5, 'Tu peux varier les allures pour améliorer l\'endurance.', '2024-01-05 13:00:00'),
+
+(3, 1, 'Avec cette appli, je suis passé de 5 à 10 km en 2 mois.', '2024-01-07 01:00:00'),
+(3, 2, 'J\'utilise ce plan depuis 3 semaines, les progrès sont nets.', '2024-01-07 03:00:00'),
+(3, 3, 'Tu cours combien de fois par semaine en général ?', '2024-01-07 06:00:00'),
+(3, 4, 'Félicitations ! Ta première course c’est une grande étape.', '2024-01-07 09:00:00'),
+(3, 5, 'Je recommande les chaussures Brooks pour les longues distances.', '2024-01-07 11:00:00'),
+
+(4, 1, 'La montre Garmin Forerunner 255 est top pour le suivi d\'entraînement.', '2024-01-09 01:00:00'),
+(4, 2, 'Tu cours combien de fois par semaine en général ?', '2024-01-09 04:00:00'),
+(4, 3, 'Tu peux varier les allures pour améliorer l\'endurance.', '2024-01-09 07:00:00'),
+(4, 4, 'Moi j’ai galéré sur les 5 derniers km, mais quel bonheur à l’arrivée !', '2024-01-09 10:00:00'),
+(4, 5, 'Je pense que courir tous les jours peut mener au surentraînement.', '2024-01-09 12:00:00'),
+
+(5, 1, 'Les vêtements en mérinos sont parfaits pour l\'hiver.', '2024-01-11 00:00:00'),
+(5, 2, 'Je recommande les chaussures Brooks pour les longues distances.', '2024-01-11 03:00:00'),
+(5, 3, 'Avec cette appli, je suis passé de 5 à 10 km en 2 mois.', '2024-01-11 06:00:00'),
+(5, 4, 'Tu cours combien de fois par semaine en général ?', '2024-01-11 09:00:00'),
+(5, 5, 'Tu peux aussi essayer le fractionné, c\'est excellent pour progresser.', '2024-01-11 11:00:00'),
+
+(6, 1, 'Je fais un semi dans 2 mois, je suis preneur de conseils !', '2024-01-13 02:00:00'),
+(6, 2, 'Les vêtements en mérinos sont parfaits pour l\'hiver.', '2024-01-13 04:00:00'),
+(6, 3, 'Le stress monte avant la course, des astuces pour se calmer ?', '2024-01-13 07:00:00'),
+(6, 4, 'Tu peux aussi essayer le fractionné, c\'est excellent pour progresser.', '2024-01-13 10:00:00'),
+(6, 5, 'Tu cours combien de fois par semaine en général ?', '2024-01-13 13:00:00'),
+
+(7, 1, 'J\'utilise ce plan depuis 3 semaines, les progrès sont nets.', '2024-01-15 01:00:00'),
+(7, 2, 'Je pense que courir tous les jours peut mener au surentraînement.', '2024-01-15 03:00:00'),
+(7, 3, 'Moi j’ai galéré sur les 5 derniers km, mais quel bonheur à l’arrivée !', '2024-01-15 06:00:00'),
+(7, 4, 'Tu peux varier les allures pour améliorer l\'endurance.', '2024-01-15 09:00:00'),
+(7, 5, 'Avec cette appli, je suis passé de 5 à 10 km en 2 mois.', '2024-01-15 12:00:00'),
+
+(8, 1, 'Je recommande les chaussures Brooks pour les longues distances.', '2024-01-17 01:00:00'),
+(8, 2, 'Tu cours combien de fois par semaine en général ?', '2024-01-17 04:00:00'),
+(8, 3, 'Félicitations ! Ta première course c’est une grande étape.', '2024-01-17 06:00:00'),
+(8, 4, 'Je fais un semi dans 2 mois, je suis preneur de conseils !', '2024-01-17 08:00:00'),
+(8, 5, 'Les vêtements en mérinos sont parfaits pour l\'hiver.', '2024-01-17 11:00:00'),
+
+(9, 1, 'Le stress monte avant la course, des astuces pour se calmer ?', '2024-01-19 00:00:00'),
+(9, 2, 'Moi j’ai galéré sur les 5 derniers km, mais quel bonheur à l’arrivée !', '2024-01-19 03:00:00'),
+(9, 3, 'Tu peux aussi essayer le fractionné, c\'est excellent pour progresser.', '2024-01-19 06:00:00'),
+(9, 4, 'Avec cette appli, je suis passé de 5 à 10 km en 2 mois.', '2024-01-19 09:00:00'),
+(9, 5, 'Tu cours combien de fois par semaine en général ?', '2024-01-19 12:00:00');
