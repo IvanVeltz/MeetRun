@@ -19,7 +19,6 @@ class LoginSuccessSubscriber implements EventSubscriberInterface
 
     public static function getSubscribedEvents(): array
     {
-        // Depuis Symfony 6.3 : déclenché pour TOUT type d’authentification
         return [LoginSuccessEvent::class => 'onLoginSuccess'];
     }
 
@@ -45,7 +44,11 @@ class LoginSuccessSubscriber implements EventSubscriberInterface
             return;                                 // on s’arrête là
         }
 
-        // Sinon, on le laisse aller à la page par défaut (app_home)
-        //   → Ne rien faire = conserver la réponse générée par Symfony
+        if (method_exists($user, 'getId')) {
+            $targetUrl = $this->router->generate('app_profil', [
+                'id' => $user->getId(),
+            ]);
+            $event->setResponse(new RedirectResponse($targetUrl));
+        }
     }
 }

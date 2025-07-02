@@ -40,6 +40,8 @@ class RegistrationController extends AbstractController
             
             $user->setDateOfRegister(new \DateTime());
             $user->setRoles(["ROLE_USER"]);
+            $user->setFirstConnection(true);
+
 
             $entityManager->persist($user);
             $entityManager->flush();

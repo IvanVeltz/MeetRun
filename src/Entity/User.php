@@ -125,7 +125,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $followers;
 
     #[ORM\Column]
-    private ?bool $createdByGoogle = null;
+    private ?bool $createdByGoogle = false;
 
     #[ORM\Column]
     private ?bool $firstConnection = null;
