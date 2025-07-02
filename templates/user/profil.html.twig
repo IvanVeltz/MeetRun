@@ -29,20 +29,44 @@
             {% if user == app.user %}
             <a href=" {{ path('app_user') }} " class="btn btn-primary">Modifier mon profil</a>
             {% else %}
+
+            
+
             {% set isFollowed = false %}
             {% for follower in user.followers %}
-            {% if follower.userSource.id == app.user.id %}
-            {% set isFollowed = true %}
-            {% endif %}
+                {% if follower.userSource.id == app.user.id %}
+                    {% set isFollowed = true %}
+                {% endif %}
             {% endfor %}
 
-            {% if not isFollowed %}
-            <!-- app.user ne suit pas user -->
-            <a href="{{ path('app_follow_request', { 'id': user.id }) }}" class="btn btn-primary">Suivre</a>
-            {% else %}
-            <a href="{{ path('app_unfollow_request', { 'id': user.id }) }}" class="btn btn-primary">Ne plus suivre</a>
-            {% endif %}
-            {% endif %}
+        {% if not isFollowed %}
+            <!-- Lien "Suivre" qui envoie le formulaire avec l'id passé en parametre de la fonction getElementById -->
+            <a href="#" class="btn btn-primary"
+            onclick="event.preventDefault(); document.getElementById('follow-form-{{ user.id }}').submit();">
+                Suivre
+            </a> 
+            <!-- formulaire qui envoie en methode POST vers la route de demande de follow, avec un token généré de maniere
+            unique,  -->
+            <form id="follow-form-{{ user.id }}" action="{{ path('app_follow_request', { 'id': user.id }) }}"
+                method="POST" style="display: none;">
+                <input type="hidden" name="_token" value="{{ csrf_token('follow' ~ user.id) }}">
+            </form>
+            <!-- Cela permet d'eviter d'avoir juste le lien en href et d'avoir une méthode GET qui permettrai de rajouter 
+            des données en BDD -->
+
+        {% else %}
+            <a href="#" class="btn btn-primary"
+            onclick="event.preventDefault(); document.getElementById('unfollow-form-{{ user.id }}').submit();">
+                Ne plus suivre
+            </a>
+
+            <form id="unfollow-form-{{ user.id }}" action="{{ path('app_unfollow_request', { 'id': user.id }) }}"
+                method="POST" style="display: none;">
+                <input type="hidden" name="_token" value="{{ csrf_token('unfollow' ~ user.id) }}">
+            </form>
+        {% endif %}
+        {% endif %}
+        
 
 
         </aside>
