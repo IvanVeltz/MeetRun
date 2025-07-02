@@ -144,7 +144,7 @@ final class UserController extends AbstractController
 
         // On verifie que le CSRF_token est bien conforme avec celui créé par le formulaire de la vue, si ce n'est
         // pas le cas on bloque la requete 
-        if (!$this->isCsrfTokenValid('follow'.$user->getId(), $request->request->get('_token'))) {
+        if (!$this->isCsrfTokenValid('follow-accept'.$user->getId(), $request->request->get('_token'))) {
             throw $this->createAccessDeniedException('CSRF invalide');
         }
 
@@ -172,6 +172,12 @@ final class UserController extends AbstractController
         if ($currentUser === $user){
             $this->addFlash('error', 'Vous ne pouvez pas vous désabonner de vous-même.');
             return $this->redirectToRoute('app_profil', ['id' => $user->getId()]);
+        }
+
+        // On verifie que le CSRF_token est bien conforme avec celui créé par le formulaire de la vue, si ce n'est
+        // pas le cas on bloque la requete 
+        if (!$this->isCsrfTokenValid('unfollow'.$user->getId(), $request->request->get('_token'))) {
+            throw $this->createAccessDeniedException('CSRF invalide');
         }
 
         // On vérifie que le follow existe bien
@@ -213,6 +219,12 @@ final class UserController extends AbstractController
         if ($currentUser === $user){
             $this->addFlash('error', 'Vous ne pouvez pas retirer votre propre abonnement.');
             return $this->redirectToRoute('app_profil', ['id' => $user->getId()]);
+        }
+
+        // On verifie que le CSRF_token est bien conforme avec celui créé par le formulaire de la vue, si ce n'est
+        // pas le cas on bloque la requete 
+        if (!$this->isCsrfTokenValid('unfollower'.$user->getId(), $request->request->get('_token'))) {
+            throw $this->createAccessDeniedException('CSRF invalide');
         }
 
         // On vérifie que le follow existe bien

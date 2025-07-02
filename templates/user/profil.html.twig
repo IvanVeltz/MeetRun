@@ -79,9 +79,15 @@
                     {{ follow.userTarget.firstName }} {{ follow.userTarget.lastName }}
                 </a>
                 {% if user == app.user %}
+                <a href="#" class="btn btn-primary"
+                            onclick="event.preventDefault(); document.getElementById('unfollow-form-{{ follow.userTarget.id }}').submit();">
+                    <i class="fa-solid fa-xmark" style="color: red"></i>
+                </a>
 
-                <a href="{{ path('app_unfollow_request', { 'id': follow.userTarget.id }) }}"><i
-                        class="fa-solid fa-xmark" style="color: red"></i></a>
+                <form id="unfollow-form-{{ follow.userTarget.id }}" action="{{ path('app_unfollow_request', { 'id': follow.userTarget.id }) }}"
+                    method="POST" style="display: none;">
+                    <input type="hidden" name="_token" value="{{ csrf_token('unfollow' ~ follow.userTarget.id) }}">
+                </form>
                 {% endif %}
             </p>
             {% endfor %}
@@ -94,7 +100,15 @@
                     {{ follower.userSource.firstName }} {{ follower.userSource.lastName }}
                 </a>
                 {% if user == app.user %}
+                <a href="#" class="btn btn-primary"
+                            onclick="event.preventDefault(); document.getElementById('unfollower-form-{{ follower.userSource.id }}').submit();">
+                    <i class="fa-solid fa-xmark" style="color: red"></i>
+                </a>
 
+                <form id="unfollower-form-{{ follower.userSource.id }}" action="{{ path('app_unfollower_request', { 'id': follower.userSource.id }) }}"
+                    method="POST" style="display: none;">
+                    <input type="hidden" name="_token" value="{{ csrf_token('unfollower' ~ follower.userSource.id) }}">
+                </form>
                 <a href=" {{ path('app_unfollower_request', { 'id': follower.userSource.id }) }}"><i
                         class="fa-solid fa-xmark" style="color: red"></i></a>
                 {% endif %}
@@ -112,7 +126,17 @@
                 <a href=" {{ path('app_profil', {'id' :  follower.userSource.id}) }} ">
                     {{ follower.userSource.firstName }} {{ follower.userSource.lastName }}
                 </a>
-                <a href="{{ path('app_follow_accept', {'id': follower.id}) }}" class="btn btn-success">Accepter</a>
+
+                <a href="#" class="btn btn-success"
+                onclick="event.preventDefault(); document.getElementById('follow-accept-form-{{ follower.id }}').submit();">
+                    Accepter
+                </a>
+                <form id="follow-accept-form-{{ follower.id }}" action="{{ path('app_follow_accept', { 'id': follower.id }) }}"
+                    method="POST" style="display: none;">
+                    <input type="hidden" name="_token" value="{{ csrf_token('follow-accept' ~ follower.id) }}">
+                </form>
+
+
                 <a href=" {{ path('app_unfollower_request', { 'id': follower.userSource.id }) }}"><i
                         class="fa-solid fa-xmark" style="color: red"></i></a>
             </p>
