@@ -127,6 +127,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $createdByGoogle = null;
 
+    #[ORM\Column]
+    private ?bool $firstConnection = null;
+
 
 
     public function __construct()
@@ -630,6 +633,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCreatedByGoogle(bool $createdByGoogle): static
     {
         $this->createdByGoogle = $createdByGoogle;
+
+        return $this;
+    }
+
+    public function isFirstConnection(): ?bool
+    {
+        return $this->firstConnection;
+    }
+
+    public function setFirstConnection(bool $firstConnection): static
+    {
+        $this->firstConnection = $firstConnection;
 
         return $this;
     }

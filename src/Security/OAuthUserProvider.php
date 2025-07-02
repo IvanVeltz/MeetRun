@@ -48,6 +48,7 @@ class OAuthUserProvider implements UserProviderInterface, OAuthAwareUserProvider
             $user->setDateOfRegister(new DateTime());
             $user->setRoles(["ROLE_USER"]);
             $user->setCreatedByGoogle(true);
+            $user->setFirstConnection(true);
             $this->entityManager->persist($user);
             $this->entityManager->flush();
         }
