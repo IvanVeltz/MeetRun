@@ -54,6 +54,9 @@ class Event
     #[ORM\JoinColumn(nullable: false)]
     private ?User $organizer = null;
 
+    #[ORM\Column]
+    private ?bool $cancelled = false;
+
     public function __construct()
     {
         $this->registrationEvents = new ArrayCollection();
@@ -219,6 +222,18 @@ class Event
     public function setOrganizer(?User $organizer): static
     {
         $this->organizer = $organizer;
+
+        return $this;
+    }
+
+    public function isCancelled(): ?bool
+    {
+        return $this->cancelled;
+    }
+
+    public function setCancelled(bool $cancelled): static
+    {
+        $this->cancelled = $cancelled;
 
         return $this;
     }
