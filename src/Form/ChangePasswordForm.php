@@ -12,6 +12,12 @@ use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3;
 
 class ChangePasswordForm extends AbstractType
 {
+
+    public function getBlockPrefix(): string
+    {
+        return 'registration_form'; // Tous les champs auront ce préfixe
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -21,28 +27,25 @@ class ChangePasswordForm extends AbstractType
                 'label' => 'Votre ancien mot de passe',
                 'attr' => ['class' => 'form-control'],
             ])
-            ->add('newPlainPassword', RepeatedType::class, [
+            ->add('plainPassword', RepeatedType::class, [
                 'mapped' => false,
                 'type' => PasswordType::class,
-                'invalid_message' => 'Les mots de passes doivent correpsondre',
-                'options' => ['attr' => ['class' => 'password-field']],
+                'invalid_message' => 'Les mots de passe doivent correspondre',
                 'required' => true,
                 'first_options'  => [
                     'label' => 'Votre nouveau mot de passe',
-                    "attr" => [
-                    'class' => 'form-control',
+                    'attr' => [
+                        'class' => 'form-control',
                     ]
                 ],
                 'second_options' => [
                     'label' => 'Répéter votre nouveau mot de passe',
-                    "attr" => [
-                    'class' => 'form-control',
+                    'attr' => [
+                        'class' => 'form-control',
                     ]
-                ],
-                "attr" => [
-                    'class' => 'form-control',
                 ]
             ])
+
             ->add('captcha', Recaptcha3Type::class, [
                 'constraints' => new Recaptcha3(),
                 'action_name' => 'signeup'

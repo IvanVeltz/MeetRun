@@ -12,6 +12,10 @@ use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3;
 
 class ResetPasswordForm extends AbstractType
 {
+    public function getBlockPrefix(): string
+    {
+        return 'registration_form'; // Tous les champs auront ce préfixe
+    }
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
