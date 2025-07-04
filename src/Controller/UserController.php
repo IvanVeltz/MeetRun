@@ -16,10 +16,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Repository\RegistrationEventRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Security\Http\Attribute\IsCsrfTokenValid;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 final class UserController extends AbstractController
 {
@@ -162,7 +163,7 @@ final class UserController extends AbstractController
     }
  
 
-    #[Route('/follow/accept/{id}', name: 'app_follow_accept')]
+    #[Route('/follow/accept/{id}', name: 'app_follow_accept', methods: ['POST'])]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function acceptFollow(User $user, Request $request, Follow $follow, EntityManagerInterface $entityManager): Response
     {
@@ -193,7 +194,7 @@ final class UserController extends AbstractController
 
 
 
-    #[Route('/unfollow/request/{id}', name: 'app_unfollow_request')]
+    #[Route('/unfollow/request/{id}', name: 'app_unfollow_request', methods: ['POST'])]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function unfollowRequest(User $user, EntityManagerInterface $entityManager, FollowRepository $followRepository, Request $request): Response
     {
@@ -236,7 +237,7 @@ final class UserController extends AbstractController
         return $this->redirectToRoute('app_profil', ['id' => $user->getId()]);
     }
 
-    #[Route('/unfollower/request/{id}', name: 'app_unfollower_request')]
+    #[Route('/unfollower/request/{id}', name: 'app_unfollower_request',methods: ['POST'])]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function unfollowerRequest(
         User $user,
@@ -279,5 +280,62 @@ final class UserController extends AbstractController
         }
 
         return $this->redirectToRoute('app_profil', ['id' => $currentUser->getId()]);
+    }
+
+    #[Route('/user/delete/{id}', name: 'app_delete_user', methods: ['POST'])]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    public function deleteUser(
+        User $user,
+        Request $request,
+        EntityManagerInterface $entityManager,
+        FollowRepository $followRepository,
+        TokenStorageInterface $tokenStorage
+    ):Response
+    {
+        $currentUser = $this->getUser();
+
+        // On verifie qu'on supprime bien le bon user
+        if($currentUser !== $user){
+            $this->addFlash('error', 'Vous ne pouvez pas supprimer un autre utilisateur');
+            return $this->redirectToRoute('app_user');
+        }
+
+        // On verifie que le CSRF_token est bien conforme avec celui créé par le formulaire de la vue, si ce n'est
+        // pas le cas on bloque la requete 
+        if (!$this->isCsrfTokenValid('delete-user'.$user->getId(), $request->request->get('_token'))) {
+            throw $this->createAccessDeniedException('CSRF invalide');
+        }
+
+        // Si tout est ok, on anonymise l'user
+        $deletedId = uniqid('user_deleted_');
+        $user->setFirstName($deletedId);
+        $user->setLastName($deletedId);
+        $user->setEmail($deletedId.'@deleted.fr');
+        $user->setPassword(null);
+        $user->setDateOfBirth(null);
+        $user->setPostalCode(null);
+        $user->setCity(null);
+        $user->setSexe(null);
+        $user->setLevel(null);
+
+        // On supprime les follows, et on le supprime dans les follow des followers
+        $follows = $followRepository->findBy(['userSource' => $user->getId()]);
+        foreach($follows as $follow){
+            $entityManager->remove($follow);
+        }
+
+        $followers = $followRepository->findBy(['userTarget' => $user->getId()]);
+        foreach($followers as $follower){
+            $entityManager->remove( $follower);
+        }
+
+        $entityManager->persist( $user );
+        $entityManager->flush();
+        
+
+        $request->getSession()->invalidate();
+        $tokenStorage->setToken(null);
+        $this->addFlash('success','Votre compte a été supprimé avec succès');
+        return $this->redirectToRoute('app_logout');
     }
 }

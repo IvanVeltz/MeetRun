@@ -5,10 +5,10 @@
 {% block body %}
 <div class="user">
     {% if not app.user %}
-        <p><a class="btn btn-lg btn-primary" href=" {{path('app_login')}} ">Vous devez vous connecter</a></p>
-    {% else %}    
-        <h3>Bienvenue {{app.user.firstName}} {{app.user.lastName}} !!</h3>
-        <p>Pour une expèrience complète, remplissez vtre profil</p>
+    <p><a class="btn btn-lg btn-primary" href=" {{path('app_login')}} ">Vous devez vous connecter</a></p>
+    {% else %}
+    <h3>Bienvenue {{app.user.firstName}} {{app.user.lastName}} !!</h3>
+    <p>Pour une expèrience complète, remplissez vtre profil</p>
     {% endif %}
 
     <div class="form-login">
@@ -16,47 +16,63 @@
             <img src="img/logo.png" alt="Logo du site">
         </figure>
         {{ form_errors(profilForm) }}
-            
-        {{ form_start(profilForm) }}
-            {{ form_row(profilForm.dateOfBirth) }}
-            {% if app.user.pictureProfilUrl %}
-                <div class="existing-picture" id="existing-picture">
-                    <p >Votre photo de profil actuelle :</p>
-                    <img src="{{ asset(app.user.pictureProfilUrl) }}" alt="Photo de profil" class="img-thumbnail" id="img-thumbnail" width="150">
-                    <button type="button" class="btn btn-danger btn-sm" id="remove-picture-btn">
-                    &times;
-                    </button>
-                </div>
-            {% endif %}
-            {{ form_row(profilForm.pictureProfilUrl) }}
-            {{ form_widget(profilForm.removePicture) }}
-            {{ form_row(profilForm.postalCode) }}
-            {{ form_row(profilForm.city) }}
-            {{ form_row(profilForm.sexe) }}
-            {{ form_row(profilForm.bio) }}
-            {{ form_row(profilForm.level) }}
 
-            <div class="text-center">
-                <button type="submit" class="btn btn-primary">Valider mon profil</button>
-            </div>
+        {{ form_start(profilForm) }}
+        {{ form_row(profilForm.dateOfBirth) }}
+        {% if app.user.pictureProfilUrl %}
+        <div class="existing-picture" id="existing-picture">
+            <p>Votre photo de profil actuelle :</p>
+            <img src="{{ asset(app.user.pictureProfilUrl) }}" alt="Photo de profil" class="img-thumbnail"
+                id="img-thumbnail" width="150">
+            <button type="button" class="btn btn-danger btn-sm" id="remove-picture-btn">
+                &times;
+            </button>
+        </div>
+        {% endif %}
+        {{ form_row(profilForm.pictureProfilUrl) }}
+        {{ form_widget(profilForm.removePicture) }}
+        {{ form_row(profilForm.postalCode) }}
+        {{ form_row(profilForm.city) }}
+        {{ form_row(profilForm.sexe) }}
+        {{ form_row(profilForm.bio) }}
+        {{ form_row(profilForm.level) }}
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Valider mon profil</button>
+        </div>
         {{ form_end(profilForm) }}
     </div>
     {% if not app.user.createdByGoogle %}
-        
-        <div class="form-change-password">
-            {{ form_errors(changePasswordForm) }}
-            <h2>Changer votre mot de passe</h2>
-            {{ form_start(changePasswordForm) }}
-            {{ form_row(changePasswordForm.oldPlainPassword) }}
-            {{ form_row(changePasswordForm.newPlainPassword) }}
 
-            <div class="text-center">
-                <button type="submit" class="btn btn-primary">Valider mon mot de passe</button>
-            </div>
+    <div class="form-change-password">
+        {{ form_errors(changePasswordForm) }}
+        <h2>Changez votre mot de passe</h2>
+        {{ form_start(changePasswordForm) }}
+        {{ form_row(changePasswordForm.oldPlainPassword) }}
+        {{ form_row(changePasswordForm.newPlainPassword) }}
 
-            {{ form_end(changePasswordForm) }}
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Valider mon mot de passe</button>
         </div>
 
+        {{ form_end(changePasswordForm) }}
+    </div>
+
     {% endif %}
+    <div class="delete-user">
+        <a href="#" class="btn btn-primary" onclick="if (confirm('Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.')) {
+                event.preventDefault();
+                document.getElementById('delete-user-{{ app.user.id }}').submit();
+            } else {
+                event.preventDefault();
+            }">
+            Supprimer mon compte
+        </a>
+
+        <form id="delete-user-{{ app.user.id }}" action="{{ path('app_delete_user', { 'id': app.user.id }) }}"
+            method="POST" style="display: none;">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete-user' ~ app.user.id) }}">
+        </form>
+    </div>
 </div>
 {% endblock %}
