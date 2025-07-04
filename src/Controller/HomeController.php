@@ -14,7 +14,7 @@ final class HomeController extends AbstractController
     public function index(EventRepository $eventRepository, UserRepository $userRepository): Response
     {
         $events = $eventRepository->findUpcomingEvents(4); // Trouve les 4 prochains événements
-        $users = $userRepository->findBy([], ['dateOfRegister' => 'DESC'], 5);
+        $users = $userRepository->findBy(['deleted' => false], ['dateOfRegister' => 'DESC'], 5);
         return $this->render('home/index.html.twig', [
             'events' => $events,
             'users' => $users

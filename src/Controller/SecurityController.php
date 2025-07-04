@@ -199,6 +199,7 @@ class SecurityController extends AbstractController
             $user->setCity(null);
             $user->setSexe(null);
             $user->setLevel(null);
+            $user->setDeleted(true);
 
             // On supprime les follows, et on le supprime dans les follow des followers
             $follows = $followRepository->findBy(['userSource' => $user->getId()]);
