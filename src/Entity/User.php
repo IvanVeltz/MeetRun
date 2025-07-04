@@ -130,6 +130,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $firstConnection = null;
 
+    #[ORM\Column]
+    private ?bool $deleted = false;
+
 
 
     public function __construct()
@@ -645,6 +648,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setFirstConnection(bool $firstConnection): static
     {
         $this->firstConnection = $firstConnection;
+
+        return $this;
+    }
+
+    public function isDeleted(): ?bool
+    {
+        return $this->deleted;
+    }
+
+    public function setDeleted(bool $deleted): static
+    {
+        $this->deleted = $deleted;
 
         return $this;
     }
