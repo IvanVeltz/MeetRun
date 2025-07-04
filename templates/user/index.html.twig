@@ -37,9 +37,26 @@
             {{ form_row(profilForm.level) }}
 
             <div class="text-center">
-            <button type="submit" class="btn btn-primary">Valider mon profil</button>
+                <button type="submit" class="btn btn-primary">Valider mon profil</button>
             </div>
         {{ form_end(profilForm) }}
     </div>
+    {% if not app.user.createdByGoogle %}
+        
+        <div class="form-change-password">
+            {{ form_errors(changePasswordForm) }}
+            <h2>Changer votre mot de passe</h2>
+            {{ form_start(changePasswordForm) }}
+            {{ form_row(changePasswordForm.oldPlainPassword) }}
+            {{ form_row(changePasswordForm.newPlainPassword) }}
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Valider mon mot de passe</button>
+            </div>
+
+            {{ form_end(changePasswordForm) }}
+        </div>
+
+    {% endif %}
 </div>
 {% endblock %}

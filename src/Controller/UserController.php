@@ -5,31 +5,39 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\Follow;
 use App\Form\ProfilForm;
+use App\Form\ChangePasswordForm;
 use App\Repository\PostRepository;
 use App\Repository\UserRepository;
 use App\Repository\TopicRepository;
 use App\Repository\FollowRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Repository\RegistrationEventRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Security\Http\Attribute\IsCsrfTokenValid;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 final class UserController extends AbstractController
 {
     #[Route('/user', name: 'app_user')]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
-    public function index(Request $request, Security $security, EntityManagerInterface $entityManager): Response
+    public function index(
+        Request $request, 
+        EntityManagerInterface $entityManager, 
+        UserPasswordHasherInterface $passwordHasher): Response
     {
-        $user = $security->getUser();
+        $user = $this->getUser();
+        \assert($user instanceof User);
 
         $form = $this->createForm(ProfilForm::class, $user);
+        $changePasswordForm = $this->createForm(ChangePasswordForm::class, $user);
+
         $form->handleRequest($request);
+        $changePasswordForm->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -66,8 +74,32 @@ final class UserController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
 
+        if ($changePasswordForm->isSubmitted() && $changePasswordForm->isValid()){
+
+            $oldPassword = $changePasswordForm->get('oldPlainPassword')->getData();
+            $newPassword = $changePasswordForm->get('newPlainPassword')->getData();
+
+            // On verifie si l'ancien mot de passe est le meme que celui enregistré
+            if ($passwordHasher->isPasswordValid($user, $oldPassword)) {
+                // On hache le nouveau mot de passe
+                $passwordHash = $passwordHasher->hashPassword($user, $newPassword);
+                // Et on le rentre en bdd 
+                $user->setPassword($passwordHash);
+
+                $entityManager->persist($user);
+                $entityManager->flush();
+
+                $this->addFlash('success', 'Vous avez changé votre mot de passe avec succès.');
+                return $this->redirectToRoute('app_profil', ['id' => $user->getId()]);
+            }
+
+            $this->addFlash('error', 'Échec de la modification du mot de passe. Veuillez réessayer.');
+            return $this->redirectToRoute('app_user');
+        }
+
         return $this->render('user/index.html.twig', [
             'profilForm' => $form,
+            'changePasswordForm' => $changePasswordForm
         ]);
     }
 
@@ -75,7 +107,6 @@ final class UserController extends AbstractController
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function profil(
         int $id, 
-        Security $security, 
         RegistrationEventRepository $registrationEventRepository, 
         UserRepository $userRepository, 
         PostRepository $postRepository,

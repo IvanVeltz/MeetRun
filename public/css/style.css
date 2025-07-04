@@ -268,7 +268,7 @@ figcaption {
 
 
 /* **** LOGIN *** */
-.form-login {
+.form-login, .form-change-password {
   display: flex;
   flex-direction: column;
   justify-content: center;

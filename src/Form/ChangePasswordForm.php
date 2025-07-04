@@ -16,7 +16,7 @@ class ChangePasswordForm extends AbstractType
     {
         $builder
             ->add('oldPlainPassword', PasswordType::class, [
-                'maaped' => false,
+                'mapped' => false,
                 'required' => true,
                 'label' => 'Votre ancien mot de passe',
                 'attr' => ['class' => 'form-control'],
@@ -24,7 +24,7 @@ class ChangePasswordForm extends AbstractType
             ->add('newPlainPassword', RepeatedType::class, [
                 'mapped' => false,
                 'type' => PasswordType::class,
-                'invalid_message' => 'The password fields must match.',
+                'invalid_message' => 'Les mots de passes doivent correpsondre',
                 'options' => ['attr' => ['class' => 'password-field']],
                 'required' => true,
                 'first_options'  => [
