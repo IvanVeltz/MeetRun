@@ -4,11 +4,12 @@
 namespace App\EventSubscriber;
 
 use App\Entity\User;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class LoginSuccessSubscriber implements EventSubscriberInterface
 {
@@ -22,13 +23,13 @@ class LoginSuccessSubscriber implements EventSubscriberInterface
         return [LoginSuccessEvent::class => 'onLoginSuccess'];
     }
 
-    public function onLoginSuccess(LoginSuccessEvent $event): void
+    public function onLoginSuccess(LoginSuccessEvent $event, UserRepository $userRepository): void
     {
         /** @var User $user */
         $user = $event->getAuthenticatedToken()->getUser();
 
-        // Recharge l’objet pour être sûr d’avoir les dernières valeurs (facultatif)
-        $user = $this->em->getRepository(User::class)->find($user->getId());
+        // Recharge l’objet pour être sûr d’avoir les dernières valeurs
+        $user = $userRepository->find($user->getId());
 
         //
         if ($user->isFirstConnection()) {           
