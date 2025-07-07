@@ -16,6 +16,15 @@ class LevelRunRepository extends ServiceEntityRepository
         parent::__construct($registry, LevelRun::class);
     }
 
+    public function findAllLevels(): array
+    {
+        return $this->createQueryBuilder('l')
+            ->select('l.level')
+            ->getQuery()
+            ->getResult();
+    }
+
+
     //    /**
     //     * @return LevelRun[] Returns an array of LevelRun objects
     //     */

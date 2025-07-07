@@ -62,3 +62,17 @@ document.addEventListener("DOMContentLoaded", () => {
     agreeTermsCheckBox.addEventListener('change', validateForm);
 })
 
+function updateMinAge(val) {
+    document.getElementById('age-min-val').textContent = val;
+}
+function updateMaxAge(val) {
+    document.getElementById('age-max-val').textContent = val;
+}
+
+// Init (au chargement)
+document.addEventListener('DOMContentLoaded', function() {
+    const min = document.querySelector('input[name="user_search[ageMin]"]');
+    const max = document.querySelector('input[name="user_search[ageMax]"]');
+    if (min) updateMinAge(min.value);
+    if (max) updateMaxAge(max.value);
+});

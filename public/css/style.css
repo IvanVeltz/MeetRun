@@ -411,3 +411,20 @@ footer {
   width: 300px;
   padding: 30px;
 }
+
+/* RUNERS PAGE */
+.runners-container{
+  display: flex;
+  padding: 40px;
+}
+
+.search-runners-container{
+  width: 60%;
+  margin: auto;
+}
+
+.search-runners-container .grid{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
+}

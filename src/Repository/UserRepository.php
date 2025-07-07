@@ -3,11 +3,12 @@
 namespace App\Repository;
 
 use App\Entity\User;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Data\SearchData;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 
 /**
  * @extends ServiceEntityRepository<User>
@@ -32,6 +33,67 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
     }
+
+    /**
+     * Récupere les utilsateurs en lien avec une recherche
+     * @return User[]
+     */
+    public function findSearch(SearchData $search): array
+    {
+        $qb = $this->createQueryBuilder('u')
+            ->where('u.deleted = :deleted')
+            ->setParameter('deleted', false);
+
+
+        if ($search->q) {
+            $qb->andWhere('u.firstName LIKE :q OR u.lastName LIKE :q')
+            ->setParameter('q', '%' . $search->q . '%');
+        }
+
+        if (!empty($search->departements)) {
+            $qb->andWhere('SUBSTRING(u.postalCode, 1, 2) IN (:departements)')
+            ->setParameter('departements', $search->departements);
+        }
+
+        if (!empty($search->levels)) {
+            $qb->andWhere('u.level IN (:levels)')
+            ->setParameter('levels', $search->levels);
+        }
+
+        $today = new \DateTimeImmutable();
+
+        if ($search->ageMin !== null && $search->ageMin !== '') {
+            $maxBirthDate = $today->modify('-' . $search->ageMin . ' years');
+            $qb->andWhere('u.dateOfBirth <= :maxBirthDate')
+            ->setParameter('maxBirthDate', $maxBirthDate);
+        }
+
+        if ($search->ageMax !== null && $search->ageMax !== '') {
+            $minBirthDate = $today->modify('-' . ($search->ageMax + 1) . ' years')->modify('+1 day');
+            $qb->andWhere('u.dateOfBirth >= :minBirthDate')
+            ->setParameter('minBirthDate', $minBirthDate);
+        }
+
+        if (!empty($search->sexe)) {
+            $qb->andWhere('u.sexe IN (:sexe)')
+            ->setParameter('sexe', $search->sexe);
+        }
+
+         return $qb->getQuery()->getResult();
+
+    }
+
+    public function findDistinctDepartements(): array
+    {
+        $qb = $this->createQueryBuilder('u')
+            ->select('DISTINCT SUBSTRING(u.postalCode, 1, 2) AS dept')
+            ->orderBy('dept', 'ASC');
+
+        $results = $qb->getQuery()->getResult();
+
+        return array_column($results, 'dept'); // extrait les départements en tableau simple
+    }
+
 
     // public function add(USer $user, bool $flush = false): void
     // {
