@@ -9,6 +9,7 @@ use App\Repository\LevelRunRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class RunnersController extends AbstractController
@@ -23,13 +24,20 @@ final class RunnersController extends AbstractController
         // On récupère les coureurs
         $form->handleRequest($request);
         $runners = $userRepository->findSearch($data);
-        $levels = $levelRunRepository->findAllLevels();
-        $levelValues = array_map(fn($item) => $item['level'], $levels);
 
+        if ($request->get('ajax')) {
+            // Simule le rendu d'une vue partielle
+            $content = $this->renderView('runners/_runners.html.twig', ['runners' => $runners]);
+            $sorting = $this->renderView('runners/_sorting.html.twig', ['runners' => $runners]);
+    
+            return new JsonResponse([
+                'content' => $content,
+                'sorting' => $sorting
+            ]);
+        }
         return $this->render('runners/index.html.twig', [
             'runners' => $runners,
-            'form' => $form,
-            'levels' => $levelValues
+            'form' => $form
         ]);
     }
 }

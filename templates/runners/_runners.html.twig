@@ -1,0 +1,10 @@
+{% for runner in runners %}
+<div class="runner-card">
+    <a href="{{ path('app_profil', {'id' :  runner.id}) }}">
+        {{ runner.firstName }} {{ runner.lastName }} <br>
+        {{ runner.city }} <br>
+        {{ runner.getAge }} ans<br>
+        Niveau : {{ runner.level.level}}
+    </a>
+</div>
+{% endfor %}

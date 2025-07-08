@@ -4,8 +4,9 @@
 
 {% block body %}
 <div class="runners-container js-filter">
-    <div class="search-container js-filter-form">
-        {{ form_start(form) }}
+    <div id="error-message" style="color: red;"></div>
+    <div class="search-container">
+        {{ form_start(form, {attr: {class: 'filter js-filter-form'}}) }}
             {{ form_row(form.q) }}
             {{ form_row(form.departements) }}
             {{ form_row(form.levels) }}
@@ -32,20 +33,10 @@
     </div>
     <div class="search-runners-container">
         <div class="d-flex justify-content-end mb-2 js-filter-sorting">
-            {{knp_pagination_sortable(runners, 'Niveau', 'l.level')}}
-            {# {{knp_pagination_sortable(runners, 'Âge', 'u.getAge')}} #}
+            {% include "runners/_sorting.html.twig" %}
         </div>
         <div class="grid js-filter-content">
-            {% for runner in runners %}
-            <div class="runner-card">
-                <a href="{{ path('app_profil', {'id' :  runner.id}) }}">
-                {{ runner.firstName }} {{ runner.lastName }} <br>
-                {{ runner.city }} <br>
-                {{ runner.getAge }} ans<br>
-                Niveau : {{ runner.level.level}}
-                </a>
-            </div>
-            {% endfor %}
+            {% include "runners/_runners.html.twig" %}
         </div>
         <div class="js-filter-pagination">
             {% if runners %}
