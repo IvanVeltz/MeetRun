@@ -10,4 +10,5 @@ class SearchData{
     public ?int $ageMax = null;
     public array $sexe = [];
     public array $levels = [];
+    public int $page = 1;
 }

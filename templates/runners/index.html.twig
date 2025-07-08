@@ -33,6 +33,10 @@
 
     </div>
     <div class="search-runners-container">
+        <div class="d-flex justify-content-end mb-2">
+            {{knp_pagination_sortable(runners, 'Niveau', levels)}}
+            {# {{knp_pagination_sortable(runners, 'Âge', 'u.getAge')}} #}
+        </div>
         <div class="grid">
             {% for runner in runners %}
             <div class="runner-card">
@@ -45,7 +49,10 @@
             {% endfor %}
         </div>
         <div>
+            {% if runners %}
+                
             {{ knp_pagination_render(runners) }}
+            {% endif %}
         </div>
     </div>
 </div>

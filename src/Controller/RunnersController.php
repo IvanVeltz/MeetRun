@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Data\SearchData;
 use App\Form\SearchForm;
 use App\Repository\UserRepository;
+use App\Repository\LevelRunRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -13,22 +14,22 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 final class RunnersController extends AbstractController
 {
     #[Route('/runners', name: 'app_runners')]
-    public function index(UserRepository $userRepository, Request $request): Response
+    public function index(UserRepository $userRepository, Request $request, LevelRunRepository $levelRunRepository): Response
     {
 
         $data = new SearchData();
+        $data->page = $request->get('page', 1);
         $form = $this->createForm(SearchForm::class, $data);
         // On récupère les coureurs
         $form->handleRequest($request);
-        $runners=[];
-        if ($form->isSubmitted() && $form->isValid()) {
-            $runners = $userRepository->findSearch($data);
-        }
-
+        $runners = $userRepository->findSearch($data);
+        $levels = $levelRunRepository->findAllLevels();
+        $levelValues = array_map(fn($item) => $item['level'], $levels);
 
         return $this->render('runners/index.html.twig', [
             'runners' => $runners,
-            'form' => $form
+            'form' => $form,
+            'levels' => $levelValues
         ]);
     }
 }

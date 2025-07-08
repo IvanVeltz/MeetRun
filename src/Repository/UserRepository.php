@@ -85,7 +85,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
          $query = $qb->getQuery();
          return $this->paginator->paginate(
             $query,
-            1,
+            $search->page,
             6
          );
 
