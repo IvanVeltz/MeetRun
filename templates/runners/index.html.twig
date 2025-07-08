@@ -31,23 +31,6 @@
             <button type="submit">Filtrer</button>
         {{ form_end(form) }}
 
-<script>
-function updateMinAge(val) {
-    document.getElementById('age-min-val').textContent = val;
-}
-function updateMaxAge(val) {
-    document.getElementById('age-max-val').textContent = val;
-}
-
-// Init (au chargement)
-document.addEventListener('DOMContentLoaded', function() {
-    const min = document.querySelector('input[name="user_search[ageMin]"]');
-    const max = document.querySelector('input[name="user_search[ageMax]"]');
-    if (min) updateMinAge(min.value);
-    if (max) updateMaxAge(max.value);
-});
-</script>
-
     </div>
     <div class="search-runners-container">
         <div class="grid">
@@ -60,6 +43,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 </a>
             </div>
             {% endfor %}
+        </div>
+        <div>
+            {{ knp_pagination_render(runners) }}
         </div>
     </div>
 </div>

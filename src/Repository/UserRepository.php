@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\User;
 use App\Data\SearchData;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\PaginatorInterface;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -15,9 +17,10 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
  */
 class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, PaginatorInterface $paginator)
     {
         parent::__construct($registry, User::class);
+        $this->paginator = $paginator;
     }
 
     /**
@@ -36,9 +39,9 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
     /**
      * Récupere les utilsateurs en lien avec une recherche
-     * @return User[]
+     * @return Pagination Interface
      */
-    public function findSearch(SearchData $search): array
+    public function findSearch(SearchData $search): PaginationInterface
     {
         $qb = $this->createQueryBuilder('u')
             ->where('u.deleted = :deleted')
@@ -79,7 +82,12 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->setParameter('sexe', $search->sexe);
         }
 
-         return $qb->getQuery()->getResult();
+         $query = $qb->getQuery();
+         return $this->paginator->paginate(
+            $query,
+            1,
+            6
+         );
 
     }
 
