@@ -1,3 +1,5 @@
+import { initSlider } from '../app.js';
+
 
 /**
  * @property {HTMLElement} pagination
@@ -34,7 +36,7 @@ export default class Filter{
                 this.loadUrl(link.getAttribute('href'));
             }
         })
-        this.form.querySelectorAll('input[type=checkbox').forEach(input => {
+        this.form.querySelectorAll('input').forEach(input => {
             input.addEventListener('change', this.loadForm.bind(this))
         })
     }
@@ -61,7 +63,9 @@ export default class Filter{
             const data = await response.json()
             this.content.innerHTML = data.content
             this.sorting.innerHTML = data.sorting
+            initSlider()
             history.replaceState({}, '', url)
+            
         } else {
             this.errorMessageDiv.textContent = 'Une erreur est survenue : ' + response.status;
             console.error(response)

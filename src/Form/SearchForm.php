@@ -63,6 +63,7 @@ class SearchForm extends AbstractType{
                 'label' => 'Âge maximum',
                 'attr' => ['min' => 12, 'max' => 100],
             ])
+            
             ->add('sexe', ChoiceType::class, [
                 'required' => false,
                 'label' => 'Sexe',

@@ -23,6 +23,7 @@ final class RunnersController extends AbstractController
         $form = $this->createForm(SearchForm::class, $data);
         // On récupère les coureurs
         $form->handleRequest($request);
+        [$min, $max] = $userRepository->findMinMax($data);
         $runners = $userRepository->findSearch($data);
 
         if ($request->get('ajax')) {
@@ -37,7 +38,9 @@ final class RunnersController extends AbstractController
         }
         return $this->render('runners/index.html.twig', [
             'runners' => $runners,
-            'form' => $form
+            'form' => $form,
+            'min' => $min,
+            'max' => $max
         ]);
     }
 }

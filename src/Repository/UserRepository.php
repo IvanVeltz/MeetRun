@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\User;
 use App\Data\SearchData;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
 use Knp\Component\Pager\Pagination\PaginationInterface;
@@ -43,11 +44,50 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
      */
     public function findSearch(SearchData $search): PaginationInterface
     {
+        
+
+         $query = $this->getSearchQuery($search)->getQuery();
+         return $this->paginator->paginate(
+            $query,
+            $search->page,
+            6
+         );
+
+    }
+
+    public function findDistinctDepartements(): array
+    {
         $qb = $this->createQueryBuilder('u')
-            ->join('u.level', 'l')
-            ->addSelect('l')
-            ->where('u.deleted = :deleted')
-            ->setParameter('deleted', false);
+            ->select('DISTINCT SUBSTRING(u.postalCode, 1, 2) AS dept')
+            ->orderBy('dept', 'ASC');
+
+        $results = $qb->getQuery()->getResult();
+
+        return array_column($results, 'dept'); // extrait les départements en tableau simple
+    }
+
+    /**
+     * Récupere l'age minimum et maximum des runners
+     * @return integer[]
+     */
+    public function findMinMax(SearchData $search): array
+    {
+        $result = $this->createQueryBuilder('u')
+            ->select('MIN(DATE_DIFF(CURRENT_DATE(), u.dateOfBirth) / 365) AS min')
+            ->addSelect('MAX(DATE_DIFF(CURRENT_DATE(), u.dateOfBirth) / 365) AS max')
+            ->getQuery()
+            ->getSingleResult();
+
+        return [(int) $result['min'], (int) $result['max']];
+    }
+
+    private function getSearchQuery (SearchData $search): QueryBuilder
+    {
+        $qb = $this->createQueryBuilder('u')
+        ->join('u.level', 'l')
+        ->addSelect('l')
+        ->where('u.deleted = :deleted')
+        ->setParameter('deleted', false);
 
 
         if ($search->q) {
@@ -84,26 +124,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->setParameter('sexe', $search->sexe);
         }
 
-         $query = $qb->getQuery();
-         return $this->paginator->paginate(
-            $query,
-            $search->page,
-            6
-         );
-
+        return $qb;
     }
-
-    public function findDistinctDepartements(): array
-    {
-        $qb = $this->createQueryBuilder('u')
-            ->select('DISTINCT SUBSTRING(u.postalCode, 1, 2) AS dept')
-            ->orderBy('dept', 'ASC');
-
-        $results = $qb->getQuery()->getResult();
-
-        return array_column($results, 'dept'); // extrait les départements en tableau simple
-    }
-
 
     // public function add(USer $user, bool $flush = false): void
     // {

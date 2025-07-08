@@ -7,27 +7,32 @@
     <div id="error-message" style="color: red;"></div>
     <div class="search-container">
         {{ form_start(form, {attr: {class: 'filter js-filter-form'}}) }}
-            {{ form_row(form.q) }}
-            {{ form_row(form.departements) }}
-            {{ form_row(form.levels) }}
-            
-            <div class="form-group">
-                {{ form_label(form.sexe) }}
-                {{ form_widget(form.sexe) }}
-                {{ form_errors(form.sexe) }}
+        {{ form_row(form.q) }}
+        {{ form_row(form.departements) }}
+        {{ form_row(form.levels) }}
+
+        <div class="form-group">
+            {{ form_label(form.sexe) }}
+            {{ form_widget(form.sexe) }}
+            {{ form_errors(form.sexe) }}
+        </div>
+
+
+        <div class="form-group age-range" style="display: flex; align-items: center; gap: 20px;">
+            <div>
+                {{ form_row(form.ageMin) }}
             </div>
 
+            <div id="age-slider" data-min="{{ min }}" data-max="{{ max }}" style="width: 300px; margin-top: 25px;"></div>
 
-           <div class="form-group age-range">
-                <div style="display: inline-block; margin-right: 10px;">
-                    {{ form_row(form.ageMin) }}
-                </div>
-                <div style="display: inline-block;">
-                    {{ form_row(form.ageMax) }}
-                </div>
+            <div>
+                {{ form_row(form.ageMax) }}
             </div>
+        </div>
 
-            <button type="submit">Filtrer</button>
+
+
+        <button type="submit">Filtrer</button>
         {{ form_end(form) }}
 
     </div>
@@ -40,7 +45,7 @@
         </div>
         <div class="js-filter-pagination">
             {% if runners %}
-                
+
             {{ knp_pagination_render(runners) }}
             {% endif %}
         </div>
