@@ -128,7 +128,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?bool $createdByGoogle = false;
 
     #[ORM\Column]
-    private ?bool $firstConnection = null;
+    private ?bool $firstConnection = false;
 
     #[ORM\Column]
     private ?bool $deleted = false;

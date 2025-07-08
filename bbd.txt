@@ -6,18 +6,18 @@ INSERT INTO level_run (level, description) VALUES
 (5, 'Expert : Coureur(euse) très expérimenté(e), engagé(e) dans la performance ou la compétition. Volume hebdomadaire élevé et suivi de plans personnalisés.');
 
 INSERT INTO `user` 
-(`level_id`, `email`, `roles`, `last_name`, `first_name`, `date_of_register`, `date_of_birth`, `is_banned`, `picture_profil_url`, `postal_code`, `city`, `bio`, `reset_token`, `sexe`, `password`, `is_verified`, `created_by_google`)
+(`level_id`, `email`, `roles`, `last_name`, `first_name`, `date_of_register`, `date_of_birth`, `is_banned`, `picture_profil_url`, `postal_code`, `city`, `bio`, `reset_token`, `sexe`, `password`, `is_verified`, `created_by_google`, `first_connection`, `deleted`)
 VALUES
-(1, 'marie.dupont@example.com', '["ROLE_USER"]', 'Dupont', 'Marie', '2025-06-01 09:00:00', '1995-04-12', 0, NULL, '75012', 'Paris', 'Passionnée de running depuis 2 ans.', NULL, 'femme', 'hashed_password_1', 1, 0),
-(2, 'antoine.martin@example.com', '["ROLE_USER"]', 'Martin', 'Antoine', '2025-06-15 14:30:00', '1987-11-08', 0, NULL, '69003', 'Lyon', 'Prépare son premier semi-marathon.', NULL, 'homme', 'hashed_password_2', 1, 1),
-(3, 'julie.moreau@example.com', '["ROLE_USER"]', 'Moreau', 'Julie', '2025-05-10 17:45:00', '1992-01-20', 0, NULL, '33000', 'Bordeaux', 'Coach sportive et fan de trail.', NULL, 'femme', 'hashed_password_3', 1, 0),
-(2, 'lucas.bernard@example.com', '["ROLE_USER"]', 'Bernard', 'Lucas', '2025-04-21 11:15:00', '2000-09-14', 0, NULL, '31000', 'Toulouse', 'Étudiant, court tous les matins.', NULL, 'homme', 'hashed_password_4', 0, 1),
-(3, 'emma.gerard@example.com', '["ROLE_USER"]', 'Gérard', 'Emma', '2025-03-13 08:20:00', '1998-07-30', 0, NULL, '44000', 'Nantes', 'Aime repousser ses limites sur les longues distances.', NULL, 'femme', 'hashed_password_5', 1, 1),
-(1, 'maxime.robert@example.com', '["ROLE_USER"]', 'Robert', 'Maxime', '2025-05-25 10:10:00', '1985-06-05', 1, NULL, '06000', 'Nice', 'Ancien coureur pro, aujourd’hui blessé.', NULL, 'homme', 'hashed_password_6', 0, 0),
-(4, 'lea.laurent@example.com', '["ROLE_USER"]', 'Laurent', 'Léa', '2025-01-09 13:55:00', '1991-02-22', 0, NULL, '13001', 'Marseille', 'Pratique le running pour le bien-être.', NULL, 'femme', 'hashed_password_7', 1, 1),
-(5, 'paul.renaud@example.com', '["ROLE_USER"]', 'Renaud', 'Paul', '2025-06-28 16:00:00', '1978-03-18', 0, NULL, '67000', 'Strasbourg', 'Marathonien chevronné.', NULL, 'homme', 'hashed_password_8', 1, 0),
-(3, 'camille.dubois@example.com', '["ROLE_USER"]', 'Dubois', 'Camille', '2025-02-17 07:40:00', '1999-12-01', 0, NULL, '34000', 'Montpellier', 'Sportive polyvalente, adore les défis.', NULL, 'femme', 'hashed_password_9', 0, 0),
-(2, 'hugo.lemaitre@example.com', '["ROLE_USER"]', 'Lemaitre', 'Hugo', '2025-06-30 20:00:00', '1990-10-10', 0, NULL, '35000', 'Rennes', 'Course à pied et montagne au programme.', NULL, 'homme', 'hashed_password_10', 1, 1);
+(1, 'marie.dupont@example.com', '["ROLE_USER"]', 'Dupont', 'Marie', '2025-06-01 09:00:00', '1995-04-12', 0, NULL, '75012', 'Paris', 'Passionnée de running depuis 2 ans.', NULL, 'femme', 'hashed_password_1', 1, 0, FALSE, FALSE),
+(2, 'antoine.martin@example.com', '["ROLE_USER"]', 'Martin', 'Antoine', '2025-06-15 14:30:00', '1987-11-08', 0, NULL, '69003', 'Lyon', 'Prépare son premier semi-marathon.', NULL, 'homme', 'hashed_password_2', 1, 1, FALSE, FALSE),
+(3, 'julie.moreau@example.com', '["ROLE_USER"]', 'Moreau', 'Julie', '2025-05-10 17:45:00', '1992-01-20', 0, NULL, '33000', 'Bordeaux', 'Coach sportive et fan de trail.', NULL, 'femme', 'hashed_password_3', 1, 0, FALSE, FALSE),
+(2, 'lucas.bernard@example.com', '["ROLE_USER"]', 'Bernard', 'Lucas', '2025-04-21 11:15:00', '2000-09-14', 0, NULL, '31000', 'Toulouse', 'Étudiant, court tous les matins.', NULL, 'homme', 'hashed_password_4', 0, 1, FALSE, FALSE),
+(3, 'emma.gerard@example.com', '["ROLE_USER"]', 'Gérard', 'Emma', '2025-03-13 08:20:00', '1998-07-30', 0, NULL, '44000', 'Nantes', 'Aime repousser ses limites sur les longues distances.', NULL, 'femme', 'hashed_password_5', 1, 1, FALSE, FALSE),
+(1, 'maxime.robert@example.com', '["ROLE_USER"]', 'Robert', 'Maxime', '2025-05-25 10:10:00', '1985-06-05', 1, NULL, '06000', 'Nice', 'Ancien coureur pro, aujourd’hui blessé.', NULL, 'homme', 'hashed_password_6', 0, 0, FALSE, FALSE),
+(4, 'lea.laurent@example.com', '["ROLE_USER"]', 'Laurent', 'Léa', '2025-01-09 13:55:00', '1991-02-22', 0, NULL, '13001', 'Marseille', 'Pratique le running pour le bien-être.', NULL, 'femme', 'hashed_password_7', 1, 1, FALSE, FALSE),
+(5, 'paul.renaud@example.com', '["ROLE_USER"]', 'Renaud', 'Paul', '2025-06-28 16:00:00', '1978-03-18', 0, NULL, '67000', 'Strasbourg', 'Marathonien chevronné.', NULL, 'homme', 'hashed_password_8', 1, 0, FALSE, FALSE),
+(3, 'camille.dubois@example.com', '["ROLE_USER"]', 'Dubois', 'Camille', '2025-02-17 07:40:00', '1999-12-01', 0, NULL, '34000', 'Montpellier', 'Sportive polyvalente, adore les défis.', NULL, 'femme', 'hashed_password_9', 0, 0, FALSE, FALSE),
+(2, 'hugo.lemaitre@example.com', '["ROLE_USER"]', 'Lemaitre', 'Hugo', '2025-06-30 20:00:00', '1990-10-10', 0, NULL, '35000', 'Rennes', 'Course à pied et montagne au programme.', NULL, 'homme', 'hashed_password_10', 1, 1, FALSE, FALSE);
 
 INSERT INTO event (organizer_id, name, description, date_event, adress, postal_code, city, capacity) VALUES
 (1, 'La Strasbourgeoise', 'Course solidaire de 5 km au cœur de Strasbourg, dédiée à la lutte contre le cancer du sein. Ambiance conviviale et festive.', '2025-10-05 10:00:00', 'Parc de l\'Orangerie', '67000', 'Strasbourg', 3000),
