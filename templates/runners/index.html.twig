@@ -3,8 +3,8 @@
 {% block title %}Runners{% endblock %}
 
 {% block body %}
-<div class="runners-container">
-    <div class="search-container">
+<div class="runners-container js-filter">
+    <div class="search-container js-filter-form">
         {{ form_start(form) }}
             {{ form_row(form.q) }}
             {{ form_row(form.departements) }}
@@ -26,18 +26,16 @@
                 </div>
             </div>
 
-
-
             <button type="submit">Filtrer</button>
         {{ form_end(form) }}
 
     </div>
     <div class="search-runners-container">
-        <div class="d-flex justify-content-end mb-2">
+        <div class="d-flex justify-content-end mb-2 js-filter-sorting">
             {{knp_pagination_sortable(runners, 'Niveau', 'l.level')}}
             {# {{knp_pagination_sortable(runners, 'Âge', 'u.getAge')}} #}
         </div>
-        <div class="grid">
+        <div class="grid js-filter-content">
             {% for runner in runners %}
             <div class="runner-card">
                 <a href="{{ path('app_profil', {'id' :  runner.id}) }}">
@@ -49,7 +47,7 @@
             </div>
             {% endfor %}
         </div>
-        <div>
+        <div class="js-filter-pagination">
             {% if runners %}
                 
             {{ knp_pagination_render(runners) }}
