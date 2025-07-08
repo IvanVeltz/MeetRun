@@ -34,7 +34,7 @@
     </div>
     <div class="search-runners-container">
         <div class="d-flex justify-content-end mb-2">
-            {{knp_pagination_sortable(runners, 'Niveau', levels)}}
+            {{knp_pagination_sortable(runners, 'Niveau', 'l.level')}}
             {# {{knp_pagination_sortable(runners, 'Âge', 'u.getAge')}} #}
         </div>
         <div class="grid">
@@ -44,6 +44,7 @@
                 {{ runner.firstName }} {{ runner.lastName }} <br>
                 {{ runner.city }} <br>
                 {{ runner.getAge }} ans<br>
+                Niveau : {{ runner.level.level}}
                 </a>
             </div>
             {% endfor %}

@@ -44,6 +44,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     public function findSearch(SearchData $search): PaginationInterface
     {
         $qb = $this->createQueryBuilder('u')
+            ->join('u.level', 'l')
+            ->addSelect('l')
             ->where('u.deleted = :deleted')
             ->setParameter('deleted', false);
 
