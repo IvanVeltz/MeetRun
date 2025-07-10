@@ -3,8 +3,26 @@
 
 
 :root {
-  --bg-color: #3a4f63;
-  --secondary-color: #1e90ff;
+  /* Couleurs principales */
+  --primary-color: #3a4f63;        /* Couleur principale (ex: header, bouton) */
+  --secondary-color: #1e90ff;      /* Accent bleu */
+  --accent-color: #00bcd4;         /* Turquoise vif */
+
+  /* Couleurs selon le sexe */
+  --boy-color: #007bff;            /* Bleu garçon */
+  --girl-color: #ff69b4;           /* Rose fille */
+
+  /* Couleurs neutres */
+  --bg-color: #f5f7fa;             /* Fond global */
+  --card-bg-color: #ffffff;        /* Fond des cartes */
+  --border-color: #d1d9e6;         /* Bordures douces */
+  --text-color: #333333;           /* Texte principal */
+  --text-muted-color: #777777;     /* Texte secondaire */
+
+  /* États (hover, sélection) */
+  --hover-bg: #e6f0fa;
+  --selected-bg: #cfe8ff;
+
 
   --body-font: "Poppins", sans-serif;
   --second-font: "Montserrat", sans-serif;
@@ -28,7 +46,7 @@ h4 {
   position: fixed;
   top: 0;
   width: 100%;
-  background-color: var(--bg-color);
+  background-color: var(--primary-color);
   /* Couleur de fond */
   padding: 10px;
   z-index: 1;
@@ -91,7 +109,7 @@ header figure {
 }
 
 figcaption {
-  color: #3a4f63;
+  color: var(--primary-color);
   font-size: larger;
   font-weight: bolder;
 }
@@ -109,7 +127,7 @@ figcaption {
 .circle {
   width: 280px;
   height: 280px;
-  background-color: var(--bg-color);
+  background-color: var(--primary-color);
   /* background: linear-gradient(135deg, #4e73df, #1cc88a); */
   border-radius: 50%;
   display: flex;
@@ -145,7 +163,7 @@ figcaption {
 /* EVENTS SECTION */
 .events-container {
   padding: 60px 20px;
-  background-color: var(--bg-color);
+  background-color: var(--primary-color);
   text-align: center;
 }
 
@@ -201,14 +219,14 @@ figcaption {
 .event-location,
 .event-description {
   font-size: 0.95rem;
-  color: #555;
+  color: var(--text-color);
   text-align: left;
 }
 
 .event-link {
   margin-top: auto;
   align-self: flex-start;
-  color: #1e90ff;
+  color: var(--primary-color);
   text-decoration: none;
   font-weight: bold;
   transition: color 0.2s;
@@ -224,46 +242,11 @@ figcaption {
   padding: 50px;
 }
 
-.circle-user {
-  width: 160px;
-  height: 160px;
-  background: linear-gradient(135deg, #3a4f63, #5c738a);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  font-size: 2rem;
-  font-weight: bold;
-  color: #fff;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  margin: 10px;
-}
-
-.circle-user:hover {
-  transform: scale(1.05);
-  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
-}
-
-.user-no-picture {
-  display: flex;
-  flex-direction: column;
-}
-
-
-.circle-user .name {
-  margin-top: 10px;
-  font-size: 1rem;
-  font-weight: normal;
-  color: #333;
-}
-
 
 .users {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-around;
   gap: 20px;
   padding: 20px;
 }
@@ -422,6 +405,7 @@ footer {
     flex-wrap: wrap;
     padding: 20px;
     gap: 40px;
+    background-color: var(--bg-color);
 }
 
 /* ------------------------ */
@@ -430,8 +414,8 @@ footer {
 
 .search-container {
     flex: 1 1 300px;
-    max-width: 400px;
-    background-color: var(--bg-color);
+    max-width: 450px;
+    background-color: var(--primary-color);
     color: white;
     border-radius: 12px;
     padding: 25px;
@@ -453,28 +437,20 @@ footer {
 
 .filter input,
 .filter select {
-    width: 100%;
     padding: 8px 10px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     font-size: 14px;
 }
 
-.filter button[type="submit"] {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-    width: 100%;
-    transition: background-color 0.2s ease;
+#q {
+  width: 300px;
 }
 
-.filter button[type="submit"]:hover {
-    background-color: #0056b3;
+#qlabel{
+  margin-bottom: 10px;
 }
+
 
 /* ------------------------ */
 /* === GRILLE DES DÉPARTEMENTS ET LEVEL === */
@@ -498,7 +474,7 @@ footer {
 }
 
 .form-check input[type="checkbox"] {
-    accent-color: #007bff; /* joli bleu pour la coche */
+    accent-color: var(--secondary-color); /* joli bleu pour la coche */
     width: 16px;
     height: 16px;
 }
@@ -542,6 +518,7 @@ footer {
 
 #age-slider {
     margin: 0 10px;
+    margin-top: 50px;
 }
 
 /* ------------------------ */
@@ -556,35 +533,84 @@ footer {
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(200px, 250px));
     gap: 20px;
+    justify-content: center;
 }
 
-.runner-card {
-    background-color: #fff;
-    border-radius: 10px;
-    padding: 15px;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
-    transition: transform 0.2s, box-shadow 0.2s;
-    text-align: left;
-}
 
 .runner-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    font-weight: bolder;
 }
 
-.runner-card a {
-    color: #333;
+.runner-card-link {
+    color: var(--text-color);
     text-decoration: none;
     font-size: 15px;
     line-height: 1.5;
     display: block;
+    width: 200px;
 }
 
-.runner-card a:hover {
-    color: #007bff;
+.runner-card {
+    max-width: 250px;
+    background-color: var(--card-bg-color);
+    border-radius: 12px;
+    border-left: 8px solid transparent;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    transition: transform 0.2s ease;
+    text-align: center;
 }
+
+/* Pour une fille */
+.runner-fille {
+    border-left-color: var(--girl-color); /* rose */
+}
+
+/* Pour un garçon */
+.runner-garcon {
+    border-left-color: var(--boy-color); /* bleu */
+}
+
+.runner-card img.runner-photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--border-color);
+}
+
+.sort-buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 15px;
+}
+
+.sort-button {
+    display: inline-block;
+    padding: 8px 14px;
+    font-size: 14px;
+    background-color: var(--primary-color);
+    color: var(--bg-color);
+    border: none;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+.sort-button:hover {
+    text-decoration: none;
+    color: #ffffff;
+    background-color: var(--secondary-color);
+}
+
 
 /* ------------------------ */
 /* === PAGINATION === */
@@ -623,9 +649,32 @@ footer {
 }
 
 .js-filter-pagination nav ul li a:hover {
-    background-color: #007bff;
+    background-color: var(--bg-color);
     color: white;
 }
+
+.custom-pagination ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    gap: 10px;
+}
+
+.custom-pagination ul li a,
+.custom-pagination ul li span {
+    padding: 6px 12px;
+    border-radius: 5px;
+    background-color: #eee;
+    color: #333;
+    text-decoration: none;
+}
+
+.custom-pagination ul li.active span {
+    background-color: var(--bg-color);
+    color: white;
+    font-weight: bold;
+}
+
 
 /* ------------------------ */
 /* === ERREURS === */

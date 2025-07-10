@@ -53,21 +53,23 @@
             <h2>Bienvenue aux nouveaux Runners</h2>
             <div class="users">
                 {% for user in users %}
-                {% if user.pictureProfilUrl %}
-                <div data-aos="flip-up">
-                    <figure>
-                        <img src="{{ user.pictureProfilUrl}}" alt="Photo de profil">
-                    </figure>
-                    <p>{{ user.firstName }} {{ user.lastName|slice(0,1) }}.</p>
-                </div>
-                {% else %}
-                <div class="user-no-picture">
-                    <div class="circle-user" data-aos="flip-up">
-                        <p>{{ user.firstName|slice(0,1) }} {{ user.lastName|slice(0,1) }}</p>
+                <a href="{{ path('app_profil', {'id' :  user.id}) }}" class="runner-card-link">
+                    <div class="runner-card {{ user.sexe == 'homme' ? 'runner-garcon' : 'runner-fille' }}">
+                        {% if user.pictureProfilUrl %}
+                        <img src="{{ asset(user.pictureProfilUrl) }}" alt="Photo de {{ user.firstName }}"
+                            class="runner-photo">
+                        {% else %}
+                        <img src="{{ asset('img/default_picture_profil.png') }}" alt="Photo par défaut"
+                            class="runner-photo">
+                        {% endif %}
+                        <div class="runner-info">
+                            {{ user.firstName }} {{ user.lastName }} <br>
+                            {{ user.city }} <br>
+                            {{ user.getAge }} ans<br>
+                            Niveau : {{ user.level.level }}
+                        </div>
                     </div>
-                    <p>{{ user.firstName }} {{ user.lastName|slice(0,1) }}.</p>
-                </div>
-                {% endif %}
+                </a>
                 {% endfor %}
             </div>
 
