@@ -7,15 +7,50 @@
     <div id="error-message" style="color: red;"></div>
     <div class="search-container">
         {{ form_start(form, {attr: {class: 'filter js-filter-form'}}) }}
-        {{ form_row(form.q) }}
-        {{ form_row(form.departements) }}
-        {{ form_row(form.levels) }}
+
+        <div class="form-group">
+            {{ form_row(form.q) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.departements) }}
+            <div class="departement-grid">
+                {% for checkbox in form.departements %}
+                <div class="form-check">
+                    {{ form_widget(checkbox) }}
+                    {{ form_label(checkbox) }}
+                </div>
+                {% endfor %}
+            </div>
+            {{ form_errors(form.departements) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.levels) }}
+            <div class="level-grid">
+                {% for level in form.levels %}
+                <div class="form-check">
+                    {{ form_widget(level) }}
+                    {{ form_label(level) }}
+                </div>
+                {% endfor %}
+            </div>
+            {{ form_errors(form.levels) }}
+        </div>
+
 
         <div class="form-group">
             {{ form_label(form.sexe) }}
-            {{ form_widget(form.sexe) }}
+            <div class="sexe-options">
+                {% for sexeOption in form.sexe %}
+                <div class="form-check">
+                    {{ form_widget(sexeOption) }}
+                    {{ form_label(sexeOption) }}
+                </div>
+                {% endfor %}
+            </div>
             {{ form_errors(form.sexe) }}
         </div>
+
 
 
         <div class="form-group age-range" style="display: flex; align-items: center; gap: 20px;">
@@ -23,7 +58,8 @@
                 {{ form_row(form.ageMin) }}
             </div>
 
-            <div id="age-slider" data-min="{{ min }}" data-max="{{ max }}" style="width: 300px; margin-top: 25px;"></div>
+            <div id="age-slider" data-min="{{ min }}" data-max="{{ max }}" style="width: 300px; margin-top: 25px;">
+            </div>
 
             <div>
                 {{ form_row(form.ageMax) }}

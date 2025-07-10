@@ -4,7 +4,7 @@
 
 :root {
   --bg-color: #3a4f63;
-  --secondary-color : #1e90ff;
+  --secondary-color: #1e90ff;
 
   --body-font: "Poppins", sans-serif;
   --second-font: "Montserrat", sans-serif;
@@ -18,7 +18,8 @@ body {
   font-family: var(--body-font);
 }
 
-h2, h4 {
+h2,
+h4 {
   padding: 1em;
 }
 
@@ -219,9 +220,10 @@ figcaption {
 
 /* USER SECTION */
 
-.users-container{
+.users-container {
   padding: 50px;
 }
+
 .circle-user {
   width: 160px;
   height: 160px;
@@ -244,7 +246,7 @@ figcaption {
   box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
 }
 
-.user-no-picture{
+.user-no-picture {
   display: flex;
   flex-direction: column;
 }
@@ -268,7 +270,8 @@ figcaption {
 
 
 /* **** LOGIN *** */
-.form-login, .form-change-password {
+.form-login,
+.form-change-password {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -403,28 +406,233 @@ footer {
 }
 
 /****** PROFIL PAGE *****/
-.profil-container{
-  display: flex ;
+.profil-container {
+  display: flex;
 }
 
-.left-container{
+.left-container {
   width: 300px;
   padding: 30px;
 }
 
 /* RUNERS PAGE */
-.runners-container{
-  display: flex;
-  padding: 40px;
+
+.runners-container {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+    gap: 40px;
 }
 
-.search-runners-container{
-  width: 60%;
-  margin: auto;
+/* ------------------------ */
+/* === FORMULAIRE DE RECHERCHE === */
+/* ------------------------ */
+
+.search-container {
+    flex: 1 1 300px;
+    max-width: 400px;
+    background-color: var(--bg-color);
+    color: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.1);
+    height: fit-content;
+    position: sticky;
+    top: 20px;
 }
 
-.search-runners-container .grid{
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 20px;
+.filter .form-group,
+.filter .form-row {
+    margin-bottom: 20px;
+}
+
+.filter label {
+    font-weight: 600;
+    display: block;
+}
+
+.filter input,
+.filter select {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.filter button[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 100%;
+    transition: background-color 0.2s ease;
+}
+
+.filter button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* ------------------------ */
+/* === GRILLE DES DÉPARTEMENTS ET LEVEL === */
+/* ------------------------ */
+
+.departement-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.form-check {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    padding-left: 0;
+}
+
+.form-check input[type="checkbox"] {
+    accent-color: #007bff; /* joli bleu pour la coche */
+    width: 16px;
+    height: 16px;
+}
+
+.level-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* ✅ exactement 5 colonnes */
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.level-grid .form-check {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+}
+
+.sexe-options {
+    display: flex;
+    gap: 20px;
+    margin-top: 10px;
+    justify-content: center;
+}
+
+.sexe-options .form-check {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    justify-content: center;
+}
+
+
+
+/* ------------------------ */
+/* === SLIDER ÂGE === */
+/* ------------------------ */
+
+#age-slider {
+    margin: 0 10px;
+}
+
+/* ------------------------ */
+/* === AFFICHAGE DES RUNNERS === */
+/* ------------------------ */
+
+.search-runners-container {
+    flex: 2 1 600px;
+    display: flex;
+    flex-direction: column;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 20px;
+}
+
+.runner-card {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-align: left;
+}
+
+.runner-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.runner-card a {
+    color: #333;
+    text-decoration: none;
+    font-size: 15px;
+    line-height: 1.5;
+    display: block;
+}
+
+.runner-card a:hover {
+    color: #007bff;
+}
+
+/* ------------------------ */
+/* === PAGINATION === */
+/* ------------------------ */
+
+.js-filter-pagination {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.js-filter-pagination nav {
+    display: inline-block;
+}
+
+.js-filter-pagination nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 8px;
+}
+
+.js-filter-pagination nav ul li {
+    display: inline-block;
+}
+
+.js-filter-pagination nav ul li a,
+.js-filter-pagination nav ul li span {
+    padding: 8px 12px;
+    border-radius: 6px;
+    background-color: #e9ecef;
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.js-filter-pagination nav ul li a:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+/* ------------------------ */
+/* === ERREURS === */
+/* ------------------------ */
+
+#error-message {
+    margin-bottom: 15px;
+    font-weight: bold;
+    color: red;
 }

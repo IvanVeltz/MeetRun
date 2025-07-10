@@ -10,11 +10,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class RunnersController extends AbstractController
 {
     #[Route('/runners', name: 'app_runners')]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function index(UserRepository $userRepository, Request $request, LevelRunRepository $levelRunRepository): Response
     {
 
