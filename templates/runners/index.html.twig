@@ -78,8 +78,7 @@
         </div>
         <div class="js-filter-pagination">
             {% if runners %}
-
-            {{ knp_pagination_render(runners) }}
+            {% include "runners/_pagination.html.twig" %}
             {% endif %}
         </div>
     </div>

@@ -398,7 +398,7 @@ footer {
   padding: 30px;
 }
 
-/* RUNERS PAGE */
+/* ----------------- RUNNERS PAGE -------------- */
 
 .runners-container {
     display: flex;
@@ -408,9 +408,8 @@ footer {
     background-color: var(--bg-color);
 }
 
-/* ------------------------ */
-/* === FORMULAIRE DE RECHERCHE === */
-/* ------------------------ */
+
+/* FORMULAIRE DE RECHERCHE */
 
 .search-container {
     flex: 1 1 300px;
@@ -452,9 +451,8 @@ footer {
 }
 
 
-/* ------------------------ */
-/* === GRILLE DES DÉPARTEMENTS ET LEVEL === */
-/* ------------------------ */
+/* GRILLE DES DÉPARTEMENTS ET LEVEL */
+
 
 .departement-grid {
     display: grid;
@@ -510,20 +508,17 @@ footer {
     justify-content: center;
 }
 
+/* SLIDER ÂGE */
 
-
-/* ------------------------ */
-/* === SLIDER ÂGE === */
-/* ------------------------ */
 
 #age-slider {
     margin: 0 10px;
     margin-top: 50px;
 }
 
-/* ------------------------ */
-/* === AFFICHAGE DES RUNNERS === */
-/* ------------------------ */
+
+/* AFFICHAGE DES RUNNERS */
+
 
 .search-runners-container {
     flex: 2 1 600px;
@@ -616,62 +611,34 @@ footer {
 /* === PAGINATION === */
 /* ------------------------ */
 
-.js-filter-pagination {
-    margin-top: 30px;
-    text-align: center;
-}
 
-.js-filter-pagination nav {
-    display: inline-block;
-}
-
-.js-filter-pagination nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    gap: 8px;
-}
-
-.js-filter-pagination nav ul li {
-    display: inline-block;
-}
-
-.js-filter-pagination nav ul li a,
-.js-filter-pagination nav ul li span {
-    padding: 8px 12px;
-    border-radius: 6px;
-    background-color: #e9ecef;
-    color: #333;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 14px;
-}
-
-.js-filter-pagination nav ul li a:hover {
-    background-color: var(--bg-color);
-    color: white;
-}
 
 .custom-pagination ul {
     list-style: none;
     padding: 0;
     display: flex;
     gap: 10px;
+    justify-content: center;
 }
 
 .custom-pagination ul li a,
 .custom-pagination ul li span {
     padding: 6px 12px;
     border-radius: 5px;
-    background-color: #eee;
-    color: #333;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+.custom-pagination ul li a:hover{
+    background-color: var(--primary-color);
+    color: var(--bg-color);
     text-decoration: none;
 }
 
 .custom-pagination ul li.active span {
-    background-color: var(--bg-color);
-    color: white;
+    background-color: var(--secondary-color);
+    color: var(--bg-color);
     font-weight: bold;
 }
 

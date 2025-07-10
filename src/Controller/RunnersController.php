@@ -32,6 +32,7 @@ final class RunnersController extends AbstractController
             // Simule le rendu d'une vue partielle
             $content = $this->renderView('runners/_runners.html.twig', ['runners' => $runners]);
             $sorting = $this->renderView('runners/_sorting.html.twig', ['runners' => $runners]);
+            $pagination = $this->renderView('runners/_pagination.html.twig', ['runners' => $runners]);
     
             return new JsonResponse([
                 'content' => $content,
