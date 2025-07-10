@@ -1,6 +1,6 @@
 {% for runner in runners %}
 <a href="{{ path('app_profil', {'id' :  runner.id}) }}" class="runner-card-link">
-    <div class="runner-card {{ runner.sexe == 'homme' ? 'runner-garcon' : 'runner-fille' }}">
+    <div class="runner-card {{ runner.sexe == 'homme' ? 'runner-garcon' : 'runner-fille' }}" data-flip-id ="runner-{{ runner.id }}">
         {% if runner.pictureProfilUrl %}
         <img src="{{ asset(runner.pictureProfilUrl) }}" alt="Photo de {{ runner.firstName }}" class="runner-photo">
         {% else %}

@@ -4,6 +4,7 @@ import Filter from './modules/Filter';
 import noUiSlider from 'nouislider';
 import 'nouislider/dist/nouislider.css';
 
+
 export function initSlider() {
     const slider = document.getElementById('age-slider');
     if (!slider) return;

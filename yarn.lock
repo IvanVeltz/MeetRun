@@ -1703,13 +1703,6 @@ flat@^5.0.2:
   resolved "https://registry.npmjs.org/flat/-/flat-5.0.2.tgz"
   integrity sha512-b6suED+5/3rTpUBdG1gupIl8MPFCAMA0QXwmljLhvCUKcUvdE4gWky9zpuGCcXHOsz4J9wPGNWq6OKpmIzz3hQ==
 
-flip-toolkit@^7.2.6:
-  version "7.2.6"
-  resolved "https://registry.yarnpkg.com/flip-toolkit/-/flip-toolkit-7.2.6.tgz#738b1ab16e322b0aeb0e04791549b77c1f3c325d"
-  integrity sha512-Sdef++xhYYBdkBwUmR4fwsQC9FGOf1lQYmsqiXpJK/1YDOxT0DPc0aGTltTcQ/ZIoJ7k4cuVxKjpBzolVAYpUg==
-  dependencies:
-    rematrix "0.2.2"
-
 function-bind@^1.1.2:
   version "1.1.2"
   resolved "https://registry.npmjs.org/function-bind/-/function-bind-1.1.2.tgz"
@@ -2390,11 +2383,6 @@ regjsparser@^0.12.0:
   integrity sha512-cnE+y8bz4NhMjISKbgeVJtqNbtf5QpjZP+Bslo+UqkIt9QPnX9q095eiRRASJG1/tz6dlNr6Z5NsBiWYokp6EQ==
   dependencies:
     jsesc "~3.0.2"
-
-rematrix@0.2.2:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/rematrix/-/rematrix-0.2.2.tgz#c96a050260782db9908904885991256e23beda5d"
-  integrity sha512-agFFS3RzrLXJl5LY5xg/xYyXvUuVAnkhgKO7RaO9J1Ssth6yvbO+PIiV67V59MB5NCdAK2flvGvNT4mdKVniFA==
 
 renderkid@^3.0.0:
   version "3.0.0"

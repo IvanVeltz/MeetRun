@@ -1,6 +1,5 @@
 import { initSlider } from '../app.js';
 
-
 /**
  * @property {HTMLElement} pagination
  * @property {HTMLElement} content
@@ -39,7 +38,20 @@ export default class Filter{
         this.sorting.addEventListener('click', aClickListener)
         this.pagination.addEventListener('click', aClickListener)
         this.form.querySelectorAll('input').forEach(input => {
-            input.addEventListener('change', this.loadForm.bind(this))
+            if (input.type === 'text'){
+                // On ecoute l'evenement avec un délai
+                let typingTimer;
+                const debounceDelay = 400;
+
+                input.addEventListener('input', () => {
+                clearTimeout(typingTimer);
+                typingTimer = setTimeout(() => {
+                    this.loadForm();
+                }, debounceDelay);
+            });
+            } else {
+                input.addEventListener('change', this.loadForm.bind(this))
+            }
         })
     }
 
@@ -74,4 +86,5 @@ export default class Filter{
             console.error(response)
         }
     }
+
 }

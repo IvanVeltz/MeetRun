@@ -78,7 +78,7 @@
         </div>
         <div class="js-filter-pagination">
             {% if runners %}
-            {% include "runners/_pagination.html.twig" %}
+            {% include "runners/_pagination.html.twig" with { runners: runners } %}
             {% endif %}
         </div>
     </div>

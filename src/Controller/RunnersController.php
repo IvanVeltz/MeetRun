@@ -36,7 +36,8 @@ final class RunnersController extends AbstractController
     
             return new JsonResponse([
                 'content' => $content,
-                'sorting' => $sorting
+                'sorting' => $sorting,
+                'pagination' => $pagination
             ]);
         }
         return $this->render('runners/index.html.twig', [

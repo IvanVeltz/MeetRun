@@ -36,7 +36,8 @@ class SearchForm extends AbstractType{
                 'label' => false,
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'Rechercher'
+                    'placeholder' => 'Rechercher',
+                    'id' => 'js-search-input'
                 ]
                 ])
             ->add('departements', ChoiceType::class, [

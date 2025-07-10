@@ -562,6 +562,8 @@ footer {
     gap: 10px;
     transition: transform 0.2s ease;
     text-align: center;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    will-change: transform, opacity;
 }
 
 /* Pour une fille */
@@ -611,7 +613,9 @@ footer {
 /* === PAGINATION === */
 /* ------------------------ */
 
-
+.js-filter-pagination{
+  margin-top: 1em;
+}
 
 .custom-pagination ul {
     list-style: none;
