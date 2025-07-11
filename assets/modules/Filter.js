@@ -9,6 +9,7 @@ import { initSlider } from '../app.js';
  */
 export default class Filter{
 
+    
     /**
      * @param {HTMLElement|null} element
      */

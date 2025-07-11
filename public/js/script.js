@@ -56,8 +56,9 @@ document.addEventListener("DOMContentLoaded", () => {
         element.classList.toggle("valid", isValid);
         element.classList.toggle("invalid", !isValid);
     }
-
-    passwordInput.addEventListener('input', validateForm);
-    confirmPasswordInput.addEventListener('input', validateForm);
-    agreeTermsCheckBox.addEventListener('change', validateForm);
+    if (passwordInput && confirmPasswordInput && agreeTermsCheckBox){
+        passwordInput.addEventListener('input', validateForm);
+        confirmPasswordInput.addEventListener('input', validateForm);
+        agreeTermsCheckBox.addEventListener('change', validateForm);
+    }
 })

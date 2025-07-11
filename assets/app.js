@@ -1,13 +1,14 @@
 require('./styles/app.css');
 
-import Filter from './modules/Filter';
+import Filter from './modules/filter.js';
 import noUiSlider from 'nouislider';
 import 'nouislider/dist/nouislider.css';
 
-
 export function initSlider() {
     const slider = document.getElementById('age-slider');
-    if (!slider) return;
+    if (!slider){
+        return;
+    } 
 
     const min = document.getElementById('ageMin');
     const max = document.getElementById('ageMax');
