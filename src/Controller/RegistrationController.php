@@ -41,6 +41,7 @@ class RegistrationController extends AbstractController
             $user->setDateOfRegister(new \DateTime());
             $user->setRoles(["ROLE_USER"]);
             $user->setFirstConnection(true);
+            $user->setIsBanned(false);
 
 
             $entityManager->persist($user);
