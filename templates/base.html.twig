@@ -3,6 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="description" content="Site de mis en relation de pratiquants de la course à pied">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>{% block title %}{% endblock %}</title>
     <link rel="icon" href="{{asset('img/logo_little.png')}}" type="image/png">
@@ -62,10 +64,16 @@
             <div class="footer__links">
                 <h3>Navigation</h3>
                 <ul>
-                    <li><a href="{{ path('app_home') }}">Home</a></li>
-                    <li><a href="{{ path('app_runners') }}">Runners</a></li>
-                    <li><a href="{{ path('app_events') }}">Courses</a></li>
-                    <li><a href="{{ path('app_forum') }}">Forum</a></li>
+                    {% if app.user %}
+
+                        <li><a href="{{ path('app_home') }}">Home</a></li>
+                        <li><a href="{{ path('app_runners') }}">Runners</a></li>
+                        <li><a href="{{ path('app_events') }}">Courses</a></li>
+                        <li><a href="{{ path('app_forum') }}">Forum</a></li>
+                    {% else %}
+                        <li><a href="{{ path('app_login') }}">Se connecter</a></li>
+                        <li><a href="{{ path('app_register') }}">S'inscrire</a></li>
+                    {% endif %}
                 </ul>
             </div>
 
