@@ -40,7 +40,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
     /**
      * Récupere les utilsateurs en lien avec une recherche
-     * @return Pagination Interface
+     * @return PaginationInterface
      */
     public function findSearch(SearchData $search): PaginationInterface
     {

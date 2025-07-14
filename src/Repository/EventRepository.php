@@ -4,7 +4,9 @@ namespace App\Repository;
 
 use App\Entity\User;
 use App\Entity\Event;
+use App\Data\SearchData;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
@@ -38,6 +40,20 @@ class EventRepository extends ServiceEntityRepository
             ->orderBy('e.dateEvent', 'ASC')
             ->getQuery()
             ->getResult();
+    }
+
+    /**
+     * Récupere les evenements en lien avec une recherche
+     * @return PaginationInterface
+     */
+    public function findSearch(SearchData $search): PaginationInterface
+    {
+         $query = $this->getSearchQuery($search)->getQuery();
+         return $this->paginator->paginate(
+            $query,
+            $search->page,
+            2
+         );
     }
 
 
