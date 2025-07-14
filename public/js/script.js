@@ -1,3 +1,14 @@
+// Changement de la navbar au scorll
+const navbar = document.querySelector('.navbar');
+window.addEventListener('scroll', () => {
+  if(window.scrollY > 50) {
+    navbar.classList.add('navbar--scrolled');
+  } else {
+    navbar.classList.remove('navbar--scrolled');
+  }
+});
+
+// Efface l'image lors de la modif de profil
 const removeButton = document.getElementById("remove-picture-btn");
 const imgThumbnail = document.getElementById("img-thumbnail");
 const existingPicture = document.getElementById('existing-picture')
@@ -9,7 +20,7 @@ if (removeButton && imgThumbnail) {
     });
 }
 
-
+// verif mot de passe
 const passwordInput = document.getElementById('registration_form_plainPassword_first'); // On récupere le "premier" mdp
 const confirmPasswordInput = document.getElementById('registration_form_plainPassword_second'); // on recupere le second
 const registerButton = document.getElementById('registration'); // On recupere le bouton de validation
