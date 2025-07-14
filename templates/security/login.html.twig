@@ -3,49 +3,60 @@
 {% block title %}Me connecter{% endblock %}
 
 {% block body %}
+<div class="login-wrapper">
+  <div class="login-logo">
+    <img src="img/logo.png" alt="Logo du site">
+  </div>
 
-<div class="form-login">
-    <figure>
-        <img src="img/logo.png" alt="Logo du site">
-    </figure>
-    <form class="login" method="post">
-        {% if error %}
-            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        {% endif %}
+  <div class="login-card">
+    <form class="login-form" method="post">
+      {% if error %}
+        <div class="login-alert">
+          {{ error.messageKey|trans(error.messageData, 'security') }}
+        </div>
+      {% endif %}
 
-        {% if app.user %}
-            <div class="mb-3">
-                Vous êtes déjà connecté(e) en tant que {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Me déconnecter</a>
-            </div>
-        {% endif %}
+      {% if app.user %}
+        <div class="login-message">
+          Vous êtes déjà connecté(e) en tant que {{ app.user.userIdentifier }},
+          <a href="{{ path('app_logout') }}">Me déconnecter</a>
+        </div>
+      {% endif %}
 
-        
+      <div class="form-group">
         <label for="username">Email</label>
-        <input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="email" required autofocus>
+        <input type="email" value="{{ last_username }}" name="_username" id="username" required autocomplete="email" autofocus>
+      </div>
+
+      <div class="form-group">
         <label for="password">Mot de passe</label>
-        <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
-        <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
-        
-        <div class="checkbox mb-3">
-            <input type="checkbox" name="_remember_me" id="_remember_me">
-            <label for="_remember_me">Se souvenir de moi</label>
-        </div>
-        
-        <div class="text-center">
-            <div class="btn-connexion">
-                <button class="btn btn-lg btn-primary" type="submit">
-                    Se connecter
-                </button>
-                <a href="{{ path('hwi_oauth_service_redirect', {'service': 'google' }) }}">
-                    <div class="btn btn-lg btn-google">Se connecter avec Google</div>
-                </a>
-            </div>
+        <input type="password" name="_password" id="password" required autocomplete="current-password">
+      </div>
+
+      <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+      <div class="form-remember">
+        <input type="checkbox" name="_remember_me" id="_remember_me">
+        <label for="_remember_me">Se souvenir de moi</label>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn-login">Se connecter</button>
+
+        <a href="{{ path('hwi_oauth_service_redirect', {'service': 'google' }) }}" class="btn-google">
+          Se connecter avec Google
+        </a>
+      </div>
+
+      <div class="form-footer">
         <p><a href="{{ path('app_forgotten_password') }}">Mot de passe oublié</a></p>
-        <p>Pas encore inscit(e) ? <a href="{{path('app_register')}}">M'inscrire</a></p>
-        </div>
-        
+        <p>Pas encore inscrit(e) ? <a href="{{ path('app_register') }}">M'inscrire</a></p>
+      </div>
     </form>
+  </div>
 </div>
+
+
 
 
 {% endblock %}
