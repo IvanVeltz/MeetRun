@@ -5,7 +5,9 @@ namespace App\Repository;
 use App\Entity\User;
 use App\Entity\Event;
 use App\Data\SearchData;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\PaginatorInterface;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
@@ -14,9 +16,10 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
  */
 class EventRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, PaginatorInterface $paginator)
     {
         parent::__construct($registry, Event::class);
+        $this->paginator = $paginator;
     }
 
     public function findUpcomingEvents(int $limit): array
@@ -54,6 +57,15 @@ class EventRepository extends ServiceEntityRepository
             $search->page,
             2
          );
+    }
+
+    public function getSearchQuery (SearchData $search): QueryBuilder
+    {
+        $qb = $this->createQueryBuilder('e')
+            ->join('e.organizer', 'u')
+            ->addSelect('u');
+
+        return $qb;
     }
 
 

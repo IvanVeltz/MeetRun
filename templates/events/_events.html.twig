@@ -1,0 +1,16 @@
+<div class="next__events">
+    <h2>Les courses à venir</h2>
+    {% for event in events %}
+    <div class="event-card">
+        <div class="event-card-body">
+            <!-- <img src="" class="event-card-img" alt="Image de l'événement"> -->
+            <h3 class="event-title">{{ event.name }}</h3>
+            <p class="event-date"><i class="fa-solid fa-calendar"></i> {{ event.dateEvent|date('d/m/Y H:i')
+                }}</p>
+            <p class="event-location"><i class="fa-solid fa-location-dot"></i> {{ event.postalCode }} {{
+                event.city }}</p>
+            <a href="" class="event-link">Voir plus</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>

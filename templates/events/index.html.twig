@@ -5,11 +5,15 @@
 {% block body %}
 
 <div class="events-wrapper">
-    <div class="search__events">
-
-    </div>
-    <div class="next__events">
-        <h2>Les courses à venir</h2>
+    <div class="search-runners-container">
+        <div class="grid js-filter-content">
+            {% include "events/_events.html.twig" %}
+        </div>
+        <div class="js-filter-pagination">
+            {% if events %}
+            {% include "events/_pagination.html.twig"%}
+            {% endif %}
+        </div>
     </div>
 </div>
 {% endblock %}

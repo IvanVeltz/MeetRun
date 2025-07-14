@@ -11,6 +11,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\RangeType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 class SearchForm extends AbstractType{
@@ -41,11 +42,12 @@ class SearchForm extends AbstractType{
                 ]
                 ])
             ->add('departements', ChoiceType::class, [
-                'label' => 'Départements',
+                'label' => false,
                 'required' => false,
                 'multiple' => true,
                 'expanded' => true,
-                'choices' => array_combine($departements, $departements)
+                'choices' => array_combine($departements, $departements), // ['75' => '75', '13' => '13', ...]
+                'attr' => ['style' => 'display:none'] // pour tout masquer
             ])
             ->add('levels', ChoiceType::class, [
                 'label' => 'Niveau',

@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Data\SearchData;
+use App\Form\SearchRunForm;
+use App\Repository\EventRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -20,13 +22,9 @@ final class EventsController extends AbstractController
         $events = $eventRepository->findSearch($data);
 
 
-
-
-
-
         return $this->render('events/index.html.twig', [
-            'eventForm' => 'eventForm',
-            'events' => 'events',
+            'eventForm' => $eventForm,
+            'events' => $events,
         ]);
     }
 }

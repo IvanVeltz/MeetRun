@@ -13,14 +13,10 @@
         </div>
         <div class="form-group">
             {{ form_label(form.departements) }}
-            <div class="departement-grid">
-                {% for checkbox in form.departements %}
-                <div class="form-check">
-                    {{ form_widget(checkbox) }}
-                    {{ form_label(checkbox) }}
-                </div>
-                {% endfor %}
+            <div id="svg-wrapper">
+                {% include 'partials/carte.svg.twig' %}
             </div>
+            {{ form_widget(form.departements) }}
             {{ form_errors(form.departements) }}
         </div>
 
@@ -70,8 +66,8 @@
     </div>
     <div class="search-runners-container">
 
-            {% include "runners/_sorting.html.twig" %}
-        
+        {% include "runners/_sorting.html.twig" %}
+
         <div class="grid js-filter-content">
             {% include "runners/_runners.html.twig" %}
         </div>
@@ -82,4 +78,6 @@
         </div>
     </div>
 </div>
+
+
 {% endblock %}

@@ -317,8 +317,6 @@ body {
   padding-right: 2em;
 }
 
-
-
 .footer__content {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -728,6 +726,24 @@ input[type=number] {
   gap: 6px;
   font-size: 14px;
   padding-left: 0;
+}
+
+/* ** CARTE SVG ** */
+.land
+{
+	fill:#86aae0;
+	stroke:#222;
+	stroke-width:0.6;
+  cursor:pointer;
+}
+
+path:hover
+{
+  fill:green;  
+}
+
+.land.selected {
+  fill: orange; /* ou une autre couleur visible */
 }
 
 .form-check input[type="checkbox"] {
