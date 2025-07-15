@@ -1,7 +1,7 @@
 function initCarteDepartements() {
   const divNum = document.getElementById('num');
   const checkboxes = document.querySelectorAll('input[name="departements[]"'); // adapte si ton form a un autre nom
-  console.log(checkboxes);
+  const autrePatys = document.getElementById('departement_autre');
   const selected = new Set();
 
   if (!divNum || checkboxes.length === 0) {
