@@ -48,7 +48,7 @@ class ChangePasswordForm extends AbstractType
 
             ->add('captcha', Recaptcha3Type::class, [
                 'constraints' => new Recaptcha3(),
-                'action_name' => 'signeup'
+                'action_name' => 'signup'
             ]);
         ;
     }
