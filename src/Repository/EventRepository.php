@@ -55,7 +55,7 @@ class EventRepository extends ServiceEntityRepository
          return $this->paginator->paginate(
             $query,
             $search->page,
-            2
+            12
          );
     }
 
