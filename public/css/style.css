@@ -886,7 +886,39 @@ path:hover
   color: #ffffff;
   background-color: var(--secondary-color);
 }
+/* ----------------------- */
+/* === EVENTS === */
+/* ------------------------ */
+.modal{
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.5);
+}
 
+.modal-content{
+  background-color: white;
+  margin: 10% auto;
+  padding: 30px;
+  border-radius: 8px;
+  width: 50%;
+  position: relative;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.close-btn{
+  position: absolute;
+  right: 20px;
+  top: 15px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
 
 /* ------------------------ */
 /* === PAGINATION === */

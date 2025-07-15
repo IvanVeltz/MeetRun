@@ -57,6 +57,9 @@ class Event
     #[ORM\Column]
     private ?bool $cancelled = false;
 
+    #[ORM\Column]
+    private ?int $distance = null;
+
     public function __construct()
     {
         $this->registrationEvents = new ArrayCollection();
@@ -234,6 +237,18 @@ class Event
     public function setCancelled(bool $cancelled): static
     {
         $this->cancelled = $cancelled;
+
+        return $this;
+    }
+
+    public function getDistance(): ?int
+    {
+        return $this->distance;
+    }
+
+    public function setDistance(int $distance): static
+    {
+        $this->distance = $distance;
 
         return $this;
     }

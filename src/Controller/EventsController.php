@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Event;
 use App\Data\SearchData;
+use App\Form\NewEventForm;
 use App\Form\SearchRunForm;
 use App\Repository\EventRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -13,7 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 final class EventsController extends AbstractController
 {
     #[Route('/events', name: 'app_events')]
-    public function index(EventRepository $eventRepository, Request $request): Response
+    public function index(EventRepository $eventRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
         $data = new SearchData();
         $data->page = $request->get('page', 1);
@@ -21,9 +24,21 @@ final class EventsController extends AbstractController
         $eventForm = $this->createForm(SearchRunForm::class, $data);
         $events = $eventRepository->findSearch($data);
 
+        $event = new Event();
+        $user = $this->getUser();
+        $newEventForm = $this->createForm(NewEventForm::class, $event);
+        $newEventForm->handleRequest($request);
+        $event->setOrganizer($user);
+
+        if($newEventForm->isSubmitted() && $newEventForm->isValid()){
+            $entityManager->persist($event);
+            $entityManager->flush();
+        }
+
 
         return $this->render('events/index.html.twig', [
             'eventForm' => $eventForm,
+            'newEventForm' => $newEventForm,
             'events' => $events,
         ]);
     }

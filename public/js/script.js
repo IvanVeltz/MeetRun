@@ -1,7 +1,30 @@
+// Modal new event
+document.addEventListener('DOMContentLoaded', function () {
+  const modal = document.getElementById('eventModal');
+  const openBtn = document.getElementById('openModalBtn');
+  const closeBtn = modal.querySelector('.close-btn');
+
+  openBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    modal.style.display = "block";
+  })
+
+  closeBtn.addEventListener('click', () => {
+    modal.style.display = "none";
+  })
+
+  // Ferme le modal en cliquant à l'extérieur
+  window.addEventListener('click', function (e) {
+    if (e.target === modal) {
+      modal.style.display = 'none';
+    }
+  });
+})
+
 // Changement de la navbar au scorll
 const navbar = document.querySelector('.navbar');
 window.addEventListener('scroll', () => {
-  if(window.scrollY > 50) {
+  if (window.scrollY > 50) {
     navbar.classList.add('navbar--scrolled');
   } else {
     navbar.classList.remove('navbar--scrolled');
@@ -14,10 +37,10 @@ const imgThumbnail = document.getElementById("img-thumbnail");
 const existingPicture = document.getElementById('existing-picture')
 
 if (removeButton && imgThumbnail) {
-    removeButton.addEventListener("click", () => {
-        imgThumbnail.src = ""; // Efface l'image
-        existingPicture.style.display = "none"; // masque la div de l'image actuelle
-    });
+  removeButton.addEventListener("click", () => {
+    imgThumbnail.src = ""; // Efface l'image
+    existingPicture.style.display = "none"; // masque la div de l'image actuelle
+  });
 }
 
 // verif mot de passe
@@ -34,42 +57,42 @@ const agreeTermsCheckBox = document.getElementById('registration_form_agreeTerms
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    function validateForm() {
-        const password = passwordInput.value; // la valeur du premier mdp
-        const confirmPassword = confirmPasswordInput.value; // la valuer du second
+  function validateForm() {
+    const password = passwordInput.value; // la valeur du premier mdp
+    const confirmPassword = confirmPasswordInput.value; // la valuer du second
 
-        // Vérifications individuelles des mdp
-        const isLengthValid = password.length >= 12;
-        const isUppercaseValid = /[A-Z]/.test(password);
-        const isLowercaseValid = /[a-z]/.test(password);
-        const isNumberValid = /\d/.test(password);
-        const isSpecialCharValid = /[\W_]/.test(password);
-        const isMatching = password === confirmPassword && password.length > 0;
+    // Vérifications individuelles des mdp
+    const isLengthValid = password.length >= 12;
+    const isUppercaseValid = /[A-Z]/.test(password);
+    const isLowercaseValid = /[a-z]/.test(password);
+    const isNumberValid = /\d/.test(password);
+    const isSpecialCharValid = /[\W_]/.test(password);
+    const isMatching = password === confirmPassword && password.length > 0;
 
-        // Mise à jour visuelle des critères
-        updateValidation(lengthCheck, isLengthValid);
-        updateValidation(uppercaseCheck, isUppercaseValid);
-        updateValidation(lowercaseCheck, isLowercaseValid);
-        updateValidation(numberCheck, isNumberValid);
-        updateValidation(specialCharCheck, isSpecialCharValid);
-        updateValidation(matchCheck, isMatching);
+    // Mise à jour visuelle des critères
+    updateValidation(lengthCheck, isLengthValid);
+    updateValidation(uppercaseCheck, isUppercaseValid);
+    updateValidation(lowercaseCheck, isLowercaseValid);
+    updateValidation(numberCheck, isNumberValid);
+    updateValidation(specialCharCheck, isSpecialCharValid);
+    updateValidation(matchCheck, isMatching);
 
-        // Verifications si les conditions d'utilisations sont cochées
-        const agreeTerms = agreeTermsCheckBox.checked
+    // Verifications si les conditions d'utilisations sont cochées
+    const agreeTerms = agreeTermsCheckBox.checked
 
-        // Activation du bouton seulement si tous les critères sont validés
-        const allValid = isLengthValid && isUppercaseValid && isLowercaseValid && isNumberValid && isSpecialCharValid && isMatching && agreeTerms;
-        registerButton.disabled = !allValid;
+    // Activation du bouton seulement si tous les critères sont validés
+    const allValid = isLengthValid && isUppercaseValid && isLowercaseValid && isNumberValid && isSpecialCharValid && isMatching && agreeTerms;
+    registerButton.disabled = !allValid;
 
-    }
+  }
 
-    function updateValidation(element, isValid) {
-        element.classList.toggle("valid", isValid);
-        element.classList.toggle("invalid", !isValid);
-    }
-    if (passwordInput && confirmPasswordInput && agreeTermsCheckBox){
-        passwordInput.addEventListener('input', validateForm);
-        confirmPasswordInput.addEventListener('input', validateForm);
-        agreeTermsCheckBox.addEventListener('change', validateForm);
-    }
+  function updateValidation(element, isValid) {
+    element.classList.toggle("valid", isValid);
+    element.classList.toggle("invalid", !isValid);
+  }
+  if (passwordInput && confirmPasswordInput && agreeTermsCheckBox) {
+    passwordInput.addEventListener('input', validateForm);
+    confirmPasswordInput.addEventListener('input', validateForm);
+    agreeTermsCheckBox.addEventListener('change', validateForm);
+  }
 })
