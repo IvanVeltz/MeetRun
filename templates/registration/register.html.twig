@@ -27,6 +27,7 @@
                 <li id="specialChar" class="invalid">Au moins un caractère spécial</li>
                 <li id="match" class="invalid">Les mots de passe doivent être identiques</li>
             </ul>
+            {{ form_row(registrationForm.captcha) }}
 
             <div class="form-check">
                 {{ form_widget(registrationForm.agreeTerms) }} 
