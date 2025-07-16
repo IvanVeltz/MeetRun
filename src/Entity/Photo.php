@@ -15,7 +15,7 @@ class Photo
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $url = null;
+    public ?string $url = null;
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;

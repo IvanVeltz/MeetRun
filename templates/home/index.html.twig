@@ -29,20 +29,8 @@
         </section>
         <section class="events-container" data-aos="fade-up">
             <h2>Prochaines courses</h2>
-            <div class="cards-wrapper">
-                {% for event in events %}
-                <div class="event-card">
-                    <div class="event-card-body">
-                        <!-- <img src="" class="event-card-img" alt="Image de l'événement"> -->
-                        <h3 class="event-title">{{ event.name }}</h3>
-                        <p class="event-date"><i class="fa-solid fa-calendar"></i> {{ event.dateEvent|date('d/m/Y H:i')
-                            }}</p>
-                        <p class="event-location"><i class="fa-solid fa-location-dot"></i> {{ event.postalCode }} {{
-                            event.city }}</p>
-                        <a href="" class="event-link">Voir plus</a>
-                    </div>
-                </div>
-                {% endfor %}
+            <div class="events-grid">
+                {% include "./events/_events.html.twig" %}
             </div>
         </section>
 
