@@ -232,12 +232,12 @@ body {
 }
 
 .form-actions{
-  margin-block: 1rem;
+  margin-top: 0.2em;
+  margin-bottom: 2em;
 }
 
 /* Bouton de connexion */
-.btn-login,
-.btn-google {
+.btn-login{
   display: block;
   width: 100%;
   padding: 0.75rem 1rem;
@@ -262,15 +262,104 @@ body {
   color: var(--bg-color);
 }
 
-.btn-google {
-  margin-top: 0.5rem;
-  background-color: #c23325;
-  color: #fff;
+/* Google sign in */
+.gsi-material-button {
+  box-sizing: border-box;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  -webkit-appearance: none;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
   text-decoration: none;
+  background-color: WHITE;
+  background-image: none;
+  border-radius: 0.5rem;
+  color: var(--primary-color);
+  cursor: pointer;
+  font-family: var(--body-font);
+  font-size: 1rem;
+  font-weight: 600;
+  height: 40px;
+  letter-spacing: 0.25px;
+  outline: none;
+  overflow: hidden;
+  padding: 0 12px;
+  position: relative;
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+  width: 100%;
+  border: none;
+  margin-top: 3em;
 }
 
-.btn-google:hover {
-  background-color: #a5281d;
+.gsi-material-button .gsi-material-button-icon {
+  height: 20px;
+  margin-right: 12px;
+  min-width: 20px;
+  width: 20px;
+  flex-shrink: 0; 
+}
+
+.gsi-material-button .gsi-material-button-content-wrapper {
+  -webkit-align-items: center;
+  align-items: center;
+  display: flex;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  -webkit-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  height: 100%;
+  justify-content: flex-start;
+  position: relative;
+  width: 100%;
+}
+
+.gsi-material-button .gsi-material-button-contents {
+  -webkit-flex-grow: 1;
+  flex-grow: 1;
+  font-family: 'Roboto', arial, sans-serif;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: top;
+}
+
+.gsi-material-button .gsi-material-button-state {
+  -webkit-transition: opacity .218s;
+  transition: opacity .218s;
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.gsi-material-button:disabled {
+  cursor: default;
+  background-color: #ffffff61;
+}
+
+.gsi-material-button:disabled .gsi-material-button-contents {
+  opacity: 38%;
+}
+
+.gsi-material-button:disabled .gsi-material-button-icon {
+  opacity: 38%;
+}
+
+.gsi-material-button:not(:disabled):active .gsi-material-button-state, 
+.gsi-material-button:not(:disabled):focus .gsi-material-button-state {
+  background-color: #303030;
+  opacity: 12%;
+}
+
+
+.gsi-material-button:not(:disabled):hover {
+  background-color: var(--secondary-color);
+  color: var(--bg-color);
 }
 
 
@@ -302,6 +391,9 @@ body {
 }
 .form-footer a:hover {
   color: var(--accent-color);
+}
+.form-footer, p{
+  margin-top: 0;
 }
 
  /* **** FOOTER **** */
