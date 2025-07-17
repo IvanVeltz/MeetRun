@@ -50,6 +50,8 @@ final class EventsController extends AbstractController
 
             $entityManager->persist($event);
             $entityManager->flush();
+
+            return $this->redirectToRoute('app_events');
         }
 
 
