@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\ProfilForm;
+use App\Service\ImageUploader;
 use App\Form\ChangePasswordForm;
 use App\Repository\PostRepository;
 use App\Repository\UserRepository;
@@ -24,7 +25,8 @@ final class UserController extends AbstractController
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function index(
         Request $request, 
-        EntityManagerInterface $entityManager, 
+        EntityManagerInterface $entityManager,
+        ImageUploader $imageUploader, 
         UserPasswordHasherInterface $passwordHasher): Response
     {
         $user = $this->getUser();
@@ -38,33 +40,13 @@ final class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $imageFile = $form->get('pictureProfilUrl')->getData(); // Récupérer le fichier
-            $filesystem = new Filesystem();
+            $imageFile = $form->get('pictureProfilUrl')->getData();
+            $oldImage = $user->getPictureProfilUrl();
 
+            $newFileName = $imageUploader->upload($imageFile, $oldImage);
 
-            if ($imageFile) {
-                $mimeType = $imageFile->getMimeType();
-                if ($mimeType === "image/jpeg" || $mimeType === "image/png") {
-                    $fileName = 'user-' . uniqid() . '.' . $imageFile->guessExtension();
-                    $imageFile->move('upload/', $fileName); // Déplace l’image
-
-                    // Supprimer l'ancienne image si elle existe
-                    $oldImage = $user->getPictureProfilUrl();
-                    if ($oldImage && $filesystem->exists($oldImage)) {
-                        $filesystem->remove($oldImage);
-                    }
-
-                    // Met à jour l'entité utilisateur avec le chemin de l’image
-                    $user->setPictureProfilUrl('upload/' . $fileName);
-                }
-            } else {
-                // Supprimer l'ancienne image si elle existe
-                $oldImage = $user->getPictureProfilUrl();
-                if ($oldImage && $filesystem->exists($oldImage)) {
-                    $filesystem->remove($oldImage);
-                }
-                $user->setPictureProfilUrl(null);
-            }
+            $user->setPictureProfilUrl($newFileName ? 'upload/' . $newFileName : null);
+           
             $entityManager->persist($user);
             $entityManager->flush();
 
