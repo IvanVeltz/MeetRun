@@ -17,16 +17,16 @@
 
             <h2>Créer une nouvelle course</h2>
 
-            {# Ici tu mets ton formulaire Symfony par exemple : #}
             {{ form_start(newEventForm) }}
-            {{ form_row(newEventForm.name)}}
-            {{ form_row(newEventForm.dateEvent)}}
-            {{ form_row(newEventForm.description)}}
-            {{ form_row(newEventForm.distance)}}
-            {{ form_row(newEventForm.capacity)}}
-            {{ form_row(newEventForm.adress)}}
-            {{ form_row(newEventForm.postalCode)}}
-            {{ form_row(newEventForm.city)}}
+            {{ form_row(newEventForm.name) }}
+            {{ form_row(newEventForm.dateEvent) }}
+            {{ form_row(newEventForm.description) }}
+            {{ form_row(newEventForm.distance) }}
+            {{ form_row(newEventForm.capacity) }}
+            {{ form_row(newEventForm.adress) }}
+            {{ form_row(newEventForm.postalCode )}}
+            {{ form_row(newEventForm.city) }}
+            {{ form_row(newEventForm.photos) }}
 
             <button type="submit">Créer</button>
             {{ form_end(newEventForm) }}

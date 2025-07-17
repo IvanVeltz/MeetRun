@@ -43,7 +43,7 @@ final class UserController extends AbstractController
             $imageFile = $form->get('pictureProfilUrl')->getData();
             $oldImage = $user->getPictureProfilUrl();
 
-            $newFileName = $imageUploader->upload($imageFile, $oldImage);
+            $newFileName = $imageUploader->upload($imageFile, $oldImage, 'user');
 
             $user->setPictureProfilUrl($newFileName ? 'upload/' . $newFileName : null);
            

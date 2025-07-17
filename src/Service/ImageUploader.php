@@ -19,7 +19,7 @@ class ImageUploader
         $this->filesystem = new Filesystem();
     }
 
-    public function upload(?UploadedFile $file, ?string $oldFilename = null): ?string
+    public function upload(?UploadedFile $file, ?string $oldFilename = null, string $prefix = 'photo'): ?string
     {
         if (!$file) {
             if ($oldFilename) {
@@ -34,13 +34,12 @@ class ImageUploader
 
         $mimeType = $file->getMimeType();
         if (!in_array($mimeType, ['image/jpeg', 'image/png'])) {
-            return null; // Ou lève une exception
+            return null;
         }
 
-        $filename = 'user-' . uniqid() . '.' . $file->guessExtension();
+        $filename = $prefix . '-' . uniqid() . '.' . $file->guessExtension();
         $file->move($this->targetDirectory, $filename);
 
-        // Supprime l'ancienne image
         if ($oldFilename) {
             $basename = basename($oldFilename);
             $oldPath = $this->targetDirectory . '/' . $basename;
@@ -50,5 +49,26 @@ class ImageUploader
         }
 
         return $filename;
+    }
+
+
+    /**
+     * @param UploadedFile[] $files
+     * @return string[] Liste des noms de fichiers uploadés
+     */
+    public function uploadMultiple(array $files, string $prefix = 'photo'): array
+    {
+        $filenames = [];
+
+        foreach ($files as $file) {
+            if ($file instanceof UploadedFile) {
+                $filename = $this->upload($file, null, $prefix);
+                if ($filename) {
+                    $filenames[] = $filename;
+                }
+            }
+        }
+
+        return $filenames;
     }
 }
