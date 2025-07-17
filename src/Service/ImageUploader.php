@@ -22,8 +22,12 @@ class ImageUploader
     public function upload(?UploadedFile $file, ?string $oldFilename = null): ?string
     {
         if (!$file) {
-            if ($oldFilename && $this->filesystem->exists($this->targetDirectory.'/'.$oldFilename)) {
-                $this->filesystem->remove($this->targetDirectory.'/'.$oldFilename);
+            if ($oldFilename) {
+                $basename = basename($oldFilename);
+                $oldPath = $this->targetDirectory . '/' . $basename;
+                if ($this->filesystem->exists($oldPath)) {
+                    $this->filesystem->remove($oldPath);
+                }
             }
             return null;
         }
@@ -37,8 +41,12 @@ class ImageUploader
         $file->move($this->targetDirectory, $filename);
 
         // Supprime l'ancienne image
-        if ($oldFilename && $this->filesystem->exists($this->targetDirectory.'/'.$oldFilename)) {
-            $this->filesystem->remove($this->targetDirectory.'/'.$oldFilename);
+        if ($oldFilename) {
+            $basename = basename($oldFilename);
+            $oldPath = $this->targetDirectory . '/' . $basename;
+            if ($this->filesystem->exists($oldPath)) {
+                $this->filesystem->remove($oldPath);
+            }
         }
 
         return $filename;
