@@ -19,56 +19,56 @@ class ImageUploader
         $this->filesystem = new Filesystem();
     }
 
-    public function upload(?UploadedFile $file, ?string $oldFilename = null, string $prefix = 'photo'): ?string
-    {
-        if (!$file) {
-            if ($oldFilename) {
-                $basename = basename($oldFilename);
-                $oldPath = $this->targetDirectory . '/' . $basename;
-                if ($this->filesystem->exists($oldPath)) {
-                    $this->filesystem->remove($oldPath);
-                }
-            }
-            return null;
-        }
-
-        $mimeType = $file->getMimeType();
-        if (!in_array($mimeType, ['image/jpeg', 'image/png'])) {
-            return null;
-        }
-
-        $filename = $prefix . '-' . uniqid() . '.' . $file->guessExtension();
-        $file->move($this->targetDirectory, $filename);
-
-        if ($oldFilename) {
-            $basename = basename($oldFilename);
-            $oldPath = $this->targetDirectory . '/' . $basename;
-            if ($this->filesystem->exists($oldPath)) {
-                $this->filesystem->remove($oldPath);
-            }
-        }
-
-        return $filename;
-    }
-
-
     /**
-     * @param UploadedFile[] $files
+     * @param UploadedFile|UploadedFile[]|null $files
+     * @param string|null $oldFilename
+     * @param string $prefix
      * @return string[] Liste des noms de fichiers uploadés
      */
-    public function uploadMultiple(array $files, string $prefix = 'photo'): array
+    public function upload(UploadedFile|array|null $files, ?string $oldFilename = null, string $prefix): array
     {
         $filenames = [];
 
-        foreach ($files as $file) {
-            if ($file instanceof UploadedFile) {
-                $filename = $this->upload($file, null, $prefix);
-                if ($filename) {
-                    $filenames[] = $filename;
-                }
+        if (!$files) {
+            if ($oldFilename) {
+                $this->deleteFile($oldFilename);
             }
+            return [];
+        }
+
+        // Force en tableau
+        $files = is_array($files) ? $files : [$files];
+
+        foreach ($files as $file) {
+            if (!$file instanceof UploadedFile) {
+                continue;
+            }
+
+            $mimeType = $file->getMimeType();
+            if (!in_array($mimeType, ['image/jpeg', 'image/png'])) {
+                continue;
+            }
+
+            $filename = $prefix . '-' . uniqid() . '.' . $file->guessExtension();
+            $file->move($this->targetDirectory, $filename);
+            $filenames[] = $filename;
+        }
+
+        // Supprimer l’ancien fichier (utile dans les cas simples à 1 image)
+        if ($oldFilename) {
+            $this->deleteFile($oldFilename);
         }
 
         return $filenames;
+    }
+
+    private function deleteFile(string $path): void
+    {
+        $basename = basename($path);
+        $fullPath = $this->targetDirectory . '/' . $basename;
+
+        if ($this->filesystem->exists($fullPath)) {
+            $this->filesystem->remove($fullPath);
+        }
     }
 }

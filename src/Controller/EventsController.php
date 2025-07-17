@@ -39,7 +39,7 @@ final class EventsController extends AbstractController
         if($newEventForm->isSubmitted() && $newEventForm->isValid()){
             // Uploader les fichiers
             $photos = $newEventForm->get('photos')->getData(); 
-            $filenames = $imageUploader->uploadMultiple($photos, 'event');
+            $filenames = $imageUploader->upload($photos, 'event');
 
             foreach ($filenames as $filename) {
                 $eventImage = new Photo(); 

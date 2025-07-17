@@ -45,8 +45,12 @@ final class UserController extends AbstractController
 
             $newFileName = $imageUploader->upload($imageFile, $oldImage, 'user');
 
-            $user->setPictureProfilUrl($newFileName ? 'upload/' . $newFileName : null);
-           
+            if (!empty($newFileName)) {
+                $user->setPictureProfilUrl('upload/' . $newFileName[0]);
+            } else {
+                $user->setPictureProfilUrl(null);
+            }
+            
             $entityManager->persist($user);
             $entityManager->flush();
 
