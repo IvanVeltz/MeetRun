@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Repository\RegistrationEventRepository;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class EventsController extends AbstractController
@@ -83,13 +84,16 @@ final class EventsController extends AbstractController
         ]);
     }
 
-    #[Route('/event/detailsEvent/{id}', name: 'app_detailEvent')]
+    #[Route('/event/detailEvent/{id}', name: 'app_detailEvent')]
     public function detailEvent(
         int $id,
         EventRepository $eventRepository,
         PhotoRepository $photoRepository,
         RegistrationEventRepository $registrationEventRepository,
-        FavoriRepository $favoriRepository
+        FavoriRepository $favoriRepository,
+        EntityManagerInterface $entityManager,
+        Request $request,
+        ImageUploader $imageUploader
     )
     {
         $event = $eventRepository->findOneBy(['id' => $id]);
@@ -101,13 +105,57 @@ final class EventsController extends AbstractController
         $nbrInscription = $registrationEventRepository->countByEvent($id);
         $listInscrits = $registrationEventRepository->findBy(['event' => $event]);
         $listFavoris = $favoriRepository->findBy(['event' => $event]);
+        $newEventForm = $this->createForm(NewEventForm::class, $event);
+        $newEventForm->handleRequest($request);
+
+        if($newEventForm->isSubmitted() && $newEventForm->isValid()) {
+            // Uploader les fichiers
+            $photos = $newEventForm->get('photos')->getData(); 
+            $filenames = $imageUploader->upload($photos, null, 'event');
+
+            foreach ($filenames as $filename) {
+                $eventImage = new Photo(); 
+                $eventImage->setUrl('upload/' . $filename);
+                $eventImage->setEvent($event);
+                $entityManager->persist($eventImage);
+            }
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_detailEvent', ['id'=> $event->getId()]);
+        }
 
         return $this->render('events/detailEvent.html.twig', [
             'event' => $event,
             'photos' => $photos,
             "nbrInscription" => $nbrInscription,
             'listInscrits' => $listInscrits,
-            'listFavoris' => $listFavoris
+            'listFavoris' => $listFavoris,
+            'newEventForm' => $newEventForm
         ]);
     }
+
+    #[Route('/photo/delete/{id}', name: 'app_photo_delete', methods: ['POST'])]
+    public function deletePhoto(
+        Photo $photo,
+        EntityManagerInterface $em,
+        Request $request
+    ): JsonResponse {
+        $token = $request->request->get('_token');
+        
+        if (!$this->isCsrfTokenValid('delete' . $photo->getId(), $token)) {
+            return new JsonResponse(['success' => false, 'message' => 'Token CSRF invalide'], 403);
+        }
+
+        $filepath = $this->getParameter('image_directory') . '/' . basename($photo->getUrl());
+
+        if (file_exists($filepath)) {
+            unlink($filepath);
+        }
+
+        $em->remove($photo);
+        $em->flush();
+
+        return new JsonResponse(['success' => true]);
+    }
+
 }
