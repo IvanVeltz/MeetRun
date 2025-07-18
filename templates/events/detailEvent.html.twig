@@ -14,7 +14,9 @@
     <div class="event-header">
         <p class="event-date"><i class="fa-solid fa-calendar-days"></i> {{ event.dateEvent|format_date(pattern="EEE d
             MMMM y", locale="fr")|capitalize }}</p>
-        <h2 class="event-name">{{ event.name }}</h2>
+        <h2 class="event-name">{{ event.name }}{% if event.isCancelled %}
+        <span>(Course annulé)</span></h2>
+    {% endif %}
         <p><i class="fa-solid fa-location-dot"></i> {{event.city}} ({{event.postalCode | slice(0,2) }})</p>
         <p class="event-organizer">
             Organisé par 
@@ -114,7 +116,10 @@
         
                 </div>
             </div>
-            <a href="">Annuler la course</a>
+            <form method="post" action="{{ path('app_event_cancel', { id: event.id }) }}" style="display:inline">
+                <input type="hidden" name="_token" value="{{ csrf_token('cancel' ~ event.id) }}">
+                <button type="submit" onclick="return confirm('Annuler cette course ?')">Annuler la course</button>
+            </form>
         {% endif %}
     </div>
 </div>

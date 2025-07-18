@@ -158,4 +158,33 @@ final class EventsController extends AbstractController
         return new JsonResponse(['success' => true]);
     }
 
+    #[Route('/event/{id}/cancel', name: 'app_event_cancel', methods: ['POST'])]
+    public function cancelEvent(
+        int $id,
+        EventRepository $eventRepository,
+        EntityManagerInterface $em,
+        Request $request
+    ): Response
+    {
+        $event = $eventRepository->find($id);
+
+        if (!$event) {
+            return $this->redirectToRoute('app_events');
+        }
+
+        $submittedToken = $request->request->get('_token');
+
+        if ($this->isCsrfTokenValid('cancel' . $event->getId(), $submittedToken)) {
+            $event->setCancelled(true);
+            $em->flush();
+
+            $this->addFlash('success', 'La course a été annulée avec succès.');
+        } else {
+            $this->addFlash('error', 'Jeton CSRF invalide.');
+        }
+
+        return $this->redirectToRoute('app_detailEvent', ['id' => $event->getId()]);
+    }
+
+
 }

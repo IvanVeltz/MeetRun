@@ -15,7 +15,10 @@
     </figure>
     {% endif %}
     <p class="event-date"><i class="fa-solid fa-calendar-days"></i> {{ event.dateEvent|format_date(pattern="EEE d MMMM y", locale="fr")|capitalize }}</p>
-    <h3>{{ event.name }}</h3>
+    <h3>{{ event.name }} 
+        {% if event.isCancelled %}
+        <span>(Course annulé)</span>
+    {% endif %}</h3>
     <p><i class="fa-solid fa-location-dot"></i> {{event.city}} ({{event.postalCode | slice(0,2) }})</p>
     {% if app.user %}
         <p class="more-about">En savoir +</p>
