@@ -9,10 +9,13 @@ use App\Form\NewEventForm;
 use App\Form\SearchRunForm;
 use App\Service\ImageUploader;
 use App\Repository\EventRepository;
+use App\Repository\PhotoRepository;
+use App\Repository\FavoriRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Repository\RegistrationEventRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class EventsController extends AbstractController
@@ -83,17 +86,28 @@ final class EventsController extends AbstractController
     #[Route('/event/detailsEvent/{id}', name: 'app_detailEvent')]
     public function detailEvent(
         int $id,
-        EventRepository $eventRepository
+        EventRepository $eventRepository,
+        PhotoRepository $photoRepository,
+        RegistrationEventRepository $registrationEventRepository,
+        FavoriRepository $favoriRepository
     )
     {
         $event = $eventRepository->findOneBy(['id' => $id]);
-
         if(!$event){
             return $this->redirectToRoute('app_events');
         }
+        
+        $photos = $photoRepository->findBy(['event' => $event]);
+        $nbrInscription = $registrationEventRepository->countByEvent($id);
+        $listInscrits = $registrationEventRepository->findBy(['event' => $event]);
+        $listFavoris = $favoriRepository->findBy(['event' => $event]);
 
         return $this->render('events/detailEvent.html.twig', [
-            'event' => $event
+            'event' => $event,
+            'photos' => $photos,
+            "nbrInscription" => $nbrInscription,
+            'listInscrits' => $listInscrits,
+            'listFavoris' => $listFavoris
         ]);
     }
 }

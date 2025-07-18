@@ -60,10 +60,17 @@ class Event
     #[ORM\Column]
     private ?int $distance = null;
 
+    /**
+     * @var Collection<int, Favori>
+     */
+    #[ORM\OneToMany(targetEntity: Favori::class, mappedBy: 'event', orphanRemoval: true)]
+    private Collection $favoris;
+
     public function __construct()
     {
         $this->registrationEvents = new ArrayCollection();
         $this->photos = new ArrayCollection();
+        $this->favoris = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -249,6 +256,36 @@ class Event
     public function setDistance(int $distance): static
     {
         $this->distance = $distance;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Favori>
+     */
+    public function getFavoris(): Collection
+    {
+        return $this->favoris;
+    }
+
+    public function addFavori(Favori $favori): static
+    {
+        if (!$this->favoris->contains($favori)) {
+            $this->favoris->add($favori);
+            $favori->setEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavori(Favori $favori): static
+    {
+        if ($this->favoris->removeElement($favori)) {
+            // set the owning side to null (unless already changed)
+            if ($favori->getEvent() === $this) {
+                $favori->setEvent(null);
+            }
+        }
 
         return $this;
     }

@@ -7,7 +7,7 @@
         {% if photos is iterable and photos is not empty %}
         {% set firstPhoto = photos|first %}
         <figure>
-            <img src="{{firstPhoto.url}}" alt="Photo de la course">
+            <img src="{{asset(firstPhoto.url)}}" alt="Photo de la course">
         </figure>
     {% else %}
     <figure>
@@ -21,6 +21,6 @@
         <p class="more-about">En savoir +</p>
         {% endif %}
     </div>
-    
+
 </a>
 {% endfor %}

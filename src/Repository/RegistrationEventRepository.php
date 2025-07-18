@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use App\Entity\Event;
 use App\Entity\RegistrationEvent;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -46,6 +47,16 @@ class RegistrationEventRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function countByEvent(int $id): int
+{
+    return (int) $this->createQueryBuilder('r')
+        ->select('SUM(r.quantity)')
+        ->where('r.event = :eventId')
+        ->setParameter('eventId', $id)
+        ->getQuery()
+        ->getSingleScalarResult();
+}
 
 
 

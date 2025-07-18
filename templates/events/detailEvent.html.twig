@@ -3,6 +3,72 @@
 {% block title %}{{event.name}}{% endblock %}
 
 {% block body %}
+<div class="event-container">
+    <div class="event-header">
+        <p class="event-date"><i class="fa-solid fa-calendar-days"></i> {{ event.dateEvent|format_date(pattern="EEE d
+            MMMM y", locale="fr")|capitalize }}</p>
+        <h2 class="event-name">{{ event.name }}</h2>
+        <p><i class="fa-solid fa-location-dot"></i> {{event.city}} ({{event.postalCode | slice(0,2) }})</p>
+        <p class="event-organizer">
+            Organisé par 
+                <a href="{{path('app_profil', {'id': event.organizer.id})}}"class="link-organizer">
+                    {{event.organizer.firstName}} {{event.organizer.lastName}}
+                </a>
+        </p>
+        {% if app.user %}
+            {% set userFavori = false %}
+            {% for favori in listFavoris %}
+                {% if app.user == favori.user %}
+                    {% set userFavori = true %}
+                {% endif %}
+            {% endfor %}
+            
+            {% if userFavori %}
+            <a href=""><i class="fa-solid fa-heart" style="color:red"></i>Enlever des favoris</a>
+            {% else %}
+            <a href=""><i class="fa-regular fa-heart" style="color:red"></i>Mettre en favori</a>
+            {% endif %}
+        {% endif %}
+        <div class="event-favori"></div>
+    </div>
+    <div class="event-photos">
+        {% for photo in photos %}
+        <figure>
+            <img src="{{asset(photo.url)}}" alt="Photo de la course">
+            <caption>{{photo.description}}</caption>
+        </figure>
+        {% endfor %}
+    </div>
+    <div class="event-infos">
+        <h4>Description de la course</h4>
+        <p>{{event.description}}</p>
+        <p>Point de départ : {{event.adress}} {{event.postalCode}} {{event.city}} </p>
+        <p>Nombre d'inscrit : {{nbrInscription}}/{{event.capacity}}</p>
 
+        {% set userInscrit = false %}
+
+        {% for inscription in listInscrits %}
+            {% if inscription.user == app.user %}
+                {% set userInscrit = true %}
+            {% endif %}
+        {% endfor %}
+
+        {% if app.user %}
+            {% if not userInscrit %}
+                <a href="">
+                    S'inscrire
+                </a>
+            {% else %}
+                <a href="">Se désinscrire</a>
+            {% endif %}
+        {% endif %}
+    </div>
+    <div class="event-manager">
+        {% if app.user == event.organizer %}
+            <a href="">Modifier la course</a>
+            <a href="">Annuler la course</a>
+        {% endif %}
+    </div>
+</div>
 
 {% endblock %}

@@ -84,7 +84,6 @@ class EventRepository extends ServiceEntityRepository
         return $qb;
     }
 
-
     //    /**
     //     * @return Event[] Returns an array of Event objects
     //     */
