@@ -54,10 +54,14 @@
         {% endfor %}
 
         {% if app.user %}
-            {% if not userInscrit %}
-                <a href="">
-                    S'inscrire
-                </a>
+            {% if not userInscrit  %}
+                {% if nbrInscription < event.capacity %}
+                    <a href="">
+                        S'inscrire
+                    </a>
+                {% else %}
+                    <p>Inscriptions closes</p>
+                {% endif %}
             {% else %}
                 <a href="">Se désinscrire</a>
             {% endif %}
@@ -65,7 +69,8 @@
     </div>
     <div class="event-manager">
         {% if app.user == event.organizer %}
-            <a href="">Modifier la course</a>
+            <a href="" id="openModalUpdateEvent">Modifier la course</a>
+            
             <a href="">Annuler la course</a>
         {% endif %}
     </div>
