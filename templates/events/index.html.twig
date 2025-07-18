@@ -33,7 +33,7 @@
 
         </div>
     </div>
-    {% endif %}
+{% endif %}
     <div class="search-runners-container">
         <h2>Les courses à venir</h2>
         <div class="events-grid js-filter-content">
@@ -44,6 +44,10 @@
             {% include "events/_pagination.html.twig"%}
             {% endif %}
         </div>
+    </div>
+
+    <div class="pastEvents">
+        <a href=" {{ path('app_lastEvents') }}">Voir l'historique des courses</a>
     </div>
 </div>
 {% endblock %}

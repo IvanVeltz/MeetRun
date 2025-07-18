@@ -28,7 +28,8 @@ final class EventsController extends AbstractController
         $data->page = $request->get('page', 1);
 
         $eventForm = $this->createForm(SearchRunForm::class, $data);
-        $events = $eventRepository->findSearch($data);
+        $qb = $eventRepository->getSearchNextEvents($data);
+        $events = $eventRepository->findSearch($data, $qb);
 
         $event = new Event();
         $user = $this->getUser();
@@ -39,7 +40,7 @@ final class EventsController extends AbstractController
         if($newEventForm->isSubmitted() && $newEventForm->isValid()){
             // Uploader les fichiers
             $photos = $newEventForm->get('photos')->getData(); 
-            $filenames = $imageUploader->upload($photos, 'event');
+            $filenames = $imageUploader->upload($photos, null, 'event');
 
             foreach ($filenames as $filename) {
                 $eventImage = new Photo(); 
@@ -59,6 +60,23 @@ final class EventsController extends AbstractController
             'eventForm' => $eventForm,
             'newEventForm' => $newEventForm,
             'events' => $events,
+        ]);
+    }
+
+    #[Route('/lastEvents', name: 'app_lastEvents')]
+    public function lastEvents(
+        Request $request,
+        EventRepository $eventRepository
+    )
+    {
+        $data = new SearchData();
+        $data->page = $request->get('page', 1);
+
+        $qb = $eventRepository->getSearchLastEvents($data);
+        $events = $eventRepository->findSearch($data, $qb);
+
+        return $this->render('events/lastEvents.html.twig', [
+            'events' => $events
         ]);
     }
 }

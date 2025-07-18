@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Courses{% endblock %}
+
+{% block body %}
+
+<div class="search-runners-container">
+    <h2>Les dernières courses</h2>
+    <div class="events-grid js-filter-content">
+        {% include "events/_events.html.twig" %}
+    </div>
+    <div class="js-filter-pagination">
+        {% if events %}
+        {% include "events/_pagination.html.twig"%}
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

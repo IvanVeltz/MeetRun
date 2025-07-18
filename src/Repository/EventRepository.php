@@ -49,9 +49,10 @@ class EventRepository extends ServiceEntityRepository
      * Récupere les evenements en lien avec une recherche
      * @return PaginationInterface
      */
-    public function findSearch(SearchData $search): PaginationInterface
+    public function findSearch(SearchData $search, QueryBuilder $qb): PaginationInterface
     {
-         $query = $this->getSearchQuery($search)->getQuery();
+         $query = $qb->getQuery();
+         
          return $this->paginator->paginate(
             $query,
             $search->page,
@@ -59,7 +60,7 @@ class EventRepository extends ServiceEntityRepository
          );
     }
 
-    public function getSearchQuery (SearchData $search): QueryBuilder
+    public function getSearchNextEvents (SearchData $search): QueryBuilder
     {
         $qb = $this->createQueryBuilder('e')
             ->join('e.organizer', 'u')
@@ -67,6 +68,18 @@ class EventRepository extends ServiceEntityRepository
             ->where('e.dateEvent >= :today')
             ->setParameter('today', new \DateTime())
             ->orderBy('e.dateEvent', 'ASC');
+
+        return $qb;
+    }
+
+    public function getSearchLastEvents (SearchData $search): QueryBuilder
+    {
+        $qb = $this->createQueryBuilder('e')
+            ->join('e.organizer', 'u')
+            ->addSelect('u')
+            ->where('e.dateEvent <= :today')
+            ->setParameter('today', new \DateTime())
+            ->orderBy('e.dateEvent', 'DESC');
 
         return $qb;
     }
