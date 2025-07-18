@@ -1,6 +1,6 @@
 
 {% for event in events %}
-<a href="">
+<a href="{{ path('app_detailEvent', {'id': event.id}) }}">
 
     <div class="event-card">
         {% set photos = event.getPhotos() %}
@@ -21,5 +21,6 @@
         <p class="more-about">En savoir +</p>
         {% endif %}
     </div>
+    
 </a>
 {% endfor %}

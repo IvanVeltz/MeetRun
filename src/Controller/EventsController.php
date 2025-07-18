@@ -63,7 +63,7 @@ final class EventsController extends AbstractController
         ]);
     }
 
-    #[Route('/lastEvents', name: 'app_lastEvents')]
+    #[Route('/events/lastEvents', name: 'app_lastEvents')]
     public function lastEvents(
         Request $request,
         EventRepository $eventRepository
@@ -77,6 +77,23 @@ final class EventsController extends AbstractController
 
         return $this->render('events/lastEvents.html.twig', [
             'events' => $events
+        ]);
+    }
+
+    #[Route('/event/detailsEvent/{id}', name: 'app_detailEvent')]
+    public function detailEvent(
+        int $id,
+        EventRepository $eventRepository
+    )
+    {
+        $event = $eventRepository->findOneBy(['id' => $id]);
+
+        if(!$event){
+            return $this->redirectToRoute('app_events');
+        }
+
+        return $this->render('events/detailEvent.html.twig', [
+            'event' => $event
         ]);
     }
 }
