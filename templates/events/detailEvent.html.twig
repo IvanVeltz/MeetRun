@@ -19,18 +19,23 @@
             {% if event.isCancelled %}
                 <span>(Course annulé)</span>
             {% endif %}
+        </h2>
             {% if app.user %}
                 {% set userFavori = listFavoris|filter(f => f.user == app.user)|length > 0 %}
-
-                <form method="post" action="{{ path('app_toggle_favori', { id: event.id }) }}" style="display:inline;">
+                
+                <form method="post" action="{{ path('app_toggle_favori', { id: event.id }) }}" style="display:inline;" >
+                    {% if userFavori %}
+                    <label>Retirer des favoirs</label>
+                {% else %}
+                <label>Ajouter aux favoris</label>
+                {% endif %}
                     <input type="hidden" name="_token" value="{{ csrf_token('favori' ~ event.id) }}">
                     <button type="submit" class="heart-button" title="Ajouter/Retirer des favoris">
                         <i class="fa{{ userFavori ? '-solid' : '-regular' }} fa-heart" style="color: red;"></i>
                     </button>
                 </form>
             {% endif %}
-        </h2>
-        <p><i class="fa-solid fa-location-dot"></i> {{event.city}} ({{event.postalCode | slice(0,2) }}) - {{event.adress }}</p>
+        <p class="place"><i class="fa-solid fa-location-dot"></i> {{event.city}} ({{event.postalCode | slice(0,2) }}) - {{event.adress }}</p>
         <p class="event-organizer">
             Organisé par
             <a href="{{path('app_profil', {'id': event.organizer.id})}}" class="link-organizer">

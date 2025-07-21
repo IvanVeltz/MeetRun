@@ -216,7 +216,7 @@ final class EventsController extends AbstractController
             return $this->redirectToRoute('app_detailEvent', ['id' => $event->getId()]);
         }
 
-         // Vérifie si la date limite d’inscription est passée
+        // Vérifie si la date limite d’inscription est passée
         if ($event->getDateEvent() < new \DateTime()) {
             $this->addFlash('error', 'La course est déjà passée.');
             return $this->redirectToRoute('app_detailEvent', ['id' => $event->getId()]);
@@ -240,7 +240,7 @@ final class EventsController extends AbstractController
         $em->persist($inscription);
         $em->flush();
 
-        $this->addFlash('success', 'Inscription réussie avec succès.');
+        $this->addFlash('success', sprintf("Inscription à la course '%s' réussie !", $event->getName()));
 
         return $this->redirectToRoute('app_detailEvent', ['id' => $event->getId()]);
     }

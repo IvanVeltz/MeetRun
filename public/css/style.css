@@ -1084,14 +1084,17 @@ path:hover
   display: flex;
   align-items: center;
   gap: 1rem;
+  margin-top: 0.3em;
+  margin-bottom: 0;
 }
+
+.place{margin-top: 2em;}
 
 .event-date,
 .event-organizer,
 .event-header p {
   color: var(--text-muted-color);
   font-size: 0.95rem;
-  margin: 0.3rem 0;
 }
 
 .link-organizer {
