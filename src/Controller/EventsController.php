@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Event;
 use App\Entity\Photo;
+use App\Entity\Favori;
 use App\Data\SearchData;
 use App\Form\NewEventForm;
 use App\Form\SearchRunForm;
@@ -277,6 +278,44 @@ final class EventsController extends AbstractController
         $em->flush();
 
         $this->addFlash('success', 'Vous avez été désinscrit de la course.');
+        return $this->redirectToRoute('app_detailEvent', ['id' => $event->getId()]);
+    }
+
+
+    #[Route('/event/{id}/favori', name: 'app_toggle_favori', methods: ['POST'])]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    public function toggleFavori(Event $event, Request $request, EntityManagerInterface $em, FavoriRepository $favoriRepository): Response
+    {
+        $user = $this->getUser();
+
+        $submittedToken = $request->request->get('_token');
+        if (!$this->isCsrfTokenValid('favori' . $event->getId(), $submittedToken)) {
+            $this->addFlash('error', 'Token CSRF invalide.');
+            return $this->redirectToRoute('app_detailEvent', ['id' => $event->getId()]);
+        }
+
+        // Vérifie si déjà en favori
+        $favori = $favoriRepository->findOneBy([
+            'event' => $event,
+            'user' => $user,
+        ]);
+
+        if ($favori) {
+            $em->remove($favori);
+            $message = 'Course retirée des favoris.';
+        } else {
+            $favori = new Favori();
+            $favori->setEvent($event);
+            $favori->setUser($user);
+            $em->persist($favori);
+            $message = 'Course ajoutée aux favoris.';
+        }
+
+        $em->flush();
+        $this->addFlash('success', $message);
+
+        
+
         return $this->redirectToRoute('app_detailEvent', ['id' => $event->getId()]);
     }
 
