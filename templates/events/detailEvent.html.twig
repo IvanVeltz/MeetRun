@@ -30,7 +30,7 @@
                 </form>
             {% endif %}
         </h2>
-        <p><i class="fa-solid fa-location-dot"></i> {{event.city}} ({{event.postalCode | slice(0,2) }})</p>
+        <p><i class="fa-solid fa-location-dot"></i> {{event.city}} ({{event.postalCode | slice(0,2) }}) - {{event.adress }}</p>
         <p class="event-organizer">
             Organisé par
             <a href="{{path('app_profil', {'id': event.organizer.id})}}" class="link-organizer">
@@ -51,8 +51,6 @@
     <div class="event-infos">
         <h4>Description de la course</h4>
         <p>{{event.description}}</p>
-        <p>Point de départ : {{event.adress}} {{event.postalCode}} {{event.city}} </p>
-        <p>Nombre d'inscrit : {{nbrInscription}}/{{event.capacity}}</p>
 
         {% set userInscrit = false %}
 
@@ -64,10 +62,13 @@
 
         {% if app.user %}
             {% if not userInscrit %}
-                {% if nbrInscription < event.capacity %} <h4>Inscription</h4>
+                {% if nbrInscription < event.capacity %} 
+                <h4>Inscription</h4>
+                
+        <p>Nombre d'inscrit : {{nbrInscription}}/{{event.capacity}}</p>
                     <form method="post" action="{{ path('app_subscribeEvent', { id: event.id }) }}" style="display:inline">
                         <input type="hidden" name="_token" value="{{ csrf_token('inscription' ~ event.id) }}">
-                        <button type="submit" onclick="return confirm('S\'inscrire à cette course ?')">
+                        <button type="submit" onclick="return confirm('S\'inscrire à cette course ?')" class="btn">
                             S'inscrire à la course
                         </button>
                     </form>
@@ -77,7 +78,7 @@
             {% else %}
                 <form method="post" action="{{ path('app_unsubscribeEvent', { id: event.id }) }}" style="display:inline;">
                     <input type="hidden" name="_token" value="{{ csrf_token('desinscription' ~ event.id) }}">
-                    <button type="submit" onclick="return confirm('Se désinscrire de cette course ?')">Se
+                    <button type="submit" onclick="return confirm('Se désinscrire de cette course ?')" class="btn">Se
                         désinscrire</button>
                 </form>
             {% endif %}
@@ -85,8 +86,9 @@
     </div>
     <div class="event-manager">
         {% if app.user == event.organizer %}
+        <h4>Gestion de la course</h4>
         <div class="create-event">
-            <a href="" id="openModalBtn">Modifier la course</a>
+            <a href="" id="openModalBtn" class="btn">Modifier la course</a>
         </div>
         <div id="eventModal" class="modal">
             <div class="modal-content">
@@ -126,7 +128,7 @@
         </div>
         <form method="post" action="{{ path('app_event_cancel', { id: event.id }) }}" style="display:inline">
             <input type="hidden" name="_token" value="{{ csrf_token('cancel' ~ event.id) }}">
-            <button type="submit" onclick="return confirm('Annuler cette course ?')">Annuler la course</button>
+            <button type="submit" onclick="return confirm('Annuler cette course ?')" class="btn">Annuler la course</button>
         </form>
         {% endif %}
     </div>
