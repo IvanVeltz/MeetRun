@@ -14,7 +14,7 @@ class RegistrationEvent
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?int $quantity = null;
+    private ?int $quantity = 1;
 
     
 

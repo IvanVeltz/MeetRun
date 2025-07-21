@@ -8,6 +8,7 @@ use App\Data\SearchData;
 use App\Form\NewEventForm;
 use App\Form\SearchRunForm;
 use App\Service\ImageUploader;
+use App\Entity\RegistrationEvent;
 use App\Repository\EventRepository;
 use App\Repository\PhotoRepository;
 use App\Repository\FavoriRepository;
@@ -17,6 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Repository\RegistrationEventRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class EventsController extends AbstractController
@@ -138,8 +140,7 @@ final class EventsController extends AbstractController
     public function deletePhoto(
         Photo $photo,
         EntityManagerInterface $em,
-        Request $request
-    ): JsonResponse {
+        Request $request): JsonResponse {
         $token = $request->request->get('_token');
         
         if (!$this->isCsrfTokenValid('delete' . $photo->getId(), $token)) {
@@ -163,9 +164,7 @@ final class EventsController extends AbstractController
         int $id,
         EventRepository $eventRepository,
         EntityManagerInterface $em,
-        Request $request
-    ): Response
-    {
+        Request $request): Response{
         $event = $eventRepository->find($id);
 
         if (!$event) {
@@ -182,6 +181,65 @@ final class EventsController extends AbstractController
         } else {
             $this->addFlash('error', 'Jeton CSRF invalide.');
         }
+
+        return $this->redirectToRoute('app_detailEvent', ['id' => $event->getId()]);
+    }
+
+    #[Route('/event/{id}/inscription', name: 'app_inscriptionEvent', methods: ['POST'])]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    public function inscription(
+        Event $event, 
+        Request $request, 
+        EntityManagerInterface $em,
+        RegistrationEventRepository $registrationEventRepository): Response
+    {
+        $submittedToken = $request->request->get('_token');
+
+        if (!$this->isCsrfTokenValid('inscription' . $event->getId(), $submittedToken)) {
+            $this->addFlash('error', 'Token CSRF Invalide');
+            return $this->redirectToRoute('app_detailEvent', ['id' => $event->getId()]);
+        }
+
+        $user = $this->getUser();
+
+        // Vérifie si la course est annulée
+        if ($event->isCancelled()) {
+            $this->addFlash('error', 'Impossible de s’inscrire : la course est annulée.');
+            return $this->redirectToRoute('app_detailEvent', ['id' => $event->getId()]);
+        }
+
+        // Vérifie si la course est complète (selon le nombre maximum de participants)
+        $nbrInscription = $registrationEventRepository->countByEvent($event->getId());
+        if ($nbrInscription >= $event->getCapacity()) {
+            $this->addFlash('error', 'La course est complète.');
+            return $this->redirectToRoute('app_detailEvent', ['id' => $event->getId()]);
+        }
+
+         // Vérifie si la date limite d’inscription est passée
+        if ($event->getDateEvent() < new \DateTime()) {
+            $this->addFlash('error', 'La course est déjà passée.');
+            return $this->redirectToRoute('app_detailEvent', ['id' => $event->getId()]);
+        }
+
+         // Vérifie si l’utilisateur est déjà inscrit
+        $dejaInscrit = $registrationEventRepository->findOneBy([
+            'event' => $event,
+            'user' => $user,
+        ]);
+
+        if ($dejaInscrit) {
+            $this->addFlash('info', 'Vous êtes déjà inscrit à cette course.');
+            return $this->redirectToRoute('app_detailEvent', ['id' => $event->getId()]);
+        }
+
+        $inscription = new RegistrationEvent();
+        $inscription->setEvent($event);
+        $inscription->setUser($this->getUser());
+
+        $em->persist($inscription);
+        $em->flush();
+
+        $this->addFlash('success', 'Inscription réussie avec succès.');
 
         return $this->redirectToRoute('app_detailEvent', ['id' => $event->getId()]);
     }

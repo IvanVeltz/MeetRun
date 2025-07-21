@@ -65,9 +65,13 @@
         {% if app.user %}
             {% if not userInscrit  %}
                 {% if nbrInscription < event.capacity %}
-                    <a href="">
-                        S'inscrire
-                    </a>
+                <h4>Inscription</h4>
+                <form method="post" action="{{ path('app_inscriptionEvent', { id: event.id }) }}" style="display:inline">
+                    <input type="hidden" name="_token" value="{{ csrf_token('inscription' ~ event.id) }}">
+                    <button type="submit" onclick="return confirm('S\'inscrire à cette course ?')">
+                        S'inscrire à la course
+                    </button>
+                </form>
                 {% else %}
                     <p>Inscriptions closes</p>
                 {% endif %}
@@ -85,7 +89,7 @@
                 <div class="modal-content">
                     <span class="close-btn">&times;</span>
         
-                    <h2>Modifier la course nouvelle course</h2>
+                    <h2>Modifier la course</h2>
         
                     {{ form_start(newEventForm) }}
                     {{ form_row(newEventForm.name) }}
