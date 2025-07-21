@@ -185,7 +185,7 @@ final class EventsController extends AbstractController
         return $this->redirectToRoute('app_detailEvent', ['id' => $event->getId()]);
     }
 
-    #[Route('/event/{id}/inscription', name: 'app_inscriptionEvent', methods: ['POST'])]
+    #[Route('/event/{id}/inscription', name: 'app_subscribeEvent', methods: ['POST'])]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function inscription(
         Event $event, 
@@ -244,5 +244,40 @@ final class EventsController extends AbstractController
         return $this->redirectToRoute('app_detailEvent', ['id' => $event->getId()]);
     }
 
+    #[Route('/event/{id}/desinscription', name: 'app_unsubscribeEvent', methods: ['POST'])]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    public function unsubscribe(
+        Event $event,
+        Request $request,
+        EntityManagerInterface $em,
+        RegistrationEventRepository $registrationEventRepository
+    ): Response {
+        $submittedToken = $request->request->get('_token');
+
+        if (!$this->isCsrfTokenValid('desinscription' . $event->getId(), $submittedToken)) {
+            $this->addFlash('error', 'Token CSRF invalide.');
+            return $this->redirectToRoute('app_detailEvent', ['id' => $event->getId()]);
+        }
+
+        $user = $this->getUser();
+
+        // Vérifie si l’utilisateur est inscrit
+        $inscription = $registrationEventRepository->findOneBy([
+            'event' => $event,
+            'user' => $user,
+        ]);
+
+        if (!$inscription) {
+            $this->addFlash('info', 'Vous n\'êtes pas inscrit à cette course.');
+            return $this->redirectToRoute('app_detailEvent', ['id' => $event->getId()]);
+        }
+
+        // Supprime l’inscription
+        $em->remove($inscription);
+        $em->flush();
+
+        $this->addFlash('success', 'Vous avez été désinscrit de la course.');
+        return $this->redirectToRoute('app_detailEvent', ['id' => $event->getId()]);
+    }
 
 }
