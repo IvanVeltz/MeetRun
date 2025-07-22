@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\User;
 use App\Entity\Event;
-use App\Data\SearchData;
+use App\Data\SearchDataEvent;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
@@ -49,7 +49,7 @@ class EventRepository extends ServiceEntityRepository
      * Récupere les evenements en lien avec une recherche
      * @return PaginationInterface
      */
-    public function findSearch(SearchData $search, QueryBuilder $qb): PaginationInterface
+    public function findSearch(SearchDataEvent $search, QueryBuilder $qb): PaginationInterface
     {
          $query = $qb->getQuery();
          
@@ -60,7 +60,7 @@ class EventRepository extends ServiceEntityRepository
          );
     }
 
-    public function getSearchNextEvents (SearchData $search): QueryBuilder
+    public function getSearchNextEvents (SearchDataEvent $search): QueryBuilder
     {
         $qb = $this->createQueryBuilder('e')
             ->join('e.organizer', 'u')
@@ -72,7 +72,7 @@ class EventRepository extends ServiceEntityRepository
         return $qb;
     }
 
-    public function getSearchLastEvents (SearchData $search): QueryBuilder
+    public function getSearchLastEvents (SearchDataEvent $search): QueryBuilder
     {
         $qb = $this->createQueryBuilder('e')
             ->join('e.organizer', 'u')
@@ -84,6 +84,20 @@ class EventRepository extends ServiceEntityRepository
         return $qb;
     }
 
+    /**
+     * Récupere la distance minimum et maximum des courses
+     * @return integer[]
+     */
+    public function findMinMax(): array
+    {
+        $result = $this->createQueryBuilder('e')
+            ->select('MIN(e.distance) AS min')
+            ->addSelect('MAX(e.distance) AS max')
+            ->getQuery()
+            ->getSingleResult();
+
+        return [(int) $result['min'], (int) $result['max']];
+    }
     //    /**
     //     * @return Event[] Returns an array of Event objects
     //     */

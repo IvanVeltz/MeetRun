@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Data\SearchData;
+use App\Data\SearchDataRunner;
 use App\Repository\UserRepository;
 use App\Repository\LevelRunRepository;
 use Symfony\Component\Form\AbstractType;
@@ -14,7 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
-class SearchForm extends AbstractType{
+class SearchFormRunner extends AbstractType{
     
     private UserRepository $userRepository;
     private LevelRunRepository $levelRunRepository;
@@ -98,7 +98,7 @@ class SearchForm extends AbstractType{
     {
 
         $resolver->setDefaults([
-            'data_class' => SearchData::class,
+            'data_class' => SearchDataRunner::class,
             'method' => 'GET',
             'csrf_protection' => false
         ]);

@@ -3,7 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\User;
-use App\Data\SearchData;
+use App\Data\SearchDataRunner;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
@@ -42,10 +42,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
      * Récupere les utilsateurs en lien avec une recherche
      * @return PaginationInterface
      */
-    public function findSearch(SearchData $search): PaginationInterface
+    public function findSearch(SearchDataRunner $search): PaginationInterface
     {
-        
-
          $query = $this->getSearchQuery($search)->getQuery();
          return $this->paginator->paginate(
             $query,
@@ -70,7 +68,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
      * Récupere l'age minimum et maximum des runners
      * @return integer[]
      */
-    public function findMinMax(SearchData $search): array
+    public function findMinMax(SearchDataRunner $search): array
     {
         $result = $this->createQueryBuilder('u')
             ->select('MIN(DATE_DIFF(CURRENT_DATE(), u.dateOfBirth) / 365) AS min')
@@ -81,7 +79,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         return [(int) $result['min'], (int) $result['max']];
     }
 
-    private function getSearchQuery (SearchData $search): QueryBuilder
+    private function getSearchQuery (SearchDataRunner $search): QueryBuilder
     {
         $qb = $this->createQueryBuilder('u')
         ->join('u.level', 'l')

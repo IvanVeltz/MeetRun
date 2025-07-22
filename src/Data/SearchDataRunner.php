@@ -2,7 +2,7 @@
 
 namespace App\Data;
 
-class SearchData{
+class SearchDataRunner{
 
     public ?string $q = null;     
     public array $departements = [];     
