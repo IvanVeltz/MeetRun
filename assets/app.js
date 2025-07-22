@@ -43,7 +43,13 @@ export function initSlider(sliderId, minInputId, maxInputId) {
 
 
 document.addEventListener('DOMContentLoaded', () => {
-    new Filter(document.querySelector('.js-filter'));
+    const filterElement = document.querySelector('.js-filter');
+
+if (filterElement) {
+    new Filter(filterElement);
+} else {
+    console.warn('Aucun élément avec la classe .js-filter trouvé');
+}
 
     // Initialiser tous les sliders présents
     initSlider('age-slider', 'ageMin', 'ageMax');

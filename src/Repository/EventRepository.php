@@ -112,18 +112,18 @@ class EventRepository extends ServiceEntityRepository
         }
 
         if (!empty($search->departements)) {
-            $qb->andWhere('SUBSTRING(u.postalCode, 1, 2) IN (:departements)')
+            $qb->andWhere('SUBSTRING(e.postalCode, 1, 2) IN (:departements)')
             ->setParameter('departements', $search->departements);
         }
 
         if($search->distanceMin != null &&  $search->distanceMin != ""){
-            $qb->andWhere('e.distance >= :distance')
-            ->setParameter('distance', $search->distanceMin);
+            $qb->andWhere('e.distance >= :distanceMin')
+            ->setParameter('distanceMin', $search->distanceMin);
         }
 
         if($search->distanceMax != null &&  $search->distanceMax != ""){
-            $qb->andWhere('e.distance <= :distance')
-            ->setParameter('distance', $search->distanceMax);
+            $qb->andWhere('e.distance <= :distanceMax')
+            ->setParameter('distanceMax', $search->distanceMax);
         }
 
         return $qb;
