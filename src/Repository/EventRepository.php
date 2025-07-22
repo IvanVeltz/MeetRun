@@ -49,9 +49,24 @@ class EventRepository extends ServiceEntityRepository
      * Récupere les evenements en lien avec une recherche
      * @return PaginationInterface
      */
-    public function findSearch(SearchDataEvent $search, QueryBuilder $qb): PaginationInterface
+    public function findSearchLast(SearchDataEvent $search, QueryBuilder $qb): PaginationInterface
     {
          $query = $qb->getQuery();
+         
+         return $this->paginator->paginate(
+            $query,
+            $search->page,
+            12
+         );
+    }
+
+    /**
+     * Récupere les evenements en lien avec une recherche
+     * @return PaginationInterface
+     */
+    public function findSearch(SearchDataEvent $search): PaginationInterface
+    {
+        $query = $this->getSearchQuery($search)->getQuery();
          
          return $this->paginator->paginate(
             $query,
@@ -80,6 +95,36 @@ class EventRepository extends ServiceEntityRepository
             ->where('e.dateEvent <= :today')
             ->setParameter('today', new \DateTime())
             ->orderBy('e.dateEvent', 'DESC');
+
+        return $qb;
+    }
+
+    public function getSearchQuery (SearchDataEvent $search):QueryBuilder
+    {
+        $qb = $this->createQueryBuilder('e')
+            ->where('e.cancelled = :cancelled')
+            ->setParameter('cancelled', false)
+            ->orderBy('e.dateEvent', 'ASC');
+
+        if($search->q){
+            $qb->andWhere('e.name LIKE :q')
+            ->setParameter('q', '%' . $search->q . '%');
+        }
+
+        if (!empty($search->departements)) {
+            $qb->andWhere('SUBSTRING(u.postalCode, 1, 2) IN (:departements)')
+            ->setParameter('departements', $search->departements);
+        }
+
+        if($search->distanceMin != null &&  $search->distanceMin != ""){
+            $qb->andWhere('e.distance >= :distance')
+            ->setParameter('distance', $search->distanceMin);
+        }
+
+        if($search->distanceMax != null &&  $search->distanceMax != ""){
+            $qb->andWhere('e.distance <= :distance')
+            ->setParameter('distance', $search->distanceMax);
+        }
 
         return $qb;
     }

@@ -40,11 +40,18 @@ class SearchService{
         [$min, $max] = $findMinMax($searchData);
 
         if ($request->get('ajax')) {
-            return new JsonResponse([
+
+            $response = [
                 'content' => $this->twig->render($templates['content'], ['results' => $results]),
-                'sorting' => $this->twig->render($templates['sorting'], ['results' => $results]),
-                'pagination' => $this->twig->render($templates['pagination'], ['results' => $results]),
-            ]);
+                'pagination' => $this->twig->render($templates['pagination'], ['results' => $results])
+            ];
+
+            if(isset($templates['sorting'])){
+                $response['sorting'] = $this->twig->render($templates['sorting'], ['results' => $results]);
+            }
+
+            return new JsonResponse($response);
+            
         }
         
         // Préparation du retour pour une requête normale

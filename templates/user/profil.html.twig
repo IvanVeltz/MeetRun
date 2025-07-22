@@ -203,7 +203,7 @@
                         <span>(Course annulé)</span>
                         {% endif %}
                     </h3>
-                    <p><i class="fa-solid fa-location-dot"></i> {{registrationPastEvent.event.city}} ({{registrationNextEvent.event.postalCode | slice(0,2) }})</p>
+                    <p><i class="fa-solid fa-location-dot"></i> {{registrationPastEvent.event.city}} ({{registrationPastEvent.event.postalCode | slice(0,2) }})</p>
                     {% if app.user %}
                     <p class="more-about">En savoir +</p>
                     {% endif %}

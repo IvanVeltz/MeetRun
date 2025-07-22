@@ -5,10 +5,11 @@ namespace App\Controller;
 use App\Entity\Event;
 use App\Entity\Photo;
 use App\Entity\Favori;
-use App\Data\SearchData;
 use App\Form\NewEventForm;
-use App\Form\SearchRunForm;
+use App\Data\SearchDataEvent;
+use App\Form\SearchFormEvent;
 use App\Service\ImageUploader;
+use App\Service\SearchService;
 use App\Entity\RegistrationEvent;
 use App\Repository\EventRepository;
 use App\Repository\PhotoRepository;
@@ -29,14 +30,27 @@ final class EventsController extends AbstractController
         EventRepository $eventRepository, 
         Request $request, 
         EntityManagerInterface $entityManager, 
-        ImageUploader $imageUploader): Response
+        ImageUploader $imageUploader,
+        SearchService $searchService): Response
     {
-        $data = new SearchData();
-        $data->page = $request->get('page', 1);
+        
 
-        $eventForm = $this->createForm(SearchRunForm::class, $data);
-        $qb = $eventRepository->getSearchNextEvents($data);
-        $events = $eventRepository->findSearch($data, $qb);
+        $result = $searchService->handleSearch(
+            $request,
+            new SearchDataEvent(),
+            SearchFormEvent::class,
+            fn($data) => $eventRepository->findSearch($data),
+            [
+                'content' => 'events/_events.html.twig',
+                'pagination' => 'events/_pagination.html.twig',
+            ],
+            fn($data) => $eventRepository->findMinMax($data)
+        );
+
+        // Si c'est une requête AJAX, on a déjà une JsonResponse
+        if ($result instanceof JsonResponse) {
+            return $result;
+        }
 
         $event = new Event();
         $user = $this->getUser();
@@ -64,9 +78,11 @@ final class EventsController extends AbstractController
 
 
         return $this->render('events/index.html.twig', [
-            'eventForm' => $eventForm,
             'newEventForm' => $newEventForm,
-            'events' => $events,
+            'results' => $result['results'],
+            'form' => $result['form'],
+            'min' => $result['min'],
+            'max' => $result['max'],
         ]);
     }
 
@@ -76,14 +92,14 @@ final class EventsController extends AbstractController
         EventRepository $eventRepository
     )
     {
-        $data = new SearchData();
+        $data = new SearchDataEvent();
         $data->page = $request->get('page', 1);
 
         $qb = $eventRepository->getSearchLastEvents($data);
-        $events = $eventRepository->findSearch($data, $qb);
+        $events = $eventRepository->findSearchLast($data, $qb);
 
         return $this->render('events/lastEvents.html.twig', [
-            'events' => $events
+            'results' => $events
         ]);
     }
 

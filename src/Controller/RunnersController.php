@@ -43,7 +43,7 @@ final class RunnersController extends AbstractController
 
         // Sinon, on rend la page classique
         return $this->render('runners/index.html.twig', [
-            'runners' => $result['results'],
+            'results' => $result['results'],
             'form' => $result['form'],
             'min' => $result['min'],
             'max' => $result['max'],
