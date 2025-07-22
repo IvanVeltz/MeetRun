@@ -4,14 +4,13 @@ import Filter from './modules/filter.js';
 import noUiSlider from 'nouislider';
 import 'nouislider/dist/nouislider.css';
 
-export function initSlider() {
-    const slider = document.getElementById('age-slider');
-    if (!slider){
-        return;
-    } 
+export function initSlider(sliderId, minInputId, maxInputId) {
+    const slider = document.getElementById(sliderId);
+    const minInput = document.getElementById(minInputId);
+    const maxInput = document.getElementById(maxInputId);
 
-    const min = document.getElementById('ageMin');
-    const max = document.getElementById('ageMax');
+    if (!slider || !minInput || !maxInput) return;
+
     const minValue = parseInt(slider.dataset.min, 10);
     const maxValue = parseInt(slider.dataset.max, 10);
 
@@ -20,7 +19,10 @@ export function initSlider() {
     }
 
     noUiSlider.create(slider, {
-        start: [min.value || minValue, max.value || maxValue],
+        start: [
+            parseInt(minInput.value) || minValue,
+            parseInt(maxInput.value) || maxValue
+        ],
         connect: true,
         step: 1,
         range: {
@@ -29,19 +31,22 @@ export function initSlider() {
         }
     });
 
-    slider.noUiSlider.on('slide', function (values, handle) {
-        if (handle === 0) {
-            min.value = Math.round(values[0]);
-        }
-        if (handle === 1) {
-            max.value = Math.round(values[1]);
-        }
+    slider.noUiSlider.on('slide', (values, handle) => {
+        if (handle === 0) minInput.value = Math.round(values[0]);
+        if (handle === 1) maxInput.value = Math.round(values[1]);
     });
 
     slider.noUiSlider.on('end', () => {
-        min.dispatchEvent(new Event('change'));
+        minInput.dispatchEvent(new Event('change'));
     });
 }
 
-new Filter(document.querySelector('.js-filter'));
-initSlider(); // on initialise au chargement initial
+
+document.addEventListener('DOMContentLoaded', () => {
+    new Filter(document.querySelector('.js-filter'));
+
+    // Initialiser tous les sliders présents
+    initSlider('age-slider', 'ageMin', 'ageMax');
+    initSlider('distance-slider', 'distanceMin', 'distanceMax');
+});
+

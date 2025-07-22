@@ -4,7 +4,6 @@
 
 {% block body %}
 <div class="runners-container js-filter">
-    <div id="error-message" style="color: red;"></div>
     <div class="search-container">
         {{ form_start(form, {attr: {class: 'filter js-filter-form'}}) }}
         <div class="form-group">
@@ -22,7 +21,6 @@
                 <input type="checkbox" id="departement_autre" class="form-check-input" name="departements[]" value="99" />
                 <label for="departement_autre" class="form-check-label">Autre pays</label>
             </div>
-
         </div>
 
         <div class="form-group">

@@ -36,8 +36,13 @@ export default class Filter{
             }
         } 
 
-        this.sorting.addEventListener('click', aClickListener)
-        this.pagination.addEventListener('click', aClickListener)
+        if (this.sorting) {
+            this.sorting.addEventListener('click', aClickListener)
+        }
+    
+        if (this.pagination) {
+            this.pagination.addEventListener('click', aClickListener)
+        }
         this.form.querySelectorAll('input').forEach(input => {
             if (input.type === 'text'){
                 // On ecoute l'evenement avec un délai
@@ -77,8 +82,12 @@ export default class Filter{
         if (response.status >= 200 && response.status < 300) {
             const data = await response.json()
             this.content.innerHTML = data.content
-            this.sorting.innerHTML = data.sorting
-            this.pagination.innerHTML = data.pagination
+            if (this.sorting && data.sorting !== undefined) {
+                this.sorting.innerHTML = data.sorting
+            }
+            if (this.pagination && data.pagination !== undefined) {
+                this.pagination.innerHTML = data.pagination
+            }
             initSlider()
             history.replaceState({}, '', url)
             

@@ -4,36 +4,72 @@
 
 {% block body %}
 {% if app.user %}
+<div class="create-event">
+    <a href="" id="openModalBtn">Créer une nouvelle course</a>
+</div>
 
-<div class="events-wrapper">
-    <div class="create-event">
-        <a href="" id="openModalBtn">Créer une nouvelle course</a>
+<!-- Modal -->
+<div id="eventModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+
+        <h2>Créer une nouvelle course</h2>
+
+        {{ form_start(newEventForm) }}
+        {{ form_row(newEventForm.name) }}
+        {{ form_row(newEventForm.dateEvent) }}
+        {{ form_row(newEventForm.description) }}
+        {{ form_row(newEventForm.distance) }}
+        {{ form_row(newEventForm.capacity) }}
+        {{ form_row(newEventForm.adress) }}
+        {{ form_row(newEventForm.postalCode )}}
+        {{ form_row(newEventForm.city) }}
+        {{ form_row(newEventForm.photos) }}
+
+        <button type="submit">Créer</button>
+        {{ form_end(newEventForm) }}
+
     </div>
-
-    <!-- Modal -->
-    <div id="eventModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn">&times;</span>
-
-            <h2>Créer une nouvelle course</h2>
-
-            {{ form_start(newEventForm) }}
-            {{ form_row(newEventForm.name) }}
-            {{ form_row(newEventForm.dateEvent) }}
-            {{ form_row(newEventForm.description) }}
-            {{ form_row(newEventForm.distance) }}
-            {{ form_row(newEventForm.capacity) }}
-            {{ form_row(newEventForm.adress) }}
-            {{ form_row(newEventForm.postalCode )}}
-            {{ form_row(newEventForm.city) }}
-            {{ form_row(newEventForm.photos) }}
-
-            <button type="submit">Créer</button>
-            {{ form_end(newEventForm) }}
-
-        </div>
-    </div>
+</div>
 {% endif %}
+
+<div class="runners-container js-filter">
+    <div class="search-container">
+        {{form_start(form, {attr: {class: 'filter js-filter-form'}}) }}
+        
+        <div class="form-group">
+            <label for="q" id="qlabel"> Nom de la course</label>
+            {{ form_row(form.q) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.departements) }}
+            <div id="svg-wrapper">
+                {% include 'partials/carte.svg.twig' %}
+            </div>
+            {{ form_widget(form.departements) }}
+            {{ form_errors(form.departements) }}
+            <div class="form-check">
+                <input type="checkbox" id="departement_autre" class="form-check-input" name="departements[]" value="99" />
+                <label for="departement_autre" class="form-check-label">Autre pays</label>
+            </div>
+        </div>
+
+        <div class="form-group age-range" style="display: flex; align-items: center; gap: 20px;">
+            <div>
+                {{ form_row(form.distanceMin) }}
+            </div>
+
+            <div id="distance-slider" data-min="{{ min }}" data-max="{{ max }}" style="width: 300px;">
+            </div>
+
+            <div>
+                {{ form_row(form.distanceMax) }}
+            </div>
+        </div>
+        {{ form_end(form)}}
+    </div>
+    
     <div class="search-runners-container">
         <h2>Les courses à venir</h2>
         <div class="events-grid js-filter-content">
@@ -46,8 +82,8 @@
         </div>
     </div>
 
-    <div class="pastEvents">
-        <a href=" {{ path('app_lastEvents') }}">Voir l'historique des courses</a>
-    </div>
+</div>
+<div class="pastEvents">
+    <a href=" {{ path('app_lastEvents') }}">Voir l'historique des courses</a>
 </div>
 {% endblock %}
