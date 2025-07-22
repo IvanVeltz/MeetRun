@@ -1070,6 +1070,7 @@ path:hover
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
   max-width: 900px;
   margin: auto;
+  min-width: 50%;
 }
 
 .event-header {

@@ -30,21 +30,21 @@
             <a href=" {{ path('app_user') }} " class="btn btn-primary">Modifier mon profil</a>
             {% else %}
 
-            
+
 
             {% set isFollowed = false %}
             {% for follower in user.followers %}
-                {% if follower.userSource.id == app.user.id %}
-                    {% set isFollowed = true %}
-                {% endif %}
+            {% if follower.userSource.id == app.user.id %}
+            {% set isFollowed = true %}
+            {% endif %}
             {% endfor %}
 
-        {% if not isFollowed %}
+            {% if not isFollowed %}
             <!-- Lien "Suivre" qui envoie le formulaire avec l'id passé en parametre de la fonction getElementById -->
             <a href="#" class="btn btn-primary"
-            onclick="event.preventDefault(); document.getElementById('follow-form-{{ user.id }}').submit();">
+                onclick="event.preventDefault(); document.getElementById('follow-form-{{ user.id }}').submit();">
                 Suivre
-            </a> 
+            </a>
             <!-- formulaire qui envoie en methode POST vers la route de demande de follow, avec un token généré de maniere
             unique,  -->
             <form id="follow-form-{{ user.id }}" action="{{ path('app_follow_request', { 'id': user.id }) }}"
@@ -54,9 +54,9 @@
             <!-- Cela permet d'eviter d'avoir juste le lien en href et d'avoir une méthode GET qui permettrai de rajouter 
             des données en BDD -->
 
-        {% else %}
+            {% else %}
             <a href="#" class="btn btn-primary"
-            onclick="event.preventDefault(); document.getElementById('unfollow-form-{{ user.id }}').submit();">
+                onclick="event.preventDefault(); document.getElementById('unfollow-form-{{ user.id }}').submit();">
                 Ne plus suivre
             </a>
 
@@ -64,9 +64,9 @@
                 method="POST" style="display: none;">
                 <input type="hidden" name="_token" value="{{ csrf_token('unfollow' ~ user.id) }}">
             </form>
-        {% endif %}
-        {% endif %}
-        
+            {% endif %}
+            {% endif %}
+
 
 
         </aside>
@@ -80,15 +80,16 @@
                 </a>
                 {% if user == app.user %}
                 <a href="#" class="btn btn-primary"
-                            onclick="event.preventDefault(); document.getElementById('unfollow-form-{{ follow.userTarget.id }}').submit();">
+                    onclick="event.preventDefault(); document.getElementById('unfollow-form-{{ follow.userTarget.id }}').submit();">
                     <i class="fa-solid fa-xmark" style="color: red"></i>
                 </a>
 
-                <form id="unfollow-form-{{ follow.userTarget.id }}" action="{{ path('app_unfollow_request', { 'id': follow.userTarget.id }) }}"
-                    method="POST" style="display: none;">
-                    <input type="hidden" name="_token" value="{{ csrf_token('unfollow' ~ follow.userTarget.id) }}">
-                </form>
-                {% endif %}
+            <form id="unfollow-form-{{ follow.userTarget.id }}"
+                action="{{ path('app_unfollow_request', { 'id': follow.userTarget.id }) }}" method="POST"
+                style="display: none;">
+                <input type="hidden" name="_token" value="{{ csrf_token('unfollow' ~ follow.userTarget.id) }}">
+            </form>
+            {% endif %}
             </p>
             {% endfor %}
             <div class="follower"></div>
@@ -101,17 +102,18 @@
                 </a>
                 {% if user == app.user %}
                 <a href="#" class="btn btn-primary"
-                            onclick="event.preventDefault(); document.getElementById('unfollower-form-{{ follower.userSource.id }}').submit();">
+                    onclick="event.preventDefault(); document.getElementById('unfollower-form-{{ follower.userSource.id }}').submit();">
                     <i class="fa-solid fa-xmark" style="color: red"></i>
                 </a>
 
-                <form id="unfollower-form-{{ follower.userSource.id }}" action="{{ path('app_unfollower_request', { 'id': follower.userSource.id }) }}"
-                    method="POST" style="display: none;">
-                    <input type="hidden" name="_token" value="{{ csrf_token('unfollower' ~ follower.userSource.id) }}">
-                </form>
-                <a href=" {{ path('app_unfollower_request', { 'id': follower.userSource.id }) }}"><i
-                        class="fa-solid fa-xmark" style="color: red"></i></a>
-                {% endif %}
+            <form id="unfollower-form-{{ follower.userSource.id }}"
+                action="{{ path('app_unfollower_request', { 'id': follower.userSource.id }) }}" method="POST"
+                style="display: none;">
+                <input type="hidden" name="_token" value="{{ csrf_token('unfollower' ~ follower.userSource.id) }}">
+            </form>
+            <a href=" {{ path('app_unfollower_request', { 'id': follower.userSource.id }) }}"><i
+                    class="fa-solid fa-xmark" style="color: red"></i></a>
+            {% endif %}
             </p>
             {% endif %}
             {% endfor %}
@@ -128,17 +130,17 @@
                 </a>
 
                 <a href="#" class="btn btn-success"
-                onclick="event.preventDefault(); document.getElementById('follow-accept-form-{{ follower.id }}').submit();">
+                    onclick="event.preventDefault(); document.getElementById('follow-accept-form-{{ follower.id }}').submit();">
                     Accepter
                 </a>
-                <form id="follow-accept-form-{{ follower.id }}" action="{{ path('app_follow_accept', { 'id': follower.id }) }}"
-                    method="POST" style="display: none;">
-                    <input type="hidden" name="_token" value="{{ csrf_token('follow-accept' ~ follower.id) }}">
-                </form>
+            <form id="follow-accept-form-{{ follower.id }}"
+                action="{{ path('app_follow_accept', { 'id': follower.id }) }}" method="POST" style="display: none;">
+                <input type="hidden" name="_token" value="{{ csrf_token('follow-accept' ~ follower.id) }}">
+            </form>
 
 
-                <a href=" {{ path('app_unfollower_request', { 'id': follower.userSource.id }) }}"><i
-                        class="fa-solid fa-xmark" style="color: red"></i></a>
+            <a href=" {{ path('app_unfollower_request', { 'id': follower.userSource.id }) }}"><i
+                    class="fa-solid fa-xmark" style="color: red"></i></a>
             </p>
             {% endif %}
             {% endfor %}
@@ -149,40 +151,62 @@
     <div class="event-container">
         <div class="events">
             <h2>Prochaines courses</h2>
-            <div class="cards-wrapper">
+            <div class="events-grid">
                 {% for registrationNextEvent in registrationNextEvents %}
+
                 <div class="event-card">
-                    <div class="event-card-body">
-                        <!-- <img src="" class="event-card-img" alt="Image de l'événement"> -->
-                        <h3 class="event-title">{{ registrationNextEvent.event.name }}</h3>
-                        <p class="event-date"><i class="fa-solid fa-calendar"></i> {{
-                            registrationNextEvent.event.dateEvent|date('d/m/Y H:i')
-                            }}</p>
-                        <p class="event-location"><i class="fa-solid fa-location-dot"></i> {{
-                            registrationNextEvent.event.postalCode }} {{
-                            registrationNextEvent.event.city }}</p>
-                        <a href="" class="event-link">Voir plus</a>
-                    </div>
+                    {% set photos = registrationNextEvent.event.getPhotos() %}
+                    {% if photos is iterable and photos is not empty %}
+                    {% set firstPhoto = photos|first %}
+                    <figure>
+                        <img src="{{asset(firstPhoto.url)}}" alt="Photo de la course">
+                    </figure>
+                    {% else %}
+                    <figure>
+                        <img src="{{asset('img/default_event.jpg')}}" alt="Photo illustrant la course">
+                    </figure>
+                    {% endif %}
+                    <p class="event-date"><i class="fa-solid fa-calendar-days"></i> {{
+                        registrationNextEvent.event.dateEvent|format_date(pattern="EEE d MMMM y", locale="fr")|capitalize }}</p>
+                    <h3>{{ registrationNextEvent.event.name }}
+                        {% if registrationNextEvent.event.isCancelled %}
+                        <span>(Course annulé)</span>
+                        {% endif %}
+                    </h3>
+                    <p><i class="fa-solid fa-location-dot"></i> {{registrationNextEvent.event.city}} ({{registrationNextEvent.event.postalCode | slice(0,2) }})</p>
+                    {% if app.user %}
+                    <p class="more-about">En savoir +</p>
+                    {% endif %}
                 </div>
                 {% endfor %}
             </div>
-        </div>
-        <div class="past-races">
             <h2>Dernières courses</h2>
-            <div class="cards-wrapper">
+            <div class="events-grid">
                 {% for registrationPastEvent in registrationPastEvents %}
+
                 <div class="event-card">
-                    <div class="event-card-body">
-                        <!-- <img src="" class="event-card-img" alt="Image de l'événement"> -->
-                        <h3 class="event-title">{{ registrationPastEvent.event.name }}</h3>
-                        <p class="event-date"><i class="fa-solid fa-calendar"></i> {{
-                            registrationPastEvent.event.dateEvent|date('d/m/Y H:i')
-                            }}</p>
-                        <p class="event-location"><i class="fa-solid fa-location-dot"></i> {{
-                            registrationPastEvent.event.postalCode }} {{
-                            registrationPastEvent.event.city }}</p>
-                        <a href="" class="event-link">Voir plus</a>
-                    </div>
+                    {% set photos = registrationPastEvent.event.getPhotos() %}
+                    {% if photos is iterable and photos is not empty %}
+                    {% set firstPhoto = photos|first %}
+                    <figure>
+                        <img src="{{asset(firstPhoto.url)}}" alt="Photo de la course">
+                    </figure>
+                    {% else %}
+                    <figure>
+                        <img src="{{asset('img/default_event.jpg')}}" alt="Photo illustrant la course">
+                    </figure>
+                    {% endif %}
+                    <p class="event-date"><i class="fa-solid fa-calendar-days"></i> {{
+                        registrationPastEvent.event.dateEvent|format_date(pattern="EEE d MMMM y", locale="fr")|capitalize }}</p>
+                    <h3>{{ registrationPastEvent.event.name }}
+                        {% if registrationPastEvent.event.isCancelled %}
+                        <span>(Course annulé)</span>
+                        {% endif %}
+                    </h3>
+                    <p><i class="fa-solid fa-location-dot"></i> {{registrationPastEvent.event.city}} ({{registrationNextEvent.event.postalCode | slice(0,2) }})</p>
+                    {% if app.user %}
+                    <p class="more-about">En savoir +</p>
+                    {% endif %}
                 </div>
                 {% endfor %}
             </div>
@@ -193,7 +217,7 @@
 
             <h2>Derniers messages sur le forum</h2>
             {% if lastPosts %}
-            
+
             {% for post in lastPosts %}
             <p> {{ post.message }} </p>
             {% endfor %}
@@ -205,7 +229,7 @@
         <div class="last-topics">
             <h2>Derniers sujets créés sur le forum</h2>
             {% if lastTopics %}
-            
+
             {% for topic in lastTopics %}
             <p> {{ topic.title }} </p>
             {% endfor %}
