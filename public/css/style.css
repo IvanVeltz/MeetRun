@@ -732,15 +732,15 @@ figcaption {
 /* FORMULAIRE DE RECHERCHE */
 
 .search-container {
-  flex: 1 1 300px;
-  max-width: 450px;
+  /* flex: 1 1 300px; */
+  max-width: 500px;
   background-color: var(--primary-color);
   color: white;
   border-radius: 12px;
   padding: 25px;
   box-shadow: 0 4px 12px rgba(0, 123, 255, 0.1);
   height: fit-content;
-  position: sticky;
+  /* position: sticky; */
   top: 20px;
 }
 

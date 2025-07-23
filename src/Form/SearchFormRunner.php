@@ -54,7 +54,7 @@ class SearchFormRunner extends AbstractType{
                 ]
                 ])
             ->add('departements', ChoiceType::class, [
-                'label' => false,
+                'label' => "Département",
                 'required' => false,
                 'multiple' => true,
                 'expanded' => true,

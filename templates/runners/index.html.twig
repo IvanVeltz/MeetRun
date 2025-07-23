@@ -5,6 +5,7 @@
 {% block body %}
 <div class="runners-container js-filter">
     <div class="search-container">
+        <h3 class="title-search">Recherche des Runners près de chez toi</h3>
         {{ form_start(form, {attr: {class: 'filter js-filter-form'}}) }}
         <div class="form-group">
             <label for="q" id="qlabel"> Nom ou Prénom</label>
@@ -19,7 +20,7 @@
             {{ form_errors(form.departements) }}
             <div class="form-check">
                 <input type="checkbox" id="departement_autre" class="form-check-input" name="departements[]" value="99" />
-                <label for="departement_autre" class="form-check-label">Autre pays</label>
+                <label for="departement_autre" class="form-check-label">Autre départements ou pays</label>
             </div>
         </div>
 

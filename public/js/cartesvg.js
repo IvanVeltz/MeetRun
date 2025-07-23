@@ -1,10 +1,10 @@
 function initCarteDepartements() {
-  const divNum = document.getElementById('num');
+  // const divNum = document.getElementById('num');
   const checkboxes = document.querySelectorAll('input[name="departements[]"'); // adapte si ton form a un autre nom
   const autrePatys = document.getElementById('departement_autre');
   const selected = new Set();
 
-  if (!divNum || checkboxes.length === 0) {
+  if (checkboxes.length === 0) {
     console.error('div #num ou checkboxes de départements introuvables');
     return;
   }
@@ -17,7 +17,7 @@ function initCarteDepartements() {
   });
 
   // Affichage initial
-  updateDisplay();
+  // updateDisplay();
 
   document.querySelectorAll('#svg-wrapper path.land').forEach(path => {
     const depClass = Array.from(path.classList).find(cls => cls.startsWith('departement'));
@@ -46,18 +46,18 @@ function initCarteDepartements() {
         selected.delete(code);
       }
 
-      updateDisplay();
+      // updateDisplay();
       checkbox.dispatchEvent(new Event('change', { bubbles: true })); // important pour AJAX
     });
   });
 
-  function updateDisplay() {
-    if (selected.size > 0) {
-      divNum.textContent = 'Départements sélectionnés : ' + Array.from(selected).join(', ');
-    } else {
-      divNum.textContent = 'Pas de sélection';
-    }
-  }
+  // function updateDisplay() {
+  //   if (selected.size > 0) {
+  //     divNum.textContent = 'Départements sélectionnés : ' + Array.from(selected).join(', ');
+  //   } else {
+  //     divNum.textContent = 'Pas de sélection';
+  //   }
+  // }
 }
 
 // DOM ready
