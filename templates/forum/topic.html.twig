@@ -4,11 +4,13 @@
 
 {% block body %}
 <div class="posts-container">
+    <a href="{{path('app_forum')}}"><i class="fa-solid fa-arrow-left"></i> Retour à la liste des sujets</a>
     <h2>{{topic.title}}</h2>
     {% for post in posts %}
     <div class="topic-container">
-        <p>{{ post.message }}</a> - Posté le {{ post.dateMessage|date("d-m-Y à H:i") }} par <a href="{{ path('app_profil', {'id': post.user.id})}}"> {{ post.user}}</a></p>
+        <p>{{ post.message }} - <small>Posté le {{ post.dateMessage|date("d-m-Y à H:i") }} par </small><a href="{{ path('app_profil', {'id': post.user.id})}}"> {{ post.user}}</a></p>
     </div>
     {% endfor %}
+    <a href="{{path('app_forum')}}"><i class="fa-solid fa-arrow-left"></i> Retour à la liste des sujets</a>
 </div>
 {% endblock %}

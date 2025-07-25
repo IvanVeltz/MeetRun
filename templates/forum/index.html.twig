@@ -5,9 +5,45 @@
 {% block body %}
 <div class="topics-container">
     <h2>Liste des derniers sujets</h2>
+    <a href="" id="openModalBtn">Créer un nouveau sujet</a>
+    <!-- Modal -->
+    <div id="eventModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+
+            <h2>Créer une nouveau sujet</h2>
+
+            <form action="{{path('app_topic_create')}}" method="post" class="topic">
+                <div>
+                    <label for="category">Catégorie</label>
+                    <select name="category" id="catgeory">
+                        <option value="">-- Choisissez une catégorie</option>
+                        {% for category in categories %}
+                            <option value="{{category.id}}">{{ category }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label for="title">Nom de sujet</label>
+                    <input type="text" id="title" name="title" required>
+                </div>
+
+                <div>
+                    <label for="message">Message :</label><br>
+                    <textarea id="message" name="message" rows="5" required></textarea>
+                </div>
+                <button type="submit" name="submit">Créer</button>
+            </form>
+
+        
+
+        </div>
+    </div>
     {% for topic in topics %}
     <div class="topic-container">
-        <p>{{topic.category}} - <a href="{{path('app_topic', {'id': topic.id})}}" class="link-topic">{{ topic.title }}</a> - Créé le {{ topic.dateCreation|date("d-m-Y") }} par <a href="{{ path('app_profil', {'id': topic.user.id})}}"> {{ topic.user}}</a></p>
+        <p>{{topic.category}} - <a href="{{path('app_topic', {'id': topic.id})}}" class="link-topic">{{ topic.title
+                }}</a> - Créé le {{ topic.dateCreation|date("d-m-Y") }} par <a
+                href="{{ path('app_profil', {'id': topic.user.id})}}"> {{ topic.user}}</a></p>
     </div>
     {% endfor %}
 </div>
