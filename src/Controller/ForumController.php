@@ -13,6 +13,7 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class ForumController extends AbstractController
@@ -63,6 +64,12 @@ final class ForumController extends AbstractController
         $category = $categoryRepository->find($categoryId);
         $user = $security->getUser();
 
+        $token = $request->request->get('_token');
+        
+        if (!$this->isCsrfTokenValid('createTopic', $token)) {
+            return new JsonResponse(['success' => false, 'message' => 'Token CSRF invalide'], 403);
+        }
+
         
 
         if (!$title || !$category || !$message){
@@ -94,4 +101,55 @@ final class ForumController extends AbstractController
         return $this->redirectToRoute('app_topic', ['id' => $topic->getId()]);
     }
 
+    #[Route('/forum/topicClosed/{id}', name:'app_toggleTopicState')]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    public function topicClosed(EntityManagerInterface $em, Topic $topic, Request $request): Response
+    {
+        $currentUser = $this->GetUser();
+
+        if (!$this->isCsrfTokenValid('toogleTopicState'.$topic->getId(), $request->request->get('_token'))) {
+            throw $this->createAccessDeniedException('CSRF invalide');
+        }
+
+        if ($topic->getUser() !== $currentUser && !in_array('ROLE_ADMIN',$currentUser->getRoles())){
+            $this->addFlash('error', 'Vous n\'avez pas les droits pour cloturer le sujet');
+            return $this->redirectToRoute('app_forum');
+        }
+
+        $topic->setIsClosed(!$topic->isClosed());
+        $em->flush();
+
+        $this->addFlash('success', $topic->isClosed() ? 'Sujet clôturé.' : 'Sujet réouvert.');
+
+        return $this->redirectToRoute('app_topic', ['id' => $topic->getId()]);
+    }
+
+    #[Route('forum/post/{id}/addMessage', name:'app_addMessage')]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    public function addMessage(EntityManagerInterface $em, Topic $topic, Request $request): Response
+    {
+        $message = trim(filter_var($request->request->get('addMessage'), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+        $user = $this->getUser();
+
+        $token = $request->request->get('_token');
+        if (!$this->isCsrfTokenValid('createPost', $token)) {
+            return new JsonResponse(['success' => false, 'message' => 'Token CSRF invalide'], 403);
+        }
+
+
+        $post = new Post();
+        $post->setMessage($message);
+        $date = new \DateTimeImmutable();
+        $post->setDateMessage(\DateTime::createFromImmutable($date));
+        $post->setUser($user);
+        $post->setTopic($topic);
+
+        $em->persist($post);
+        $em->flush();
+
+        $this->addFlash('success', 'Message posté');
+
+        return $this->redirectToRoute('app_topic', ['id' => $topic->getId()]);
+
+    }
 }

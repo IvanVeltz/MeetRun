@@ -22,6 +22,7 @@ class TopicRepository extends ServiceEntityRepository
             ->select('t, MAX(p.dateMessage) AS HIDDEN maxDate')
             ->leftJoin('t.posts', 'p')
             ->groupBy('t.id')
+            ->where('t.isClosed = false')
             ->orderBy('maxDate', 'DESC')
             ->getQuery()
             ->getResult();

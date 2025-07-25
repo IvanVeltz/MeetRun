@@ -19,7 +19,7 @@
                     <select name="category" id="catgeory">
                         <option value="">-- Choisissez une catégorie</option>
                         {% for category in categories %}
-                            <option value="{{category.id}}">{{ category }}</option>
+                        <option value="{{category.id}}">{{ category }}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -32,17 +32,18 @@
                     <label for="message">Message :</label><br>
                     <textarea id="message" name="message" rows="5" required></textarea>
                 </div>
+                <input type="hidden" name="_token" value="{{ csrf_token('createTopic') }}">
                 <button type="submit" name="submit">Créer</button>
             </form>
 
-        
+
 
         </div>
     </div>
     {% for topic in topics %}
     <div class="topic-container">
-        <p>{{topic.category}} - <a href="{{path('app_topic', {'id': topic.id})}}" class="link-topic">{{ topic.title
-                }}</a> - Créé le {{ topic.dateCreation|date("d-m-Y") }} par <a
+        <p>{{topic.category}} - <a href="{{path('app_topic', {'id': topic.id})}}" class="link-topic">{{ topic.title | capitalize}}</a> 
+            - <small> Créé le {{ topic.dateCreation|date("d-m-Y") }} par </small><a
                 href="{{ path('app_profil', {'id': topic.user.id})}}"> {{ topic.user}}</a></p>
     </div>
     {% endfor %}
