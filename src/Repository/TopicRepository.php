@@ -16,6 +16,18 @@ class TopicRepository extends ServiceEntityRepository
         parent::__construct($registry, Topic::class);
     }
 
+    public function findByLastPost(): array
+    {
+        return $this->createQueryBuilder('t')
+            ->select('t, MAX(p.dateMessage) AS HIDDEN maxDate')
+            ->leftJoin('t.posts', 'p')
+            ->groupBy('t.id')
+            ->orderBy('maxDate', 'DESC')
+            ->getQuery()
+            ->getResult();
+
+    }
+
     //    /**
     //     * @return Topic[] Returns an array of Topic objects
     //     */

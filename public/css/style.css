@@ -47,7 +47,7 @@ body {
 }
 a, a:hover{
   text-decoration: none;
-  color: black;
+  color: var(--secondary-color);
 }
 
 .main-container{
@@ -1210,7 +1210,11 @@ path:hover
   cursor: pointer;
 }
 
-
+/* *** FORUM *** */
+.link-topic{
+  color: var(--primary-color);
+  font-weight: bold;
+}
 
 /* ------------------------ */
 /* === PAGINATION === */

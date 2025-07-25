@@ -1,20 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ForumController!{% endblock %}
+{% block title %}Meet & Run - Forum{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/wamp64/www/MeetRun/src/Controller/ForumController.php</code></li>
-        <li>Your template at <code>C:/wamp64/www/MeetRun/templates/forum/index.html.twig</code></li>
-    </ul>
+<div class="topics-container">
+    <h2>Liste des derniers sujets</h2>
+    {% for topic in topics %}
+    <div class="topic-container">
+        <p>{{topic.category}} - <a href="{{path('app_topic', {'id': topic.id})}}" class="link-topic">{{ topic.title }}</a> - Créé le {{ topic.dateCreation|date("d-m-Y") }} par <a href="{{ path('app_profil', {'id': topic.user.id})}}"> {{ topic.user}}</a></p>
+    </div>
+    {% endfor %}
 </div>
 {% endblock %}
