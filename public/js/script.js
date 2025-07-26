@@ -108,3 +108,23 @@ document.addEventListener("DOMContentLoaded", () => {
     agreeTermsCheckBox.addEventListener('change', validateForm);
   }
 })
+
+// MENU BURGER 
+const toggleBtn = document.getElementById("nav-toggle");
+const closeBtn = document.getElementById("nav-close");
+const navbarWrapper = document.getElementById("navbarWrapper");
+const profilBtn = document.getElementById("profilDropdown");
+const dropdownMenu = document.querySelector(".dropdown-menu");
+
+toggleBtn.addEventListener("click", () => {
+  navbarWrapper.classList.toggle("show");
+});
+
+closeBtn.addEventListener("click", () => {
+  navbarWrapper.classList.remove("show");
+});
+
+profilBtn.addEventListener("click", () => {
+  dropdownMenu.classList.toggle("show");
+});
+
