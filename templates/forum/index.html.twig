@@ -1,20 +1,51 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ForumController!{% endblock %}
+{% block title %}Meet & Run - Forum{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+<div class="topics-container">
+    <h2>Liste des derniers sujets</h2>
+    <a href="" id="openModalBtn">Créer un nouveau sujet</a>
+    <!-- Modal -->
+    <div id="eventModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+            <h2>Créer une nouveau sujet</h2>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/wamp64/www/MeetRun/src/Controller/ForumController.php</code></li>
-        <li>Your template at <code>C:/wamp64/www/MeetRun/templates/forum/index.html.twig</code></li>
-    </ul>
+            <form action="{{path('app_topic_create')}}" method="post" class="topic">
+                <div>
+                    <label for="category">Catégorie</label>
+                    <select name="category" id="catgeory">
+                        <option value="">-- Choisissez une catégorie</option>
+                        {% for category in categories %}
+                        <option value="{{category.id}}">{{ category }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label for="title">Nom de sujet</label>
+                    <input type="text" id="title" name="title" required>
+                </div>
+
+                <div>
+                    <label for="message">Message :</label><br>
+                    <textarea id="message" name="message" rows="5" required></textarea>
+                </div>
+                <input type="hidden" name="_token" value="{{ csrf_token('createTopic') }}">
+                <button type="submit" name="submit">Créer</button>
+            </form>
+
+
+
+        </div>
+    </div>
+    {% for topic in topics %}
+    <div class="topic-container">
+        <p>{{topic.category}} - <a href="{{path('app_topic', {'id': topic.id})}}" class="link-topic">{{ topic.title | capitalize}}</a> 
+            - <small> Créé le {{ topic.dateCreation|date("d-m-Y") }} par </small><a
+                href="{{ path('app_profil', {'id': topic.user.id})}}"> {{ topic.user}}</a></p>
+    </div>
+    {% endfor %}
 </div>
 {% endblock %}

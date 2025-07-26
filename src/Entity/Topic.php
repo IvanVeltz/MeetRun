@@ -22,7 +22,7 @@ class Topic
     private ?\DateTime $dateCreation = null;
 
     #[ORM\Column]
-    private ?bool $isClosed = null;
+    private ?bool $isClosed = false;
 
     #[ORM\ManyToOne(inversedBy: 'topics')]
     #[ORM\JoinColumn(nullable: false)]
