@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello UserController!{% endblock %}
+{% block title %}{{app.user.firstName}} {{app.user.lastName}}{% endblock %}
 
 {% block body %}
 <div class="user">
@@ -8,10 +8,10 @@
     <p><a class="btn btn-lg btn-primary" href=" {{path('app_login')}} ">Vous devez vous connecter</a></p>
     {% else %}
     <h3>Bienvenue {{app.user.firstName}} {{app.user.lastName}} !!</h3>
-    <p>Pour une expèrience complète, remplissez vtre profil</p>
+    <p>Pour une expèrience complète, remplissez votre profil</p>
     {% endif %}
 
-    <div class="form-login">
+    <div class="form-infos">
         <figure>
             <img src="img/logo.png" alt="Logo du site">
         </figure>
@@ -29,10 +29,28 @@
             </button>
         </div>
         {% endif %}
-        {{ form_row(profilForm.pictureProfilUrl) }}
+        <div class="custom-file-upload">
+            {{ form_label(profilForm.pictureProfilUrl, 'Photo de profil') }}
+        
+            <label for="{{ profilForm.pictureProfilUrl.vars.id }}" class="upload-btn">
+                Choisir une image
+            </label>
+            {{ form_widget(profilForm.pictureProfilUrl, { 'attr': { 'class': 'hidden-file' } }) }}
+            <span id="file-name">Aucun fichier choisi</span>
+        </div>
         {{ form_widget(profilForm.removePicture) }}
         {{ form_row(profilForm.postalCode) }}
-        {{ form_row(profilForm.city) }}
+        <label for="selectCity">Ville</label>
+        <select id="selectCity" name="city" class="form-control">
+            {% if app.user.city %}
+            <option value="{{app.user.city}}">{{app.user.city}}</option>
+            {% else %}
+            <option value="">Sélectionnez une ville</option>
+            {% endif %}
+        </select>
+
+        {{ form_row(profilForm.latitude) }}
+        {{ form_row(profilForm.longitude) }}
         {{ form_row(profilForm.sexe) }}
         {{ form_row(profilForm.bio) }}
         {{ form_row(profilForm.level) }}
@@ -51,12 +69,12 @@
         {{ form_row(changePasswordForm.oldPlainPassword,) }}
         {{ form_row(changePasswordForm.plainPassword) }}
         <ul id="validationList">
-                <li id="length" class="invalid">Au moins 12 caractères</li>
-                <li id="uppercase" class="invalid">Au moins une majuscule</li>
-                <li id="lowercase" class="invalid">Au moins une minuscule</li>
-                <li id="number" class="invalid">Au moins un chiffre</li>
-                <li id="specialChar" class="invalid">Au moins un caractère spécial</li>
-                <li id="match" class="invalid">Les mots de passe doivent être identiques</li>
+            <li id="length" class="invalid">Au moins 12 caractères</li>
+            <li id="uppercase" class="invalid">Au moins une majuscule</li>
+            <li id="lowercase" class="invalid">Au moins une minuscule</li>
+            <li id="number" class="invalid">Au moins un chiffre</li>
+            <li id="specialChar" class="invalid">Au moins un caractère spécial</li>
+            <li id="match" class="invalid">Les mots de passe doivent être identiques</li>
         </ul>
         <input type="checkbox" id="registration_form_agreeTerms" hidden checked>
         <div class="text-center">
@@ -83,4 +101,7 @@
         </form>
     </div>
 </div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="{{asset('js/apiGeo.js')}}"></script>
 {% endblock %}

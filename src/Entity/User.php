@@ -139,6 +139,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Favori::class, mappedBy: 'user', orphanRemoval: true)]
     private Collection $favoris;
 
+    #[ORM\Column(nullable: true)]
+    private ?float $longitude = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $latitude = null;
+
 
 
     public function __construct()
@@ -703,5 +709,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __toString(){
         return $this->firstName." ".$this->lastName;
+    }
+
+    public function getLongitude(): ?float
+    {
+        return $this->longitude;
+    }
+
+    public function setLongitude(?float $longitude): static
+    {
+        $this->longitude = $longitude;
+
+        return $this;
+    }
+
+    public function getLatitude(): ?float
+    {
+        return $this->latitude;
+    }
+
+    public function setLatitude(?float $latitude): static
+    {
+        $this->latitude = $latitude;
+
+        return $this;
     }
 }

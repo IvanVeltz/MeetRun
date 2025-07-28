@@ -67,11 +67,11 @@ class ProfilForm extends AbstractType
                     'class' => 'form-control',
                 ]
             ])
-            ->add('city', TextType::class, [
-                'label' => 'Ville',
-                "attr" => [
-                    'class' => 'form-control',
-                ]
+            ->add('longitude', HiddenType::class, [
+                'required' => false,
+            ])
+            ->add('latitude', HiddenType::class, [
+                'required' => false,
             ])
             ->add('sexe', ChoiceType::class, [
                 'label' => 'Sexe',

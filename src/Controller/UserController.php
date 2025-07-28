@@ -40,6 +40,9 @@ final class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $ville = $request->request->get('city'); // récupère la valeur du select "city"
+            $user->setCity($ville);
+
             $imageFile = $form->get('pictureProfilUrl')->getData();
             $oldImage = $user->getPictureProfilUrl();
 
