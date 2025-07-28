@@ -42,9 +42,9 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
      * Récupere les utilsateurs en lien avec une recherche
      * @return PaginationInterface
      */
-    public function findSearch(SearchDataRunner $search): PaginationInterface
+    public function findSearch(SearchDataRunner $search, User $currentUser): PaginationInterface
     {
-         $query = $this->getSearchQuery($search)->getQuery();
+         $query = $this->getSearchQuery($search, $currentUser)->getQuery();
          return $this->paginator->paginate(
             $query,
             $search->page,
@@ -79,13 +79,15 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         return [(int) $result['min'], (int) $result['max']];
     }
 
-    private function getSearchQuery (SearchDataRunner $search): QueryBuilder
+    private function getSearchQuery (SearchDataRunner $search, User $currentUser): QueryBuilder
     {
         $qb = $this->createQueryBuilder('u')
         ->join('u.level', 'l')
         ->addSelect('l')
         ->where('u.deleted = :deleted')
-        ->setParameter('deleted', false);
+        ->andWhere('u.id != :currentUserId')
+        ->setParameter('deleted', false)
+        ->setParameter('currentUserId', $currentUser->getId());
 
 
         if ($search->q) {

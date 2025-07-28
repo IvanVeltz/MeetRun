@@ -27,7 +27,7 @@ final class RunnersController extends AbstractController
             $request,
             new SearchDataRunner(),
             SearchFormRunner::class,
-            fn($data) => $userRepository->findSearch($data),
+            fn($data) => $userRepository->findSearch($data, $this->getUser()),
             [
                 'content' => 'runners/_runners.html.twig',
                 'pagination' => 'runners/_pagination.html.twig',
