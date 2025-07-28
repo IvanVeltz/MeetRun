@@ -127,37 +127,32 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         return $qb;
     }
 
-    // public function add(USer $user, bool $flush = false): void
-    // {
-    //     $this->getEntityManager()->persist($user);
-
-    //     if($flush) {
-    //         $this->getEntityManager()->flush();
-    //     }
-    // }
-
-    //    /**
-    //     * @return User[] Returns an array of User objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('u')
-    //            ->andWhere('u.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('u.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?User
-    //    {
-    //        return $this->createQueryBuilder('u')
-    //            ->andWhere('u.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    public function findNearByUser(float $lat, float $lon, float $radius, int $id): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+ 
+        $sql = '
+            SELECT *, (
+                6371 * acos(
+                    cos(radians(:lat)) * cos(radians(latitude)) *
+                    cos(radians(longitude) - radians(:lon)) +
+                    sin(radians(:lat)) * sin(radians(latitude))
+                )
+            ) AS distance
+            FROM user
+            WHERE id != :currentUserId
+            HAVING distance < :radius
+            ORDER BY distance ASC
+        ';
+    
+        $stmt = $conn->prepare($sql);
+        $result = $stmt->executeQuery([
+            'lat' => $lat,
+            'lon' => $lon,
+            'radius' => $radius,
+            'currentUserId' => $id
+        ]);
+    
+        return $result->fetchAllAssociative();
+    }
 }

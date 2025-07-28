@@ -22,7 +22,7 @@ final class RunnersController extends AbstractController
         SearchService $searchService,
         UserRepository $userRepository): Response
     {
-
+        $user = $this->getUser();
         $result = $searchService->handleSearch(
             $request,
             new SearchDataRunner(),
@@ -41,45 +41,15 @@ final class RunnersController extends AbstractController
             return $result;
         }
 
+        $userSuggested = $userRepository->findNearByUser($user->getLatitude(), $user->getLongitude(), 100, $user->getId());
+
         // Sinon, on rend la page classique
         return $this->render('runners/index.html.twig', [
             'results' => $result['results'],
             'form' => $result['form'],
             'min' => $result['min'],
             'max' => $result['max'],
+            'userSuggested' => $userSuggested
         ]);
-        
-        // $data = new SearchData(); // On instancie un objet contenant les criteres de recherches
-        // $data->page = $request->get('page', 1); 
-        
-        // // On créé le formulaire basé sur SearchForm
-        // $form = $this->createForm(SearchForm::class, $data);
-        // $form->handleRequest($request);
-        
-        // //Récupération des âges minimum et maximum présentes en base de données pour l'ajustement du slider
-        // [$min, $max] = $userRepository->findMinMax($data);
-        
-        // $runners = $userRepository->findSearch($data);
-        // // Si la requete est en AJAX, on renvoie les fragments HTML au format JSON
-        // if ($request->get('ajax')) {
-        //     // Simule le rendu d'une vue partielle
-        //     $content = $this->renderView('runners/_runners.html.twig', ['runners' => $runners]);
-        //     $sorting = $this->renderView('runners/_sorting.html.twig', ['runners' => $runners]);
-        //     $pagination = $this->renderView('runners/_pagination.html.twig', ['runners' => $runners]);
-    
-        //     return new JsonResponse([
-        //         'content' => $content,
-        //         'sorting' => $sorting,
-        //         'pagination' => $pagination
-        //     ]);
-        // }
-
-        // // Requête classique (non AJAX) => on rend la page complète
-        // return $this->render('runners/index.html.twig', [
-        //     'runners' => $runners,
-        //     'form' => $form,
-        //     'min' => $min,
-        //     'max' => $max
-        // ]);
     }
 }
