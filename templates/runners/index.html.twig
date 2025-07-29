@@ -4,6 +4,14 @@
 
 {% block body %}
 
+<div class="runners-suggest">
+    <h3>Runners proches de chez toi</h3>
+        <div class="grid">
+
+            {% include "runners/_runners.html.twig" with {results: userSuggested} %}
+        </div>
+</div>
+
 <div class="runners-container js-filter">
     <div class="search-container">
         <h3 class="title-search">Recherche des Runners près de chez toi</h3>
@@ -70,13 +78,6 @@
 
     </div>
     <div class="search-runners-container">
-        
-        <h3>Runners suggérés</h3>
-        <div class="grid">
-
-            {% include "runners/_runners.html.twig" with {results: userSuggested} %}
-        </div>
-
         <h3>Liste des runners</h3>
         <div class="grid js-filter-content">
             {% include "runners/_runners.html.twig" %}

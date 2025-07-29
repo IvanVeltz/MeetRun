@@ -128,19 +128,25 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     }
 
 
-    public function findNearByUser(float $lat, float $lon, float $radius, int $id): array
+    public function findNearByUser( float $radius, User $user): array
     {
         $qb = $this->createQueryBuilder('u')
             ->select('u')
             ->addSelect('(6371 * acos(cos(radians(:lat)) * cos(radians(u.latitude)) * cos(radians(u.longitude) - radians(:lon)) + sin(radians(:lat)) * sin(radians(u.latitude)))) AS distance')
+            ->addSelect('ABS(u.level - :myLevel) AS HIDDEN level_gap')
+            ->leftJoin('App\Entity\Follow', 'f', 'WITH', 'f.userSource = :currentUserId AND f.userTarget = u' )
             ->where('u.id != :currentUserId')
+            ->andWhere('f.id IS NULL')
             ->having('distance < :radius')
             ->groupBy('u.id')
-            ->orderBy('distance', 'ASC')
-            ->setParameter('lat', $lat)
-            ->setParameter('lon', $lon)
-            ->setParameter('currentUserId', $id)
+            ->orderBy('level_gap', 'ASC') 
+            ->addOrderBy('distance', 'ASC')
+            ->setParameter('lat', $user->getLatitude())
+            ->setParameter('lon', $user->getLongitude())
+            ->setParameter('myLevel', $user->getLevel())
+            ->setParameter('currentUserId', $user->getId())
             ->setParameter('radius', $radius)
+            ->setMaxResults(5)
             ->getQuery()
             ->getResult();
 

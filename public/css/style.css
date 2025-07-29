@@ -45,6 +45,7 @@ body {
   padding: 0;
   box-sizing: border-box;
   font-family: var(--body-font);
+  background-color: var(--bg-color)  !important;
 }
 
 a,
@@ -1049,6 +1050,30 @@ figcaption {
 }
 
 /* ----------------- RUNNERS PAGE -------------- */
+
+.runners-suggest{
+  background-color: var(--bg-color);
+}
+
+.runners-suggest h3{
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.runners-suggest .grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  justify-items: center; /* centre les cartes horizontalement */
+  max-width: 1400px;
+  margin: 1em auto;
+
+}
+
+.runner-cell {
+  display: flex;
+  justify-content: center;
+}
 
 .runners-container {
   display: flex;

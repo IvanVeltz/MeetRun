@@ -1,17 +1,20 @@
 {% for runner in results %}
-<a href="{{ path('app_profil', {'id' :  runner.id}) }}" class="runner-card-link">
-    <div class="runner-card {{ runner.sexe == 'homme' or runner.sexe == 'Homme' or runner.sexe =='H' ? 'runner-garcon' : 'runner-fille' }}" data-flip-id ="runner-{{ runner.id }}">
-        {% if runner.pictureProfilUrl %}
-        <img src="{{ asset(runner.pictureProfilUrl) }}" alt="Photo de {{ runner.firstName }}" class="runner-photo">
-        {% else %}
-        <img src="{{ asset('img/default_picture_profil.png') }}" alt="Photo par défaut" class="runner-photo">
-        {% endif %}
-        <div class="runner-info">
-            {{ runner.firstName }} {{ runner.lastName }} <br>
-            {{ runner.city }} <br>
-            {{ runner.getAge }} ans<br>
-            Niveau : {{ runner.level.level }}
+<div class="runner-cell">
+    
+    <a href="{{ path('app_profil', {'id' :  runner.id}) }}" class="runner-card-link">
+        <div class="runner-card {{ runner.sexe == 'homme' or runner.sexe == 'Homme' or runner.sexe =='H' ? 'runner-garcon' : 'runner-fille' }}" data-flip-id ="runner-{{ runner.id }}">
+            {% if runner.pictureProfilUrl %}
+            <img src="{{ asset(runner.pictureProfilUrl) }}" alt="Photo de {{ runner.firstName }}" class="runner-photo">
+            {% else %}
+            <img src="{{ asset('img/default_picture_profil.png') }}" alt="Photo par défaut" class="runner-photo">
+            {% endif %}
+            <div class="runner-info">
+                {{ runner.firstName }} {{ runner.lastName }} <br>
+                {{ runner.city }} <br>
+                {{ runner.getAge }} ans<br>
+                Niveau : {{ runner.level.level }}
+            </div>
         </div>
-    </div>
-</a>
+    </a>
+</div>
 {% endfor %}
