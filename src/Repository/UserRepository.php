@@ -127,32 +127,23 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         return $qb;
     }
 
+
     public function findNearByUser(float $lat, float $lon, float $radius, int $id): array
     {
-        $conn = $this->getEntityManager()->getConnection();
- 
-        $sql = '
-            SELECT *, (
-                6371 * acos(
-                    cos(radians(:lat)) * cos(radians(latitude)) *
-                    cos(radians(longitude) - radians(:lon)) +
-                    sin(radians(:lat)) * sin(radians(latitude))
-                )
-            ) AS distance
-            FROM user
-            WHERE id != :currentUserId
-            HAVING distance < :radius
-            ORDER BY distance ASC
-        ';
-    
-        $stmt = $conn->prepare($sql);
-        $result = $stmt->executeQuery([
-            'lat' => $lat,
-            'lon' => $lon,
-            'radius' => $radius,
-            'currentUserId' => $id
-        ]);
-    
-        return $result->fetchAllAssociative();
+        $qb = $this->createQueryBuilder('u')
+            ->select('u')
+            ->addSelect('(6371 * acos(cos(radians(:lat)) * cos(radians(u.latitude)) * cos(radians(u.longitude) - radians(:lon)) + sin(radians(:lat)) * sin(radians(u.latitude)))) AS distance')
+            ->where('u.id != :currentUserId')
+            ->having('distance < :radius')
+            ->groupBy('u.id')
+            ->orderBy('distance', 'ASC')
+            ->setParameter('lat', $lat)
+            ->setParameter('lon', $lon)
+            ->setParameter('currentUserId', $id)
+            ->setParameter('radius', $radius)
+            ->getQuery()
+            ->getResult();
+
+        return $qb;
     }
 }

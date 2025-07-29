@@ -3,9 +3,12 @@
 {% block title %}Runners{% endblock %}
 
 {% block body %}
-{% for user in userSuggested %}
-    <p>{{user.last_name}}</p>
+{% if app.user %}
+    
+{% for result in userSuggested %}
+<p>{{result.user.lastName}} - distance : {{result.distance}} km</p>
 {% endfor %}
+{% endif %}
 <div class="runners-container js-filter">
     <div class="search-container">
         <h3 class="title-search">Recherche des Runners près de chez toi</h3>

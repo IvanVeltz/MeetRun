@@ -41,7 +41,10 @@ final class RunnersController extends AbstractController
             return $result;
         }
 
-        $userSuggested = $userRepository->findNearByUser($user->getLatitude(), $user->getLongitude(), 100, $user->getId());
+        $userSuggested = array_map(fn($row) => [
+            'user' => $row[0],
+            'distance' => $row['distance'],
+        ], $userRepository->findNearByUser($user->getLatitude(), $user->getLongitude(), 100, $user->getId()));
 
         // Sinon, on rend la page classique
         return $this->render('runners/index.html.twig', [
