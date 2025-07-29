@@ -1,4 +1,4 @@
-# 🏃‍♀️ Meet & Run – Plateforme de mise en relation pour coureurs
+# 🏃‍♀️ Meet & Run – Plateforme de mise en relation pour coureurs (projet en cours)
 
 **Meet & Run** est une application web destinée aux amateurs et passionnés de course à pied. La plateforme permet aux utilisateurs de se rencontrer, de participer à des courses et d’échanger via un forum communautaire.
 
