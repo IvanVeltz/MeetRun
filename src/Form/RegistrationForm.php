@@ -2,11 +2,14 @@
 
 namespace App\Form;
 
+
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Karser\Recaptcha3Bundle\Form\Recaptcha3Type;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\IsTrue;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -59,6 +62,15 @@ class RegistrationForm extends AbstractType
                     "attr" => [
                     'class' => 'form-control',
                     ]
+                ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez saisir un mot de passe.',
+                    ]),
+                    new Regex([
+                        'pattern' => '/^(?=.*[A-Z])(?=.*\d)(?=.*\W).{12,}$/',
+                        'message' => 'Le mot de passe doit contenir au moins 12 caractères, une majuscule, un chiffre et un caractère spécial.',
+                    ])                        
                 ],
                 'second_options' => [
                     'label' => 'Répéter le mot de passe',

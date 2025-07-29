@@ -36,6 +36,15 @@ class ChangePasswordForm extends AbstractType
                     'label' => 'Votre nouveau mot de passe',
                     'attr' => [
                         'class' => 'form-control',
+                    ],
+                    'constraints' => [
+                        new Assert\NotBlank([
+                            'message' => 'Veuillez saisir un mot de passe.',
+                        ]),
+                        new Assert\Regex([
+                            'pattern' => '/^(?=.*[A-Z])(?=.*\d)(?=.*\W).{12,}$/',
+                            'message' => 'Le mot de passe doit contenir au moins 12 caractères, une majuscule, un chiffre et un caractère spécial.',
+                        ])                        
                     ]
                 ],
                 'second_options' => [

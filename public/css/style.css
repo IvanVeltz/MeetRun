@@ -680,20 +680,117 @@ p {
 
 
 /* REGISTER */
-.valid {
-  color: green;
-  font-weight: bold;
+.form-login {
+  max-width: 400px;
+  margin: 2em auto;
+  padding: 2em 2.5em;
+  font-family: var(--body-font);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5em;
+  text-align: center;
 }
 
-.invalid {
-  color: red;
-  font-weight: bold;
+.form-register{
+  display: flex;
+  flex-direction: column;
+  gap: 1.5em;
 }
 
-#validationList,
-#resetValidationList {
-  list-style: none;
-  padding: 0;
+.form-login figure {
+  margin: 0 auto 1em;
+  overflow: hidden;
+}
+
+.form-login a {
+  position: relative;  /* nécessaire pour que ::after soit positionné par rapport au lien */
+  display: inline-block; /* pour que width: 100% dans ::after corresponde à la largeur du lien */
+  color: #007bff; /* juste pour la cohérence avec l'exemple */
+  text-decoration: none; /* pour supprimer le soulignement par défaut */
+}
+
+.form-login p a:hover {
+  color: var(--primary-color);
+}
+
+.form-login a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  /* espace entre texte et ligne */
+  width: 100%;
+  height: 2px;
+  /* épaisseur de la "underline" */
+  background-color: var(--primary-color);
+  /* couleur claire et contrastée */
+  transform: scaleX(0);
+  /* caché par défaut */
+  transform-origin: left;
+  transition: transform 0.2s ease;
+}
+
+.form-login a:hover::after {
+  transform: scaleX(1);
+  /* underline apparaît */
+}
+
+.form-login .form-check {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  justify-content: center;
+  font-size: 0.9rem;
+}
+
+.form-login label {
+  font-weight: 600;
+  margin-bottom: 0.3em;
+  display: block;
+  text-align: left !important;
+}
+
+.form-login .form-control,
+.form-login select,
+.form-login textarea {
+  width: 100%;
+  padding: 0.8em 1em;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: #fff;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  box-sizing: border-box;
+}
+
+.form-login .form-control:focus,
+.form-login select:focus,
+.form-login textarea:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+  background-color: white;
+}
+
+.form-login button[type="submit"] {
+  margin-top: 1em;
+  padding: 0.8em 2em;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.form-login button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+.form-check label{
+  margin-bottom: 0;
 }
 
 
