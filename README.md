@@ -55,7 +55,7 @@
 ## 📦 Installation du projet en local
 
 ```bash
-git clone https://github.com/IvanVeltz/meet-and-run.git
+git clone https://github.com/IvanVeltz/MeetRun.git
 cd meet-and-run
 composer install
 npm install && npm run dev
