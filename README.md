@@ -24,7 +24,7 @@
   - Connexion via Google OAuth
 
 - 📍 **Géolocalisation dans les profils**
-  - Utilisation de l’API de géolocalisation pour auto-remplir la localisation lors de la personnalisation du profil
+  - Utilisation de l’"API Geo" pour auto-remplir la ville suivant le code postal lors de la personnalisation du profil
 
 - 🗓️ **Gestion des courses**
   - Création, modification et suppression de courses (CRUD)
