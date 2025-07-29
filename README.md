@@ -23,6 +23,9 @@
   - Inscription classique par e-mail avec validation
   - Connexion via Google OAuth
 
+- 📍 **Géolocalisation dans les profils**
+  - Utilisation de l’API de géolocalisation pour auto-remplir la localisation lors de la personnalisation du profil
+
 - 🗓️ **Gestion des courses**
   - Création, modification et suppression de courses (CRUD)
   - Inscription des utilisateurs aux courses
@@ -34,7 +37,10 @@
 - 🔍 **Recherche avancée de coureurs**
   - Filtres multiples (âge, sexe, niveau, localisation…)
   - Filtrage dynamique en AJAX sans rechargement de page
- 
+
+- 🗺️ **Carte interactive pour la recherche**
+  - Interaction avec les zones géographiques par département
+
 - 💬 **Forum**
   - Création de topics
   - Organisation par catégories
