@@ -5,6 +5,8 @@ namespace App\Form;
 use Symfony\Component\Form\AbstractType;
 use Karser\Recaptcha3Bundle\Form\Recaptcha3Type;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -38,10 +40,10 @@ class ChangePasswordForm extends AbstractType
                         'class' => 'form-control',
                     ],
                     'constraints' => [
-                        new Assert\NotBlank([
+                        new NotBlank([
                             'message' => 'Veuillez saisir un mot de passe.',
                         ]),
-                        new Assert\Regex([
+                        new Regex([
                             'pattern' => '/^(?=.*[A-Z])(?=.*\d)(?=.*\W).{12,}$/',
                             'message' => 'Le mot de passe doit contenir au moins 12 caractères, une majuscule, un chiffre et un caractère spécial.',
                         ])                        

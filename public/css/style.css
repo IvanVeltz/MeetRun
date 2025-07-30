@@ -1019,18 +1019,22 @@ figcaption {
   gap: 0.5em;
 }
 
+.hidden-file {
+  display: none;
+}
+
 .upload-btn {
-  background-color: var(--primary-color);
-  color: white !important;
-  padding: 0.6em 1.2em;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  text-align: center;
   display: inline-block;
-  width: fit-content;
-  transition: background-color 0.3s ease;
-  margin-top: 0 !important;
+  padding: 8px 16px;
+  background-color: #3490dc;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#file-name {
+  margin-left: 10px;
+  font-style: italic;
 }
 
 .upload-btn:hover {

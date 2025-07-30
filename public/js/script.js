@@ -55,6 +55,19 @@ if (removeButton && imgThumbnail) {
   });
 }
 
+document.addEventListener('DOMContentLoaded', function () {
+  const fileInput = document.getElementById('{{ profilForm.pictureProfilUrl.vars.id }}');
+  const fileNameSpan = document.getElementById('file-name');
+
+  if (fileInput && fileNameSpan){
+    fileInput.addEventListener('change', function () {
+      fileNameSpan.textContent = fileInput.files.length > 0
+          ? fileInput.files[0].name
+          : 'Aucun fichier choisi';
+    });
+  }
+});
+
 // // verif mot de passe
 // const passwordInput = document.getElementById('registration_form_plainPassword_first'); // On récupere le "premier" mdp
 // const confirmPasswordInput = document.getElementById('registration_form_plainPassword_second'); // on recupere le second

@@ -49,13 +49,10 @@ class ProfilForm extends AbstractType
                 'required' => false, // Rend le champ facultatif
                 'constraints' => [
                     new File([
-                        'maxSize' => '5M',
+                        'maxSize' => '1024k',
                         'mimeTypes' => ['image/jpeg', 'image/png'],
                         'mimeTypesMessage' => 'Veuillez télécharger une image valide (JPEG ou PNG).',
                     ]),
-                ],
-                'attr' => [
-                    'class' => 'form-control',
                 ],
             ])
             ->add('removePicture', HiddenType::class, [
