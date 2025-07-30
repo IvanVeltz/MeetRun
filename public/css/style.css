@@ -1803,7 +1803,27 @@ path:hover {
   background-color: #0056b3;
 }
 
+.topic-container .btn-danger {
+  background-color: #e74c3c; /* rouge vif */
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 1.2rem;
+  line-height: 1;
+  padding: 4px 10px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+  user-select: none; /* Empêche la sélection du texte */
+}
 
+.topic-container .btn-danger:hover {
+  background-color: #c0392b; /* rouge un peu plus foncé au hover */
+}
+
+.topic-container .btn-sm {
+  font-size: 0.9rem;
+  padding: 3px 8px;
+}
 
 /* ------------------------ */
 /* === PAGINATION === */

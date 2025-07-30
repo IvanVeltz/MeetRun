@@ -26,7 +26,15 @@
     {% for post in posts %}
     <div class="topic-container">
         <p>{{ post.message }} - <small>Posté le {{ post.dateMessage|date("d-m-Y à H:i") }} par </small><a
-                href="{{ path('app_profil', {'id': post.user.id})}}"> {{ post.user}}</a></p>
+                href="{{ path('app_profil', {'id': post.user.id})}}"> {{ post.user}}</a>
+        </p>
+        {{post.user}}
+        {{app.user}}
+        {% if post.user.id == app.user.id or is_granted('ROLE_ADMIN') %}
+        <button type="button" class="btn-danger btn-sm">
+            &times;
+        </button>
+        {% endif %}
     </div>
     {% endfor %}
     {% if app.user and not topic.isClosed %}
