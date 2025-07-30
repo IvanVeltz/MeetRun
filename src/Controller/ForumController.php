@@ -150,6 +150,8 @@ final class ForumController extends AbstractController
         $this->addFlash('success', 'Message posté');
 
         return $this->redirectToRoute('app_topic', ['id' => $topic->getId()]);
-
     }
+
+    // #[Route('forum/{id}/delet-post')]
+    // #[IsGranted]
 }

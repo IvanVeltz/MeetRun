@@ -28,12 +28,19 @@
         <p>{{ post.message }} - <small>Posté le {{ post.dateMessage|date("d-m-Y à H:i") }} par </small><a
                 href="{{ path('app_profil', {'id': post.user.id})}}"> {{ post.user}}</a>
         </p>
-        {{post.user}}
-        {{app.user}}
         {% if post.user.id == app.user.id or is_granted('ROLE_ADMIN') %}
-        <button type="button" class="btn-danger btn-sm">
-            &times;
-        </button>
+        <a href="#" class="btn btn-primary"
+                    onclick="event.preventDefault(); document.getElementById('delete-post-{{ post.id }}').submit();">
+            <button type="button" class="btn-danger btn-sm">
+                &times;
+            </button>
+        </a>
+        <form id="delete-post-{{ post.id }}"
+                action="{{ path('app_delte_post', { 'id': post.id }) }}" method="POST"
+                style="display: none;">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete-post' ~ follow.userTarget.id) }}">
+        </form>
+        
         {% endif %}
     </div>
     {% endfor %}
