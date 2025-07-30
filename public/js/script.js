@@ -55,11 +55,12 @@ if (removeButton && imgThumbnail) {
   });
 }
 
+// Pour le register form, afficher le nom de limage choisei
 document.addEventListener('DOMContentLoaded', function () {
-  const fileInput = document.getElementById('{{ profilForm.pictureProfilUrl.vars.id }}');
+  const fileInput = document.querySelector('.js-profil-upload');
   const fileNameSpan = document.getElementById('file-name');
 
-  if (fileInput && fileNameSpan){
+  if (fileInput && fileNameSpan) {
     fileInput.addEventListener('change', function () {
       fileNameSpan.textContent = fileInput.files.length > 0
           ? fileInput.files[0].name
@@ -67,6 +68,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 });
+
 
 // // verif mot de passe
 // const passwordInput = document.getElementById('registration_form_plainPassword_first'); // On récupere le "premier" mdp

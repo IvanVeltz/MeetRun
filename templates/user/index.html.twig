@@ -35,7 +35,7 @@
             <label for="{{ profilForm.pictureProfilUrl.vars.id }}" class="upload-btn">
                 Choisir une image
             </label>
-            {{ form_widget(profilForm.pictureProfilUrl, { 'attr': { 'class': 'hidden-file' } }) }}
+            {{ form_widget(profilForm.pictureProfilUrl, { 'attr': { 'class': 'hidden-file js-profil-upload' } }) }}
             <span id="file-name">Aucun fichier choisi</span>
         </div>
         {{ form_widget(profilForm.removePicture) }}

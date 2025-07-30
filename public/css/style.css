@@ -292,7 +292,7 @@ main.main-container {
 /* *** ADD FLASH *** */
 .flash-container {
   position: fixed;
-  top: 20px;
+  top: 70px;
   right: 20px;
   z-index: 9999;
   display: flex;
@@ -1017,6 +1017,7 @@ figcaption {
   display: flex;
   flex-direction: column;
   gap: 0.5em;
+  max-width: 300px;
 }
 
 .hidden-file {
@@ -1026,10 +1027,13 @@ figcaption {
 .upload-btn {
   display: inline-block;
   padding: 8px 16px;
-  background-color: #3490dc;
-  color: white;
+  background-color: var(--primary-color);
+  color: var(--bg-color) !important;
   border-radius: 4px;
   cursor: pointer;
+  display: inline-block;
+  text-align: center;
+  width: fit-content;
 }
 
 #file-name {
