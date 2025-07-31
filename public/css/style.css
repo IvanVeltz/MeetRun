@@ -1368,6 +1368,7 @@ path:hover {
 
 .runner-card {
   max-width: 250px;
+  height: 90%;
   background-color: var(--card-bg-color);
   border-radius: 12px;
   border-left: 8px solid transparent;

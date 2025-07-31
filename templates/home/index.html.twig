@@ -49,9 +49,15 @@
                         {% endif %}
                         <div class="runner-info">
                             {{ user.firstName }} {{ user.lastName }} <br>
+                            {% if user.city %}
                             {{ user.city }} <br>
+                            {% endif %}
+                            {% if user.dateOfBirth %}
                             {{ user.getAge }} ans<br>
+                            {% endif %}
+                            {% if user.level %}
                             Niveau : {{ user.level.level }}
+                            {% endif %}
                         </div>
                     </div>
                 </a>

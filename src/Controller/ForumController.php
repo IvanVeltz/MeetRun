@@ -136,6 +136,11 @@ final class ForumController extends AbstractController
             return new JsonResponse(['success' => false, 'message' => 'Token CSRF invalide'], 403);
         }
 
+        // On vérifie que l'utilisateur a un compte verifié
+        if (!$user->isVerified()){
+            $this->addFlash('warning', 'Vouse devez avoir un compte verifié pour participer au forum');
+            return $this->redirectToRoute('app_user');
+        }
 
         $post = new Post();
         $post->setMessage($message);
