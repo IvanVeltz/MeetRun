@@ -7,55 +7,64 @@
     <a href="{{path('app_forum')}}"><i class="fa-solid fa-arrow-left"></i> Retour à la liste des sujets</a>
     <div class="topic-title">
         <h2>{{topic.title | capitalize}}</h2>
-            {% if app.user == topic.user or is_granted('ROLE_ADMIN')%}
+        {% if app.user == topic.user or is_granted('ROLE_ADMIN')%}
 
-                <a href="#" class="btn btn-success"
-                    onclick="event.preventDefault(); document.getElementById('toogleTopicState-{{ topic.id }}').submit();">
-                    {% if topic.isClosed %}
-                        <i class="fa-solid fa-lock-open"></i> Réouvrir le sujet
-                    {% else %}
-                        <i class="fa-solid fa-lock"></i> Clôturer le sujet
-                    {% endif %}
-                </a>
-            <form id="toogleTopicState-{{ topic.id }}"
-                action="{{path('app_toggleTopicState', {'id': topic.id})}}" method="POST" style="display: none;">
-                <input type="hidden" name="_token" value="{{ csrf_token('toogleTopicState' ~ topic.id) }}">
-            </form>
-            {% endif %}        
+        <a href="#" class="btn btn-success"
+            onclick="event.preventDefault(); document.getElementById('toogleTopicState-{{ topic.id }}').submit();">
+            {% if topic.isClosed %}
+            <i class="fa-solid fa-lock-open"></i> Réouvrir le sujet
+            {% else %}
+            <i class="fa-solid fa-lock"></i> Clôturer le sujet
+            {% endif %}
+        </a>
+        <form id="toogleTopicState-{{ topic.id }}" action="{{path('app_toggleTopicState', {'id': topic.id})}}"
+            method="POST" style="display: none;">
+            <input type="hidden" name="_token" value="{{ csrf_token('toogleTopicState' ~ topic.id) }}">
+        </form>
+        {% endif %}
     </div>
     {% for post in posts %}
     <div class="topic-container">
-        <p>{{ post.message }} - <small>Posté le {{ post.dateMessage|date("d-m-Y à H:i") }} par </small><a
+        <p>
+        {% if post.deleted %}
+        
+        <em>{{ post.message }}</em> - <small>Posté le {{ post.dateMessage|date("d-m-Y à H:i") }}</small>
+        {% else %}
+            {{ post.message }} - <small>Posté le {{ post.dateMessage|date("d-m-Y à H:i") }} par </small><a
                 href="{{ path('app_profil', {'id': post.user.id})}}"> {{ post.user}}</a>
-        </p>
+                {% endif %}
+            </p>
+        {% if not post.deleted %}
         {% if post.user.id == app.user.id or is_granted('ROLE_ADMIN') %}
         <a href="#" class="btn btn-primary"
-                    onclick="event.preventDefault(); document.getElementById('delete-post-{{ post.id }}').submit();">
+            onclick="event.preventDefault(); document.getElementById('delete-post-{{ post.id }}').submit();">
             <button type="button" class="btn-danger btn-sm">
                 &times;
             </button>
         </a>
-        <form id="delete-post-{{ post.id }}"
-                action="{{ path('app_delte_post', { 'id': post.id }) }}" method="POST"
-                style="display: none;">
-                <input type="hidden" name="_token" value="{{ csrf_token('delete-post' ~ follow.userTarget.id) }}">
+        {% endif %}
+
+        <form id="delete-post-{{ post.id }}" action="{{ path('app_delete_post', { 'id': post.id }) }}" method="POST"
+            style="display: none;">
+            <input type="hidden" name="_token" value="{{ csrf_token('deletePost' ~ post.id) }}">
         </form>
-        
+
         {% endif %}
     </div>
     {% endfor %}
     {% if app.user and not topic.isClosed %}
-        
-    <form method="post" action="{{ path('app_addMessage', {'id': topic.id}) }}" id="formAddMessage" class="form-message">
+
+    <form method="post" action="{{ path('app_addMessage', {'id': topic.id}) }}" id="formAddMessage"
+        class="form-message">
         <label for="addMessage">Ajouter un message :</label>
         <textarea name="addMessage" id="addMessage" rows="5" cols="40" required></textarea>
-        
+
         <input type="hidden" name="_token" value="{{ csrf_token('createPost') }}">
-        
+
         <button type="submit" name="submit">Envoyer</button>
     </form>
     {% endif %}
-    
+
     <a href="{{path('app_forum')}}"><i class="fa-solid fa-arrow-left"></i> Retour à la liste des sujets</a>
 </div>
 {% endblock %}

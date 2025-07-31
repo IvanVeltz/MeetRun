@@ -152,6 +152,37 @@ final class ForumController extends AbstractController
         return $this->redirectToRoute('app_topic', ['id' => $topic->getId()]);
     }
 
-    // #[Route('forum/{id}/delet-post')]
-    // #[IsGranted]
+    #[Route('forum/{id}/delet-post', name:'app_delete_post', methods:'post')]    
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    public function deletePost(Request $request, EntityManagerInterface $em, Post $post): Response
+    {
+        // On récupère le token CSRF envoyé avec la requête
+        $token = $request->request->get('_token');
+        
+        // On vérifie la validité du token CSRF
+        if (!$this->isCsrfTokenValid('deletePost'.$post->getId(), $token)) {
+            return new JsonResponse(['success' => false, 'message' => 'Token CSRF invalide'], 403);
+        }
+
+        // On vérifie que le post n'est pas déjà supprimé
+        if ($post->isDeleted()){
+            $this->addFlash('error', 'Ce message a déjà été supprimé');
+            return $this->redirectToRoute('app_topic', ['id' => $post->getTopic()->getId()]);
+        } 
+
+        // On vérifie que l'utilisateur est l'auteur du message ou un admin
+        if ($post->getUser() !== $this->getUser() && !$this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash('error', 'Vous n\'avez pas les droits pour supprimer ce message');
+            return $this->redirectToRoute('app_topic', ['id' => $post->getTopic()->getId()]);
+        }
+
+        // On anonymise le message au lieu de le supprimer
+        $post->setMessage("Ce message a été supprimé");
+        $post->setDeleted(true);
+        $em->flush();
+
+        $this->addFlash('success', 'Message supprimé avec succés');
+        return $this->redirectToRoute('app_topic', ['id' => $post->getTopic()->getId()]);
+    }
+
 }
