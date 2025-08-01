@@ -24,11 +24,13 @@
 <body>
 
     <nav class="navbar">
-        {% if app.user %}
+        {% if app.user and not app.user.isBanned %}
         <div class="navbar__wrapper" id="navbarWrapper">
             <div class="nav__menu">
                 <a href="{{ path('app_home')}}">Home</a>
+                {% if app.user.isVerified %}
                 <a href="{{ path('app_runners') }}">Runners</a>
+                {% endif %}
                 <a href="{{ path('app_events') }}">Courses</a>
                 <a href="{{path('app_forum') }}">Forum</a>
             </div>
@@ -71,7 +73,7 @@
             {% endfor %}
         </div>
         {% if app.user and not app.user.isVerified %}
-            <div class="alert alert-warning">
+            <div class="verify-email-banner">
                 Tu dois confirmer ton adresse e-mail pour profiter pleinement du site.
                 <a href="{{ path('app_verify_email_resend') }}">Renvoyer l’email de confirmation</a>
             </div>

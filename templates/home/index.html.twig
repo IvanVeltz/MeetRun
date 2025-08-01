@@ -33,7 +33,8 @@
                 {% include "./events/_events.html.twig" %}
             </div>
         </section>
-
+        {% if app.user.isVerified %}
+            
         <section class="users-container">
             <h2>Bienvenue aux nouveaux Runners</h2>
             <div class="users">
@@ -63,8 +64,9 @@
                 </a>
                 {% endfor %}
             </div>
-
+            
         </section>
+        {% endif %}
     </main>
 
 </div>

@@ -23,6 +23,11 @@ final class RunnersController extends AbstractController
         UserRepository $userRepository): Response
     {
         $user = $this->getUser();
+
+        if(!$user->isVerified()){
+            return $this->redirectToroute('app_home');
+        }
+
         $result = $searchService->handleSearch(
             $request,
             new SearchDataRunner(),

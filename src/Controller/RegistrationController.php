@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
@@ -90,7 +91,6 @@ class RegistrationController extends AbstractController
 
     #[Route('/verify/resend', name: 'app_verify_email_resend')]
     public function resendEmail(
-        EmailVerifierInterface $emailVerifier,
         UserInterface $user
     ): Response {
         if ($user->isVerified()) {
@@ -98,15 +98,13 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
 
-        $emailVerifier->sendEmailConfirmation(
-            'app_verify_email', // ta route de confirmation
-            $user,
-            (new TemplatedEmail())
-                ->from(new Address('noreply@monsite.fr', 'Nom de ton site'))
-                ->to($user->getEmail())
-                ->subject('Confirme ton adresse e-mail')
-                ->htmlTemplate('registration/confirmation_email.html.twig')
-        );
+        $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+                (new TemplatedEmail())
+                    ->from(new Address('admin@meetandrun.fr', 'Admin Meet&Run'))
+                    ->to((string) $user->getEmail())
+                    ->subject('Veuillez confirmer votre email')
+                    ->htmlTemplate('registration/confirmation_email.html.twig')
+            );
 
         $this->addFlash('success', 'Un nouvel email de confirmation t’a été envoyé.');
         return $this->redirectToRoute('app_home');
