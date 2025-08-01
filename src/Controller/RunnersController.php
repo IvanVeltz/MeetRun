@@ -17,16 +17,13 @@ final class RunnersController extends AbstractController
 {
     #[Route('/runners', name: 'app_runners')]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    #[IsGranted('EMAIL_VERIFIED')]
     public function index(
         Request $request,
         SearchService $searchService,
         UserRepository $userRepository): Response
     {
         $user = $this->getUser();
-
-        if(!$user->isVerified()){
-            return $this->redirectToroute('app_home');
-        }
 
         $result = $searchService->handleSearch(
             $request,

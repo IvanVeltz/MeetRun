@@ -40,8 +40,8 @@ class LoginSuccessSubscriber implements EventSubscriberInterface
             $this->em->persist($user);
             $this->em->flush();
 
-            $event->setResponse($response);         // ⬅️ redirection forcée
-            return;                                 // on s’arrête là
+            $event->setResponse($response);         
+            return;                                 
         }
 
         if (method_exists($user, 'getId')) {

@@ -31,4 +31,8 @@ services:
     App\Service\ImageUploader:
         arguments:
             $targetDirectory: '%image_directory%'
+    App\Security\AccessDeniedHandler:
+        arguments:
+            $router: '@router'
+            $tokenStorage: '@security.token_storage'
 

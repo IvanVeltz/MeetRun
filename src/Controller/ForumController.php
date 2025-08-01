@@ -56,6 +56,7 @@ final class ForumController extends AbstractController
 
     #[Route('/forum/creatTopic', name:'app_topic_create')]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    #[IsGranted('EMAIL_VERIFIED')]
     public function topicCreate(EntityManagerInterface $em, Request $request, Security $security, CategoryRepository $categoryRepository): Response
     {
         $title = trim(filter_var($request->request->get('title'), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
@@ -102,6 +103,7 @@ final class ForumController extends AbstractController
     }
 
     #[Route('/forum/topicClosed/{id}', name:'app_toggleTopicState')]
+    #[IsGranted('EMAIL_VERIFIED')]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function topicClosed(EntityManagerInterface $em, Topic $topic, Request $request): Response
     {
@@ -125,6 +127,7 @@ final class ForumController extends AbstractController
     }
 
     #[Route('forum/post/{id}/addMessage', name:'app_addMessage')]
+    #[IsGranted('EMAIL_VERIFIED')]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function addMessage(EntityManagerInterface $em, Topic $topic, Request $request): Response
     {
@@ -158,6 +161,7 @@ final class ForumController extends AbstractController
     }
 
     #[Route('forum/{id}/delet-post', name:'app_delete_post', methods:'post')]    
+    #[IsGranted('EMAIL_VERIFIED')]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function deletePost(Request $request, EntityManagerInterface $em, Post $post): Response
     {

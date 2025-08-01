@@ -39,6 +39,7 @@ security:
             remember_me:
                 secret: '%kernel.secret%'
                 lifetime: 604800
+            access_denied_handler: App\Security\AccessDeniedHandler
             # user_checker: App\Security\UserChecker
 
             
