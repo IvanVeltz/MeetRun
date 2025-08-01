@@ -52,7 +52,7 @@
         {% endif %}
     </div>
     {% endfor %}
-    {% if app.user and not topic.isClosed %}
+    {% if app.user and app.user.isVerified and not topic.isClosed %}
 
     <form method="post" action="{{ path('app_addMessage', {'id': topic.id}) }}" id="formAddMessage"
         class="form-message">

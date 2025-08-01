@@ -131,7 +131,11 @@ final class ForumController extends AbstractController
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function addMessage(EntityManagerInterface $em, Topic $topic, Request $request): Response
     {
-        $message = trim(filter_var($request->request->get('addMessage'), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+        $message = trim(filter_var(
+            $request->request->get('addMessage'),
+            FILTER_UNSAFE_RAW,
+            FILTER_FLAG_NO_ENCODE_QUOTES
+        ));
         $user = $this->getUser();
 
         $token = $request->request->get('_token');
