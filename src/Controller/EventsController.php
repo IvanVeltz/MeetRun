@@ -154,20 +154,26 @@ final class EventsController extends AbstractController
     }
 
     #[Route('/photo/delete/{id}', name: 'app_photo_delete', methods: ['POST'])]
+    #[IsGranted('EMAIL_VERIFIED')]
     public function deletePhoto(
         Photo $photo,
         EntityManagerInterface $em,
-        Request $request): JsonResponse {
+        Request $request): JsonResponse
+    {
+        $user = $this->getUser();
+        // Vérification du droit sur la photo (à adapter selon ta logique)
+        if ($photo->getUser() !== $user) {
+            return new JsonResponse(['success' => false, 'message' => 'Accès refusé'], 403);
+        }
+
         $token = $request->request->get('_token');
-        
         if (!$this->isCsrfTokenValid('delete' . $photo->getId(), $token)) {
             return new JsonResponse(['success' => false, 'message' => 'Token CSRF invalide'], 403);
         }
 
         $filepath = $this->getParameter('image_directory') . '/' . basename($photo->getUrl());
-
-        if (file_exists($filepath)) {
-            unlink($filepath);
+        if (file_exists($filepath) && !unlink($filepath)) {
+            return new JsonResponse(['success' => false, 'message' => 'Erreur lors de la suppression du fichier'], 500);
         }
 
         $em->remove($photo);
@@ -176,7 +182,9 @@ final class EventsController extends AbstractController
         return new JsonResponse(['success' => true]);
     }
 
+
     #[Route('/event/{id}/cancel', name: 'app_event_cancel', methods: ['POST'])]
+    #[IsGranted('EMAIL_VERIFIED')]
     public function cancelEvent(
         int $id,
         EventRepository $eventRepository,
@@ -204,6 +212,7 @@ final class EventsController extends AbstractController
 
     #[Route('/event/{id}/inscription', name: 'app_subscribeEvent', methods: ['POST'])]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    #[IsGranted('EMAIL_VERIFIED')]
     public function inscription(
         Event $event, 
         Request $request, 
@@ -263,6 +272,7 @@ final class EventsController extends AbstractController
 
     #[Route('/event/{id}/desinscription', name: 'app_unsubscribeEvent', methods: ['POST'])]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    #[IsGranted('EMAIL_VERIFIED')]
     public function unsubscribe(
         Event $event,
         Request $request,
@@ -300,6 +310,7 @@ final class EventsController extends AbstractController
 
     #[Route('/event/{id}/favori', name: 'app_toggle_favori', methods: ['POST'])]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    #[IsGranted('EMAIL_VERIFIED')]
     public function toggleFavori(Event $event, Request $request, EntityManagerInterface $em, FavoriRepository $favoriRepository): Response
     {
         $user = $this->getUser();
@@ -330,9 +341,6 @@ final class EventsController extends AbstractController
         $em->flush();
         $this->addFlash('success', $message);
 
-        
-
         return $this->redirectToRoute('app_detailEvent', ['id' => $event->getId()]);
     }
-
 }

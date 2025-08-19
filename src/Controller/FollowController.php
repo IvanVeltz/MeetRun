@@ -12,6 +12,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+#[IsGranted('EMAIL_VERIFIED')]
 final class FollowController extends AbstractController
 {
     #[Route('/follow/request/{id}', name: 'app_follow_request', methods: ['POST'])]

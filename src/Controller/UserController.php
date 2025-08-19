@@ -100,9 +100,14 @@ final class UserController extends AbstractController
         TopicRepository $topicRepository): response
     {
         $user = $userRepository->findOneBy(['id' => $id]);
-
         if (!$user) {
-            return $this->redirectToRoute('app_login'); // Redirige si aucun utilisateur connecté
+            $this->addFlash('warning', 'Utilisateur introuvable');
+            return $this->redirectToRoute('app_home');
+        }
+        $currentUser = $this->getUser();
+
+        if(!$currentUser->isVerified() && $user->getId() != $currentUser->getId()){
+            return $this->redirectToRoute('app_home');
         }
 
         $registrationNextEvents = $registrationEventRepository->findByUserAndNextEvents($user);

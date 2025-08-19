@@ -56,6 +56,7 @@ final class ForumController extends AbstractController
 
     #[Route('/forum/creatTopic', name:'app_topic_create')]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    #[IsGranted('EMAIL_VERIFIED')]
     public function topicCreate(EntityManagerInterface $em, Request $request, Security $security, CategoryRepository $categoryRepository): Response
     {
         $title = trim(filter_var($request->request->get('title'), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
@@ -102,6 +103,7 @@ final class ForumController extends AbstractController
     }
 
     #[Route('/forum/topicClosed/{id}', name:'app_toggleTopicState')]
+    #[IsGranted('EMAIL_VERIFIED')]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function topicClosed(EntityManagerInterface $em, Topic $topic, Request $request): Response
     {
@@ -125,10 +127,15 @@ final class ForumController extends AbstractController
     }
 
     #[Route('forum/post/{id}/addMessage', name:'app_addMessage')]
+    #[IsGranted('EMAIL_VERIFIED')]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function addMessage(EntityManagerInterface $em, Topic $topic, Request $request): Response
     {
-        $message = trim(filter_var($request->request->get('addMessage'), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+        $message = trim(filter_var(
+            $request->request->get('addMessage'),
+            FILTER_UNSAFE_RAW,
+            FILTER_FLAG_NO_ENCODE_QUOTES
+        ));
         $user = $this->getUser();
 
         $token = $request->request->get('_token');
@@ -136,6 +143,11 @@ final class ForumController extends AbstractController
             return new JsonResponse(['success' => false, 'message' => 'Token CSRF invalide'], 403);
         }
 
+        // On vérifie que l'utilisateur a un compte verifié
+        if (!$user->isVerified()){
+            $this->addFlash('warning', 'Vouse devez avoir un compte verifié pour participer au forum');
+            return $this->redirectToRoute('app_user');
+        }
 
         $post = new Post();
         $post->setMessage($message);
@@ -152,6 +164,38 @@ final class ForumController extends AbstractController
         return $this->redirectToRoute('app_topic', ['id' => $topic->getId()]);
     }
 
-    // #[Route('forum/{id}/delet-post')]
-    // #[IsGranted]
+    #[Route('forum/{id}/delet-post', name:'app_delete_post', methods:'post')]    
+    #[IsGranted('EMAIL_VERIFIED')]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    public function deletePost(Request $request, EntityManagerInterface $em, Post $post): Response
+    {
+        // On récupère le token CSRF envoyé avec la requête
+        $token = $request->request->get('_token');
+        
+        // On vérifie la validité du token CSRF
+        if (!$this->isCsrfTokenValid('deletePost'.$post->getId(), $token)) {
+            return new JsonResponse(['success' => false, 'message' => 'Token CSRF invalide'], 403);
+        }
+
+        // On vérifie que le post n'est pas déjà supprimé
+        if ($post->isDeleted()){
+            $this->addFlash('error', 'Ce message a déjà été supprimé');
+            return $this->redirectToRoute('app_topic', ['id' => $post->getTopic()->getId()]);
+        } 
+
+        // On vérifie que l'utilisateur est l'auteur du message ou un admin
+        if ($post->getUser() !== $this->getUser() && !$this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash('error', 'Vous n\'avez pas les droits pour supprimer ce message');
+            return $this->redirectToRoute('app_topic', ['id' => $post->getTopic()->getId()]);
+        }
+
+        // On anonymise le message au lieu de le supprimer
+        $post->setMessage("Ce message a été supprimé");
+        $post->setDeleted(true);
+        $em->flush();
+
+        $this->addFlash('success', 'Message supprimé avec succés');
+        return $this->redirectToRoute('app_topic', ['id' => $post->getTopic()->getId()]);
+    }
+
 }

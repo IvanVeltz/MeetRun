@@ -33,7 +33,8 @@
                 {% include "./events/_events.html.twig" %}
             </div>
         </section>
-
+        {% if app.user.isVerified %}
+            
         <section class="users-container">
             <h2>Bienvenue aux nouveaux Runners</h2>
             <div class="users">
@@ -49,16 +50,23 @@
                         {% endif %}
                         <div class="runner-info">
                             {{ user.firstName }} {{ user.lastName }} <br>
+                            {% if user.city %}
                             {{ user.city }} <br>
+                            {% endif %}
+                            {% if user.dateOfBirth %}
                             {{ user.getAge }} ans<br>
+                            {% endif %}
+                            {% if user.level %}
                             Niveau : {{ user.level.level }}
+                            {% endif %}
                         </div>
                     </div>
                 </a>
                 {% endfor %}
             </div>
-
+            
         </section>
+        {% endif %}
     </main>
 
 </div>

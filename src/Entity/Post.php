@@ -28,6 +28,9 @@ class Post
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $deleted = null;
+
     
 
     public function getId(): ?int
@@ -79,6 +82,18 @@ class Post
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function isDeleted(): ?bool
+    {
+        return $this->deleted;
+    }
+
+    public function setDeleted(?bool $deleted): static
+    {
+        $this->deleted = $deleted;
 
         return $this;
     }
