@@ -5,6 +5,7 @@
 {% block body %}
 <div class="topics-container">
     <h2>Liste des derniers sujets</h2>
+    {% if  app.user and app.user.isVerified %}
     <a href="" id="openModalBtn">Créer un nouveau sujet</a>
     <!-- Modal -->
     <div id="eventModal" class="modal">
@@ -40,6 +41,7 @@
 
         </div>
     </div>
+    {% endif %}
     {% for topic in topics %}
     <div class="topic-container">
         <p>{{topic.category}} - <a href="{{path('app_topic', {'id': topic.id})}}" class="link-topic">{{ topic.title | capitalize}}</a> 
