@@ -154,7 +154,6 @@ final class EventsController extends AbstractController
     }
 
     #[Route('/photo/delete/{id}', name: 'app_photo_delete', methods: ['POST'])]
-    #[IsGranted('EMAIL_VERIFIED')]
     public function deletePhoto(
         Photo $photo,
         EntityManagerInterface $em,
@@ -184,7 +183,6 @@ final class EventsController extends AbstractController
 
 
     #[Route('/event/{id}/cancel', name: 'app_event_cancel', methods: ['POST'])]
-    #[IsGranted('EMAIL_VERIFIED')]
     public function cancelEvent(
         int $id,
         EventRepository $eventRepository,
@@ -212,7 +210,6 @@ final class EventsController extends AbstractController
 
     #[Route('/event/{id}/inscription', name: 'app_subscribeEvent', methods: ['POST'])]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
-    #[IsGranted('EMAIL_VERIFIED')]
     public function inscription(
         Event $event, 
         Request $request, 
@@ -272,7 +269,6 @@ final class EventsController extends AbstractController
 
     #[Route('/event/{id}/desinscription', name: 'app_unsubscribeEvent', methods: ['POST'])]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
-    #[IsGranted('EMAIL_VERIFIED')]
     public function unsubscribe(
         Event $event,
         Request $request,
@@ -310,7 +306,6 @@ final class EventsController extends AbstractController
 
     #[Route('/event/{id}/favori', name: 'app_toggle_favori', methods: ['POST'])]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
-    #[IsGranted('EMAIL_VERIFIED')]
     public function toggleFavori(Event $event, Request $request, EntityManagerInterface $em, FavoriRepository $favoriRepository): Response
     {
         $user = $this->getUser();
