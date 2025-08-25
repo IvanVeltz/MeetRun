@@ -42,10 +42,7 @@ class EmailVerifiedVoter extends Voter
     {
         // Récupération de l'utilisateur connecté à partir du token
         $user = $token->getUser();
-        dd([
-            'user_class' => get_class($user),
-            'is_verified' => $user instanceof User ? $user->isVerified() : null,
-        ]);
+        
 
         // Si l'utilisateur n'est pas connecté ou n'est pas du bon type, on refuse l'accès
         if (!$user instanceof User) {
