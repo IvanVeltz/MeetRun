@@ -17,8 +17,6 @@ function initCarteDepartements() {
   });
 
   // Affichage initial
-  // updateDisplay();
-
   document.querySelectorAll('#svg-wrapper path.land').forEach(path => {
     const depClass = Array.from(path.classList).find(cls => cls.startsWith('departement'));
     if (!depClass) return;
@@ -51,13 +49,26 @@ function initCarteDepartements() {
     });
   });
 
-  // function updateDisplay() {
-  //   if (selected.size > 0) {
-  //     divNum.textContent = 'Départements sélectionnés : ' + Array.from(selected).join(', ');
-  //   } else {
-  //     divNum.textContent = 'Pas de sélection';
-  //   }
-  // }
+  syncMapSelection(checkboxes);
+}
+
+function syncMapSelection(checkboxes){
+  document.querySelectorAll('#svg-wrapper path.land').forEach(path=> {
+    const depClass = Array.from(path.classList).find(cls => cls.startsWith('departement'));
+    if (!depClass) return;
+
+    const code = depClass.replace('departement', '');
+    const checkbox = Array.from(checkboxes).find(cb => cb.value === code);
+    
+    if (!checkbox) return;
+
+    // Mise à jour visuelle : ajoute/enlève la classe selected
+    if (checkbox.checked) {
+      path.classList.add('selected');
+    } else {
+      path.classList.remove('selected');
+    }
+  });
 }
 
 // DOM ready

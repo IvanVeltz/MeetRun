@@ -1222,6 +1222,28 @@ figcaption {
   top: 20px;
 }
 
+.buttons {
+  display: flex;
+  justify-content: center; /* centre horizontalement */
+  margin-top: 1rem;        /* espace au-dessus du bouton */
+}
+#reset{
+  color: var(--primary-color);                    
+  border: 1px solid #fff;
+  background-color: var(--bg-color);
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  width: 130px;
+  transition: all 0.2s ease-in-out;
+  font-weight: bolder;
+
+}
+#reset:hover{
+  color: var(--secondary-color);
+  font-weight: bolder;
+}
 .filter .form-group,
 .filter .form-row {
   margin-bottom: 20px;

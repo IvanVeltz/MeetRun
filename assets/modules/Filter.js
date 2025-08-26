@@ -80,7 +80,7 @@ export default class Filter{
                             el.value = '';
                     }
                 });
-
+                syncMapSelection(this.form.querySelectorAll('input[name="departements[]"]'));
                 // reset du slider noUiSlider si présent
                 if (this.slider && this.slider.noUiSlider) {
                     this.slider.noUiSlider.reset();
