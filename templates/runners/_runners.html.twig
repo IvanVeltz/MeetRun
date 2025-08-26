@@ -2,7 +2,7 @@
 <div class="runner-cell">
     
     <a href="{{ path('app_profil', {'id' :  runner.id}) }}" class="runner-card-link">
-        <div class="runner-card {{ runner.sexe == 'homme' or runner.sexe == 'Homme' or runner.sexe =='H' ? 'runner-garcon' : 'runner-fille' }}" data-flip-id ="runner-{{ runner.id }}">
+        <div class="runner-card " data-flip-id ="runner-{{ runner.id }}">
             {% if runner.pictureProfilUrl %}
             <img src="{{ asset(runner.pictureProfilUrl) }}" alt="Photo de {{ runner.firstName }}" class="runner-photo">
             {% else %}
