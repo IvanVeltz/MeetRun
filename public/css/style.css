@@ -890,8 +890,6 @@ figcaption {
   transform: scale(1.15);
 }
 
-.circle:hover {}
-
 .circle i {
   font-size: 70px;
   margin-bottom: 15px;

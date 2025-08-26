@@ -10,6 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ResetType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
@@ -54,6 +55,10 @@ class SearchFormEvent extends AbstractType
             ->add('distanceMax', IntegerType::class, [
                 'required' => false,
                 'label' => 'Distance maximum',
+            ])
+            ->add('reset', ResetType::class, [
+                'label' => 'Réinitialiser',
+                'attr' => ['class' => 'reset-btn', 'id' => 'reset']
             ])
         ;
     }

@@ -59,6 +59,43 @@ export default class Filter{
                 input.addEventListener('change', this.loadForm.bind(this))
             }
         })
+        
+        // bouton reset
+        const resetBtn = this.form.querySelector('#reset');
+        if (resetBtn) {
+            resetBtn.addEventListener('click', e => {
+                e.preventDefault();
+                // reset manuel des champs texte, select, checkbox
+                this.form.querySelectorAll('input, select, textarea').forEach(el => {
+                    switch(el.type) {
+                        case 'checkbox':
+                        case 'radio':
+                            el.checked = false;
+                            break;
+                        case 'text':
+                        case 'hidden':
+                        case 'number':
+                        case 'email':
+                        default:
+                            el.value = '';
+                    }
+                });
+
+                // reset du slider noUiSlider si présent
+                if (this.slider && this.slider.noUiSlider) {
+                    this.slider.noUiSlider.reset();
+                    const sliderInputs = this.slider.querySelectorAll('input');
+                    sliderInputs.forEach(input => input.dispatchEvent(new Event('change)')));
+                }
+
+                // réinitialiser l’URL (pour history)
+                const url = new URL(this.form.getAttribute('action') || window.location.href);
+                history.replaceState({}, '', url.pathname);
+                console.log('hey')
+                // relancer les résultats par défaut
+                this.loadForm();
+            })
+        }
     }
 
     async loadForm() {

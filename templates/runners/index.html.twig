@@ -74,11 +74,18 @@
                 {{ form_row(form.ageMax) }}
             </div>
         </div>
+
+        <div class="buttons">
+            {{ form_row(form.reset) }}
+        </div>
         {{ form_end(form) }}
 
     </div>
     <div class="search-runners-container">
         <h3>Liste des runners</h3>
+            {% if results|length < 1 %}
+                <p>Aucun coureurs ne correspond à votre recherche</p>
+            {% endif %}
         <div class="grid js-filter-content">
             {% include "runners/_runners.html.twig" %}
         </div>
