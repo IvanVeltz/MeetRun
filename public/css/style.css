@@ -924,7 +924,6 @@ figcaption {
   text-align: center;
 }
 
-
 .users {
   display: flex;
   flex-wrap: wrap;
@@ -932,11 +931,6 @@ figcaption {
   gap: 20px;
   padding: 20px;
 }
-
-
-
-
-
 
 /* **** CONNEXION **** */
 
