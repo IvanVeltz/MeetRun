@@ -24,13 +24,16 @@ document.addEventListener('DOMContentLoaded', function () {
 // Affichage addFlash
 document.addEventListener('DOMContentLoaded', function () {
   const messages = document.querySelectorAll('.flash-message');
-  messages.forEach((msg) => {
-    setTimeout(() => {
-      msg.style.opacity = '0';
-      msg.style.transform = 'translateX(20px)';
-      setTimeout(() => msg.remove(), 500); // suppression après transition
-    }, 5000); // 5 secondes
-  });
+  if(messages){
+
+    messages.forEach((msg) => {
+      setTimeout(() => {
+        msg.style.opacity = '0';
+        msg.style.transform = 'translateX(20px)';
+        setTimeout(() => msg.remove(), 500); // suppression après transition
+      }, 5000); // 5 secondes
+    });
+  }
 });
 
 // Changement de la navbar au scorll
