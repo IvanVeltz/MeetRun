@@ -40,7 +40,7 @@
             <div class="users">
                 {% for user in users %}
                 <a href="{{ path('app_profil', {'id' :  user.id}) }}" class="runner-card-link">
-                    <div class="runner-card {{ user.sexe == 'homme' ? 'runner-garcon' : 'runner-fille' }}">
+                    <div class="runner-card">
                         {% if user.pictureProfilUrl %}
                         <img src="{{ asset(user.pictureProfilUrl) }}" alt="Photo de {{ user.firstName }}"
                             class="runner-photo">

@@ -11,12 +11,6 @@
   --accent-color: #00bcd4;
   /* Turquoise vif */
 
-  /* Couleurs selon le sexe */
-  --boy-color: #007bff;
-  /* Bleu garçon */
-  --girl-color: #ff69b4;
-  /* Rose fille */
-
   /* Couleurs neutres */
   --bg-color: #f5f7fa;
   /* Fond global */
@@ -924,6 +918,10 @@ figcaption {
 
 .users-container {
   padding: 50px;
+}
+
+.users-container h2{
+  text-align: center;
 }
 
 
