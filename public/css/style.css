@@ -1176,11 +1176,13 @@ figcaption {
 #chat-container {
   display: flex;
   flex-direction: column;
-  height: 90vh; /* prend tout l'écran */
-  max-width: 600px;
+  height: 90vh; /* prend 90% de l'écran */
+  max-width: 300px;
+  width: 100%; /* s'assure de ne pas dépasser */
   margin: auto;
   border: 1px solid #ccc;
   background-color: #f9f9f9;
+  box-sizing: border-box; /* inclut padding et border dans la largeur */
 }
 
 /* Zone des messages */
@@ -1190,6 +1192,7 @@ figcaption {
   padding: 10px;
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
 }
 
 /* Bulles de message */
@@ -1199,20 +1202,25 @@ figcaption {
   padding: 8px 12px;
   border-radius: 15px;
   display: inline-block;
+  word-wrap: break-word; /* évite que le texte dépasse */
+  box-sizing: border-box;
 }
 
 .message.me {
   background-color: var(--secondary-color);
   color: var(--bg-color);
   align-self: flex-end;
+  margin-left: auto; /* pousse à droite sans dépasser */
 }
 
 .message.me .message-time{
-  color: var(--bg-color);
+  color:var(--bg-color);
 }
+
 .message.other {
   background-color: #FFF;
   align-self: flex-start;
+  margin-right: auto; /* pousse à gauche */
 }
 
 /* Contenu et temps */
@@ -1231,6 +1239,8 @@ figcaption {
   padding: 10px;
   border-top: 1px solid #ccc;
   background-color: #fff;
+  box-sizing: border-box;
+  width: 100%; /* s'assure de rester dans le container */
 }
 
 .chat-input {
@@ -1238,6 +1248,8 @@ figcaption {
   padding: 8px 10px;
   border-radius: 20px;
   border: 1px solid #ccc;
+  max-width: 100%; /* empêche le débordement */
+  box-sizing: border-box;
 }
 
 .chat-send {
@@ -1248,6 +1260,7 @@ figcaption {
   background-color: #0084FF;
   color: #fff;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 /* Texte info si pas de chat */
@@ -1256,6 +1269,18 @@ figcaption {
   text-align: center;
   color: #666;
 }
+
+/* Ajustement responsive */
+@media (max-width: 650px) {
+  #chat-container {
+    max-width: 100%;
+    height: 100vh;
+  }
+  .message {
+    max-width: 85%;
+  }
+}
+
 
 
 /* ----------------- RUNNERS PAGE -------------- */

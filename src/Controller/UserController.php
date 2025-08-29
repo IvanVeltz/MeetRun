@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Message;
 use App\Form\ProfilForm;
 use App\Service\ImageUploader;
 use App\Form\ChangePasswordForm;
@@ -139,5 +140,58 @@ final class UserController extends AbstractController
             'other' => $other,
             'canMessage' => $canMessage
         ]);
-    }        
+    }
+    
+    #[Route('/user/profil/{id}/messages/add', name:'app_chat_addMessage', methods:['POST'])]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    public function addMessage(
+        User $other,
+        Request $request,
+        EntityManagerInterface $em,
+        FollowRepository $followRepository
+    ): Response {
+        $user = $this->getUser();
+
+        if(!$other){
+            $this->addFlash('error', 'Utilisateur introuvable');
+            return $this->redirectToRoute('app_home');
+        }
+
+        // Vérifie le follow mutuel
+        if (!$followRepository->areMutuallyFollowing($user, $other)) {
+            $this->addFlash('warning', 'Vous ne pouvez pas envoyer de message à cet utilisateur.');
+            return $this->redirectToRoute('app_profil', ['id' => $other->getId()]);
+        }
+
+        // On vérifie le token
+        $token = $request->request->get('_token');
+        if (!$this->isCsrfTokenValid('createChatMessage', $token)) {
+            return new JsonResponse(['success' => false, 'message' => 'Token CSRF invalide'], 403);
+        }
+
+        $content = trim(filter_var(
+            $request->request->get('chatMessage'),
+            FILTER_UNSAFE_RAW,
+            FILTER_FLAG_NO_ENCODE_QUOTES
+        ));
+
+        if (!$content) {
+            $this->addFlash('warning', 'Le message ne peut pas être vide.');
+            return $this->redirectToRoute('app_profil', ['id' => $other->getId()]);
+        }
+
+        $message = new Message();
+        $message->setSender($user);
+        $message->setRecipient($other);
+        $message->setContent($content);
+        $message->setDateOfMessage(new \DateTime());
+
+        $em->persist($message);
+        $em->flush();
+
+        $this->addFlash('success', 'Message envoyé');
+
+        return $this->redirectToRoute('app_profil', ['id' => $other->getId()]);
+
+    }
 }

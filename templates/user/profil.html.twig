@@ -246,15 +246,38 @@
                     {% for message in messages %}
                         <div class="message {{ message.sender == app.user ? 'me' : 'other' }}">
                             <p class="message-content">{{ message.content }}</p>
-                            <small class="message-time">{{ message.dateOfMessage|date('H:i') }}</small>
+                            {% set now = "now"|date("U") %}
+                            {% set msgTime = message.dateOfMessage|date("U") %}
+                            {% set diff = now - msgTime %}
+
+                            {% set messageDay = message.dateOfMessage|date('Y-m-d') %}
+                            {% set today = "now"|date('Y-m-d') %}
+                            {% set yesterday = "yesterday"|date('Y-m-d') %}
+
+                            <small class="message-time">
+                            {% if messageDay == today %}
+                                {{ message.dateOfMessage|date('H:i') }}
+                            {% elseif messageDay == yesterday %}
+                                Hier à {{ message.dateOfMessage|date('H:i') }}
+                            {% else %}
+                                il y a {{ (diff / 86400)|round }} jours
+                            {% endif %}
+                            </small>
+
+
                         </div>
                     {% endfor %}
                 </div>
     
-                <form id="chat-form">
-                    <input type="text" name="content" placeholder="Écrire un message..." class="chat-input">
-                    <button type="submit" class="chat-send">Envoyer</button>
+                <form method="post" action="{{ path('app_chat_addMessage', {'id': other.id}) }}" id="chat-form" class="form-message">
+                    <label for="chatMessage">Envoyer un message :</label>
+                    <textarea name="chatMessage" id="chatMessage" rows="3" required></textarea>
+                
+                    <input type="hidden" name="_token" value="{{ csrf_token('createChatMessage') }}">
+                
+                    <button type="submit">Envoyer</button>
                 </form>
+                
             {% else %}
                 <p class="no-chat">Vous devez être mutuellement suivis pour échanger des messages avec cet utilisateur.</p>
             {% endif %}
