@@ -81,7 +81,7 @@ class EventRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('e')
         ->where('e.cancelled = :cancelled') // On enelvèe les course annulé
         ->setParameter('cancelled', false)
-        ->orderBy('e.dateEvent', 'ASC'); // On trie par ordre croissant, les 
+        ->orderBy('e.dateEvent', 'ASC'); // On trie par ordre croissant
         
         if($search->q){
             $qb->andWhere('e.name LIKE :q')
