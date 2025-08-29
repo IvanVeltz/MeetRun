@@ -39,7 +39,7 @@ body {
   padding: 0;
   box-sizing: border-box;
   font-family: var(--body-font);
-  background-color: var(--bg-color)  !important;
+  background-color: var(--bg-color) !important;
 }
 
 a,
@@ -47,11 +47,11 @@ a:hover {
   text-decoration: none;
 }
 
-a{
+a {
   color: var(--primary-color);
 }
 
-a:hover{
+a:hover {
   color: var(--secondary-color);
 }
 
@@ -59,7 +59,8 @@ a:hover{
   margin-top: 59px;
 }
 
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
   padding: 0;
@@ -232,7 +233,8 @@ main.main-container {
 
   .navbar__wrapper.show {
     display: flex;
-    flex-direction: column; /* colonne uniquement quand menu ouvert */
+    flex-direction: column;
+    /* colonne uniquement quand menu ouvert */
     justify-content: center;
     align-items: center;
     position: fixed;
@@ -284,9 +286,9 @@ main.main-container {
     cursor: pointer;
   }
 
-  .navbar__wrapper.show + .nav__toggle {
-  display: none !important;
-}
+  .navbar__wrapper.show+.nav__toggle {
+    display: none !important;
+  }
 }
 
 
@@ -344,7 +346,7 @@ main.main-container {
   text-align: center;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   z-index: 10000;
-  border-radius: 8px ;
+  border-radius: 8px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -713,7 +715,7 @@ p {
   text-align: center;
 }
 
-.form-register{
+.form-register {
   display: flex;
   flex-direction: column;
   gap: 1.5em;
@@ -725,10 +727,14 @@ p {
 }
 
 .form-login a {
-  position: relative;  /* nécessaire pour que ::after soit positionné par rapport au lien */
-  display: inline-block; /* pour que width: 100% dans ::after corresponde à la largeur du lien */
-  color: #007bff; /* juste pour la cohérence avec l'exemple */
-  text-decoration: none; /* pour supprimer le soulignement par défaut */
+  position: relative;
+  /* nécessaire pour que ::after soit positionné par rapport au lien */
+  display: inline-block;
+  /* pour que width: 100% dans ::after corresponde à la largeur du lien */
+  color: #007bff;
+  /* juste pour la cohérence avec l'exemple */
+  text-decoration: none;
+  /* pour supprimer le soulignement par défaut */
 }
 
 .form-login p a:hover {
@@ -811,7 +817,7 @@ p {
   background-color: #0056b3;
 }
 
-.form-check label{
+.form-check label {
   margin-bottom: 0;
 }
 
@@ -918,7 +924,7 @@ figcaption {
   padding: 50px;
 }
 
-.users-container h2{
+.users-container h2 {
   text-align: center;
 }
 
@@ -957,7 +963,7 @@ figcaption {
 
 /* *** Mes donnes perso *** */
 
-.form-infos{
+.form-infos {
   max-width: 600px;
   margin: 2em auto;
   padding: 2em;
@@ -979,14 +985,14 @@ figcaption {
   object-fit: contain;
 }
 
-.user h3{
+.user h3 {
   text-align: center;
   font-weight: 700;
-  font-size:xx-large;
+  font-size: xx-large;
   color: var(--primary-color);
 }
 
-.user p{
+.user p {
   text-align: center;
   font-size: 1.1rem;
   color: var(--text-color);
@@ -1031,6 +1037,7 @@ figcaption {
   box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
   background-color: white;
 }
+
 .custom-file-upload {
   display: flex;
   flex-direction: column;
@@ -1089,7 +1096,7 @@ figcaption {
 .existing-picture img.img-thumbnail {
   max-width: 150px;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Bouton suppression image */
@@ -1156,6 +1163,7 @@ figcaption {
   .form-inofs {
     padding: 1em;
   }
+
   .form-inofs button[type="submit"] {
     width: 100%;
     min-width: unset;
@@ -1163,26 +1171,145 @@ figcaption {
 }
 
 /****** PROFIL PAGE *****/
+
 .profil-container {
   display: flex;
+  gap: 20px;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
-.left-container {
-  width: 300px;
-  padding: 30px;
-}
-
-/* Container principal */
-#chat-container {
+/* Colonnes */
+.profil-detail-container, .profil-chat-container {
+  width: 300px; /* colonnes fines */
   display: flex;
   flex-direction: column;
-  height: 90vh; /* prend 90% de l'écran */
+}
+
+.profil-detail-container{
+  height: fit-content;
+  background-color: var(--primary-color);
+  padding: 15px; /* espace interne */
+  border-radius: 10px; /* coins arrondis */
+  border: 1px solid rgba(0,0,0,0.1); /* bordure subtile */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* ombre légère */
+  color: #fff; /* texte blanc */
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+/* Titres et paragraphes */
+.profil-detail-container h4,
+.profil-detail-container p,
+.profil-detail-container .name-user {
+  margin: 0 0 10px 0;
+  color: #fff;
+}
+
+/* Liens et boutons */
+.profil-detail-container a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.profil-detail-container a.btn {
+  display: inline-block;
+  margin-top: 5px;
+  padding: 5px 8px;
+  border-radius: 5px;
+  background-color: rgba(255,255,255,0.2);
+  transition: background-color 0.2s ease;
+}
+
+.profil-detail-container a.btn:hover {
+  background-color: rgba(255,255,255,0.3);
+}
+
+.event-container, .forum-container {
+  flex: 1; /* prennent tout l'espace restant */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Cartes d'événements compactes dans le profil */
+.profil-event-container .event-card {
+  background-color: white;
+  border-radius: 10px;
+  max-width: 180px; /* plus petite que la version normale */
+  padding: 0.5rem 0.5rem 0 0.5rem; /* padding réduit */
+  border: 2px solid var(--primary-color);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.profil-event-container .event-card:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 6px 6px 0 0 var(--primary-color);
+}
+
+/* Image */
+.profil-event-container .event-card figure {
+  margin: 0 0 0.5rem 0;
+  padding: 0;
+  height: 100px; /* plus petit */
+  overflow: hidden;
+}
+
+.profil-event-container .event-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  display: block;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+/* Titres */
+.profil-event-container .event-card h3 {
+  font-size: 0.9rem;
+  margin-top: 0;
+  height: 2.5em; /* réduit */
+  overflow: hidden;
+}
+
+/* Date */
+.profil-event-container .event-card .event-date {
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+  color: #555;
+}
+
+/* "En savoir +" */
+.profil-event-container .event-card .more-about {
+  font-size: 0.8rem;
+  margin-top: auto;
+  text-align: center;
+  transition: color 0.2s ease, font-weight 0.2s ease;
+}
+
+.profil-event-container .event-card:hover .more-about {
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+
+/* Container principal */
+.profil-chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 90vh;
+  /* prend 90% de l'écran */
   max-width: 300px;
-  width: 100%; /* s'assure de ne pas dépasser */
+  width: 100%;
+  /* s'assure de ne pas dépasser */
   margin: auto;
   border: 1px solid #ccc;
   background-color: #f9f9f9;
-  box-sizing: border-box; /* inclut padding et border dans la largeur */
+  box-sizing: border-box;
+  /* inclut padding et border dans la largeur */
 }
 
 /* Zone des messages */
@@ -1202,7 +1329,8 @@ figcaption {
   padding: 8px 12px;
   border-radius: 15px;
   display: inline-block;
-  word-wrap: break-word; /* évite que le texte dépasse */
+  word-wrap: break-word;
+  /* évite que le texte dépasse */
   box-sizing: border-box;
 }
 
@@ -1210,17 +1338,19 @@ figcaption {
   background-color: var(--secondary-color);
   color: var(--bg-color);
   align-self: flex-end;
-  margin-left: auto; /* pousse à droite sans dépasser */
+  margin-left: auto;
+  /* pousse à droite sans dépasser */
 }
 
-.message.me .message-time{
-  color:var(--bg-color);
+.message.me .message-time {
+  color: var(--bg-color);
 }
 
 .message.other {
   background-color: #FFF;
   align-self: flex-start;
-  margin-right: auto; /* pousse à gauche */
+  margin-right: auto;
+  /* pousse à gauche */
 }
 
 /* Contenu et temps */
@@ -1240,7 +1370,8 @@ figcaption {
   border-top: 1px solid #ccc;
   background-color: #fff;
   box-sizing: border-box;
-  width: 100%; /* s'assure de rester dans le container */
+  width: 100%;
+  /* s'assure de rester dans le container */
 }
 
 .chat-input {
@@ -1248,7 +1379,8 @@ figcaption {
   padding: 8px 10px;
   border-radius: 20px;
   border: 1px solid #ccc;
-  max-width: 100%; /* empêche le débordement */
+  max-width: 100%;
+  /* empêche le débordement */
   box-sizing: border-box;
 }
 
@@ -1276,6 +1408,7 @@ figcaption {
     max-width: 100%;
     height: 100vh;
   }
+
   .message {
     max-width: 85%;
   }
@@ -1285,20 +1418,21 @@ figcaption {
 
 /* ----------------- RUNNERS PAGE -------------- */
 
-.runners-suggest{
+.runners-suggest {
   background-color: var(--bg-color);
 }
 
-.runners-suggest h3{
+.runners-suggest h3 {
   text-align: center;
   margin-bottom: 1rem;
 }
 
-.runners-suggest .grid{
+.runners-suggest .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1rem;
-  justify-items: center; /* centre les cartes horizontalement */
+  justify-items: center;
+  /* centre les cartes horizontalement */
   max-width: 1400px;
   margin: 1em auto;
 
@@ -1335,11 +1469,14 @@ figcaption {
 
 .buttons {
   display: flex;
-  justify-content: center; /* centre horizontalement */
-  margin-top: 1rem;        /* espace au-dessus du bouton */
+  justify-content: center;
+  /* centre horizontalement */
+  margin-top: 1rem;
+  /* espace au-dessus du bouton */
 }
-#reset{
-  color: var(--primary-color);                    
+
+#reset {
+  color: var(--primary-color);
   border: 1px solid #fff;
   background-color: var(--bg-color);
   padding: 0.5rem 1rem;
@@ -1351,10 +1488,12 @@ figcaption {
   font-weight: bolder;
 
 }
-#reset:hover{
+
+#reset:hover {
   color: var(--secondary-color);
   font-weight: bolder;
 }
+
 .filter .form-group,
 .filter .form-row {
   margin-bottom: 20px;
@@ -1838,16 +1977,17 @@ path:hover {
 }
 
 /* *** FORUM *** */
-.topics-container, .posts-container{
+.topics-container,
+.posts-container {
   padding: 1em;
 }
 
-.link-topic{
+.link-topic {
   color: var(--primary-color);
   font-weight: bold;
 }
 
-#openModalBtn{
+#openModalBtn {
   display: inline-block;
   margin-bottom: 1em;
 }
@@ -1877,16 +2017,16 @@ path:hover {
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.topic  input:focus,
-.topic  textarea:focus,
-.topic  select:focus {
+.topic input:focus,
+.topic textarea:focus,
+.topic select:focus {
   border-color: #007bff;
   outline: none;
   box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
   background-color: white;
 }
 
-.topic  button[type="submit"] {
+.topic button[type="submit"] {
   padding: 0.8em 1.5em;
   background-color: #007bff;
   color: white;
@@ -1898,12 +2038,13 @@ path:hover {
   transition: background-color 0.3s ease;
 }
 
-.topic-title{
+.topic-title {
   display: flex;
   text-align: center;
   align-items: center;
   gap: 2em;
 }
+
 .form-message {
   max-width: 600px;
   margin: 2em auto;
@@ -1957,7 +2098,8 @@ path:hover {
 }
 
 .topic-container .btn-danger {
-  background-color: #e74c3c; /* rouge vif */
+  background-color: #e74c3c;
+  /* rouge vif */
   border: none;
   color: white;
   cursor: pointer;
@@ -1966,11 +2108,13 @@ path:hover {
   padding: 4px 10px;
   border-radius: 4px;
   transition: background-color 0.3s ease;
-  user-select: none; /* Empêche la sélection du texte */
+  user-select: none;
+  /* Empêche la sélection du texte */
 }
 
 .topic-container .btn-danger:hover {
-  background-color: #c0392b; /* rouge un peu plus foncé au hover */
+  background-color: #c0392b;
+  /* rouge un peu plus foncé au hover */
 }
 
 .topic-container .btn-sm {

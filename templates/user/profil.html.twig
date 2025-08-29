@@ -3,8 +3,8 @@
 {% block title %}{{ user.firstName }} {{ user.lastName }} {% endblock %}
 
 {% block body %}
-<div class="profil-container">
-    <div class="left-container">
+<div class="profil-container {% if app.user.id == other.id %}no-chat{% endif %}">
+    <div class="profil-detail-container">
         <aside class="infos">
             <p class="name-user">
                 {{ user.firstName }} {{ user.lastName }}
@@ -148,10 +148,10 @@
 
         </div>
     </div>
-    <div class="event-container">
+    <div class="profil-event-container">
         <div class="events">
             <h2>Prochaines courses</h2>
-            <div class="events-grid">
+            <div>
                 {% for registrationNextEvent in registrationNextEvents %}
 
                 <div class="event-card">
@@ -181,7 +181,7 @@
                 {% endfor %}
             </div>
             <h2>Dernières courses</h2>
-            <div class="events-grid">
+            <div>
                 {% for registrationPastEvent in registrationPastEvents %}
 
                 <div class="event-card">
@@ -212,7 +212,7 @@
             </div>
         </div>
     </div>
-    <div class="last-activities-forum">
+    <div class="profil-forum-container">
         <div class="last-posts">
 
             <h2>Derniers messages sur le forum</h2>
@@ -239,7 +239,7 @@
         </div>
     </div>
 
-    <div id="chat-container">
+    <div class="profil-chat-container">
         {% if app.user.id != other.id %}
             {% if canMessage %}
                 <div id="chat-messages">
