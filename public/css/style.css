@@ -1172,6 +1172,92 @@ figcaption {
   padding: 30px;
 }
 
+/* Container principal */
+#chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 90vh; /* prend tout l'écran */
+  max-width: 600px;
+  margin: auto;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+}
+
+/* Zone des messages */
+#chat-messages {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Bulles de message */
+.message {
+  margin-bottom: 10px;
+  max-width: 70%;
+  padding: 8px 12px;
+  border-radius: 15px;
+  display: inline-block;
+}
+
+.message.me {
+  background-color: var(--secondary-color);
+  color: var(--bg-color);
+  align-self: flex-end;
+}
+
+.message.me .message-time{
+  color: var(--bg-color);
+}
+.message.other {
+  background-color: #FFF;
+  align-self: flex-start;
+}
+
+/* Contenu et temps */
+.message-content {
+  margin: 0;
+}
+
+.message-time {
+  font-size: 0.7em;
+  color: #999;
+}
+
+/* Formulaire */
+#chat-form {
+  display: flex;
+  padding: 10px;
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+.chat-input {
+  flex: 1;
+  padding: 8px 10px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+}
+
+.chat-send {
+  margin-left: 8px;
+  padding: 8px 15px;
+  border-radius: 20px;
+  border: none;
+  background-color: #0084FF;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* Texte info si pas de chat */
+.no-chat {
+  padding: 10px;
+  text-align: center;
+  color: #666;
+}
+
+
 /* ----------------- RUNNERS PAGE -------------- */
 
 .runners-suggest{

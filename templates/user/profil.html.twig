@@ -239,5 +239,26 @@
         </div>
     </div>
 
+    <div id="chat-container">
+        {% if app.user.id != other.id %}
+            {% if canMessage %}
+                <div id="chat-messages">
+                    {% for message in messages %}
+                        <div class="message {{ message.sender == app.user ? 'me' : 'other' }}">
+                            <p class="message-content">{{ message.content }}</p>
+                            <small class="message-time">{{ message.dateOfMessage|date('H:i') }}</small>
+                        </div>
+                    {% endfor %}
+                </div>
+    
+                <form id="chat-form">
+                    <input type="text" name="content" placeholder="Écrire un message..." class="chat-input">
+                    <button type="submit" class="chat-send">Envoyer</button>
+                </form>
+            {% else %}
+                <p class="no-chat">Vous devez être mutuellement suivis pour échanger des messages avec cet utilisateur.</p>
+            {% endif %}
+        {% endif %}
+    </div>
 </div>
 {% endblock %}

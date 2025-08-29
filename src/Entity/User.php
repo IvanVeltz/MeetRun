@@ -100,17 +100,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: RegistrationEvent::class, mappedBy: 'user', orphanRemoval: true)]
     private Collection $registrationEvents;
 
-    /**
-     * @var Collection<int, InstantMessage>
-     */
-    #[ORM\OneToMany(targetEntity: InstantMessage::class, mappedBy: 'sender', orphanRemoval: true)]
-    private Collection $instantMessagesSender;
-
-    /**
-     * @var Collection<int, InstantMessage>
-     */
-    #[ORM\OneToMany(targetEntity: InstantMessage::class, mappedBy: 'receiver', orphanRemoval: true)]
-    private Collection $instantMessagesReceiver;
 
     /**
      * @var Collection<int, Follow>
@@ -167,8 +156,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->followers = new ArrayCollection();
         $this->events = new ArrayCollection();
         $this->registrationEvents = new ArrayCollection();
-        $this->instantMessagesSender = new ArrayCollection();
-        $this->instantMessagesReceiver = new ArrayCollection();
         $this->follows = new ArrayCollection();
         $this->favoris = new ArrayCollection();
         $this->sentMessages = new ArrayCollection();
@@ -525,65 +512,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, InstantMessage>
-     */
-    public function getInstantMessagesSender(): Collection
-    {
-        return $this->instantMessagesSender;
-    }
-
-    public function addInstantMessagesSender(InstantMessage $instantMessagesSender): static
-    {
-        if (!$this->instantMessagesSender->contains($instantMessagesSender)) {
-            $this->instantMessagesSender->add($instantMessagesSender);
-            $instantMessagesSender->setSender($this);
-        }
-
-        return $this;
-    }
-
-    public function removeInstantMessagesSender(InstantMessage $instantMessagesSender): static
-    {
-        if ($this->instantMessagesSender->removeElement($instantMessagesSender)) {
-            // set the owning side to null (unless already changed)
-            if ($instantMessagesSender->getSender() === $this) {
-                $instantMessagesSender->setSender(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, InstantMessage>
-     */
-    public function getInstantMessagesReceiver(): Collection
-    {
-        return $this->instantMessagesReceiver;
-    }
-
-    public function addInstantMessagesReceiver(InstantMessage $instantMessagesReceiver): static
-    {
-        if (!$this->instantMessagesReceiver->contains($instantMessagesReceiver)) {
-            $this->instantMessagesReceiver->add($instantMessagesReceiver);
-            $instantMessagesReceiver->setReceiver($this);
-        }
-
-        return $this;
-    }
-
-    public function removeInstantMessagesReceiver(InstantMessage $instantMessagesReceiver): static
-    {
-        if ($this->instantMessagesReceiver->removeElement($instantMessagesReceiver)) {
-            // set the owning side to null (unless already changed)
-            if ($instantMessagesReceiver->getReceiver() === $this) {
-                $instantMessagesReceiver->setReceiver(null);
-            }
-        }
-
-        return $this;
-    }
 
     public function getAge(): ?int
     {

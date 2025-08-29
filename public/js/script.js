@@ -91,3 +91,10 @@ profilBtn.addEventListener("click", () => {
   dropdownMenu.classList.toggle("show");
 });
 
+// Mettre la conversation à la fin de base
+document.addEventListener('DOMContentLoaded', () => {
+  const chatMessages = document.getElementById('chat-messages');
+  if (chatMessages) {
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+});

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\MessageRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: MessageRepository::class)]
@@ -23,6 +24,9 @@ class Message
 
     #[ORM\Column]
     private ?\DateTime $dateOfMessage = null;
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $content = null;
 
     public function getId(): ?int
     {
@@ -61,6 +65,18 @@ class Message
     public function setDateOfMessage(\DateTime $dateOfMessage): static
     {
         $this->dateOfMessage = $dateOfMessage;
+
+        return $this;
+    }
+
+    public function getContent(): ?string
+    {
+        return $this->content;
+    }
+
+    public function setContent(string $content): static
+    {
+        $this->content = $content;
 
         return $this;
     }

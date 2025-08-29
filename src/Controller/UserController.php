@@ -9,6 +9,8 @@ use App\Form\ChangePasswordForm;
 use App\Repository\PostRepository;
 use App\Repository\UserRepository;
 use App\Repository\TopicRepository;
+use App\Repository\FollowRepository;
+use App\Repository\MessageRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
@@ -93,11 +95,14 @@ final class UserController extends AbstractController
     #[Route('user/profil/{id}', name: 'app_profil')]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function profil(
-        int $id, 
+        int $id,
+        User $other,
         RegistrationEventRepository $registrationEventRepository, 
         UserRepository $userRepository, 
         PostRepository $postRepository,
-        TopicRepository $topicRepository): response
+        TopicRepository $topicRepository,
+        FollowRepository $followRepository,
+        MessageRepository $messageRepository): response
     {
         $user = $userRepository->findOneBy(['id' => $id]);
         if (!$user) {
@@ -114,13 +119,25 @@ final class UserController extends AbstractController
         $registrationPastEvents = $registrationEventRepository->findByUserAndPastEvents($user);
         $lastPosts = $postRepository->findBy(['user' => $user], ['dateMessage' => 'DESC'], 5);
         $lastTopics = $topicRepository->findBy(['user' => $user], ['dateCreation' => 'DESC'], 3);
+
+        $canMessage = $followRepository->areMutuallyFollowing($currentUser, $other);
+
+        if(!$canMessage){
+            $messages = [];
+        } else {
+            $messages = $messageRepository->findConversation($currentUser, $other, 30, 0);
+        }
+
+
         return $this->render('user/profil.html.twig', [
             'user' => $user,
             'registrationNextEvents' => $registrationNextEvents,
             'registrationPastEvents' => $registrationPastEvents,
             'lastPosts' => $lastPosts,
-            'lastTopics' => $lastTopics
+            'lastTopics' => $lastTopics,
+            'messages' => $messages,
+            'other' => $other,
+            'canMessage' => $canMessage
         ]);
-    }
-        
+    }        
 }
