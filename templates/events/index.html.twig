@@ -47,7 +47,7 @@
             <div id="svg-wrapper">
                 {% include 'partials/carte.svg.twig' %}
             </div>
-            {{ form_widget(form.departements, { attr: { style: 'display:none;' } }) }}
+            {{ form_widget(form.departements) }}
             {{ form_errors(form.departements) }}
             <div class="form-check">
                 <input type="checkbox" id="departement_autre" class="form-check-input" name="departements[]" value="99" />

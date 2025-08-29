@@ -68,13 +68,59 @@ class EventRepository extends ServiceEntityRepository
     {
         $query = $this->getSearchQuery($search)->getQuery();
          
-         return $this->paginator->paginate(
+        return $this->paginator->paginate(
             $query,
             $search->page,
             6
-         );
+        );
     }
 
+    
+    public function getSearchQuery (SearchDataEvent $search):QueryBuilder
+    {
+        $qb = $this->createQueryBuilder('e')
+        ->where('e.cancelled = :cancelled') // On enelvèe les course annulé
+        ->setParameter('cancelled', false)
+        ->orderBy('e.dateEvent', 'ASC'); // On trie par ordre croissant, les 
+        
+        if($search->q){
+            $qb->andWhere('e.name LIKE :q')
+            ->setParameter('q', '%' . $search->q . '%');
+        }
+        
+        if (!empty($search->departements)) {
+            $qb->andWhere('SUBSTRING(e.postalCode, 1, 2) IN (:departements)')
+            ->setParameter('departements', $search->departements);
+        }
+        
+        if($search->distanceMin != null &&  $search->distanceMin != ""){
+            $qb->andWhere('e.distance >= :distanceMin')
+            ->setParameter('distanceMin', $search->distanceMin);
+        }
+        
+        if($search->distanceMax != null &&  $search->distanceMax != ""){
+            $qb->andWhere('e.distance <= :distanceMax')
+            ->setParameter('distanceMax', $search->distanceMax);
+        }
+        
+        return $qb;
+    }
+
+    /**
+     * Récupere la distance minimum et maximum des courses
+     * @return integer[]
+     */
+    public function findMinMax(): array
+    {
+        $result = $this->createQueryBuilder('e')
+            ->select('MIN(e.distance) AS min')
+            ->addSelect('MAX(e.distance) AS max')
+            ->getQuery()
+            ->getSingleResult();
+
+        return [(int) $result['min'], (int) $result['max']];
+    }
+    
     public function getSearchNextEvents (SearchDataEvent $search): QueryBuilder
     {
         $qb = $this->createQueryBuilder('e')
@@ -99,50 +145,7 @@ class EventRepository extends ServiceEntityRepository
         return $qb;
     }
 
-    public function getSearchQuery (SearchDataEvent $search):QueryBuilder
-    {
-        $qb = $this->createQueryBuilder('e')
-            ->where('e.cancelled = :cancelled')
-            ->setParameter('cancelled', false)
-            ->orderBy('e.dateEvent', 'ASC');
 
-        if($search->q){
-            $qb->andWhere('e.name LIKE :q')
-            ->setParameter('q', '%' . $search->q . '%');
-        }
-
-        if (!empty($search->departements)) {
-            $qb->andWhere('SUBSTRING(e.postalCode, 1, 2) IN (:departements)')
-            ->setParameter('departements', $search->departements);
-        }
-
-        if($search->distanceMin != null &&  $search->distanceMin != ""){
-            $qb->andWhere('e.distance >= :distanceMin')
-            ->setParameter('distanceMin', $search->distanceMin);
-        }
-
-        if($search->distanceMax != null &&  $search->distanceMax != ""){
-            $qb->andWhere('e.distance <= :distanceMax')
-            ->setParameter('distanceMax', $search->distanceMax);
-        }
-
-        return $qb;
-    }
-
-    /**
-     * Récupere la distance minimum et maximum des courses
-     * @return integer[]
-     */
-    public function findMinMax(): array
-    {
-        $result = $this->createQueryBuilder('e')
-            ->select('MIN(e.distance) AS min')
-            ->addSelect('MAX(e.distance) AS max')
-            ->getQuery()
-            ->getSingleResult();
-
-        return [(int) $result['min'], (int) $result['max']];
-    }
     //    /**
     //     * @return Event[] Returns an array of Event objects
     //     */

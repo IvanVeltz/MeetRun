@@ -47,39 +47,36 @@ class SearchFormRunner extends AbstractType{
 
         $builder
             ->add('q', TextType::class, [
-                'label' => false,
-                'required' => false,
+                'label' => false, //Pas d'étiquette affichée pour ce champ
+                'required' => false, //Champ optionnel, l'utilsateur n'est pas oblligé de le remplir
                 'attr' => [
-                    'placeholder' => 'Rechercher',
-                    'id' => 'js-search-input'
+                    'placeholder' => 'Rechercher', // Texte affiché à l'intérieur du champ quand il est vide
+                    'id' => 'js-search-input' // Identifiant HTML du champ, utilisé pour le JS ou CSS
                 ]
                 ])
             ->add('departements', ChoiceType::class, [
                 'label' => "Département",
                 'required' => false,
-                'multiple' => true,
-                'expanded' => true,
-                'choices' => array_combine($departements, $departements), // ['75' => '75', '13' => '13', ...]
-                'attr' => ['style' => 'display:none'] // pour tout masquer
-            ])
+                'multiple' => true, // Permet de selectionner plusieurs valeurs
+                'expanded' => true, // Affiche les choix sous forme de case à cocher
+                'choices' => $departements, 
+                'attr' => ['style' => 'display:none'] // Applique un style CSS pour ne rien affiché
+                ])
             ->add('levels', ChoiceType::class, [
                 'label' => 'Niveau',
                 'required' => false,
                 'multiple' => true,
                 'expanded' => true,
-                'choices' => array_combine($levelValues, $levelValues)
-            ])
+                'choices' => $levelValues
+                ])
             ->add('ageMin', IntegerType::class, [
                 'required' => false,
-                'label' => 'Âge minimum',
-                'attr' => ['min' => 12, 'max' => 100],
+                'label' => 'Âge minimum'
             ])
             ->add('ageMax', IntegerType::class, [
                 'required' => false,
-                'label' => 'Âge maximum',
-                'attr' => ['min' => 12, 'max' => 100],
+                'label' => 'Âge maximum'
             ])
-            
             ->add('sexe', ChoiceType::class, [
                 'required' => false,
                 'label' => 'Sexe',
@@ -91,7 +88,6 @@ class SearchFormRunner extends AbstractType{
                     'Femme' => 'femme'
                 ]
             ])
-            
             ->add('reset', ResetType::class, [
                 'label' => 'Réinitialiser',
                 'attr' => ['class' => 'reset-btn', 'id' => 'reset']

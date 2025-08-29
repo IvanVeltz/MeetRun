@@ -33,20 +33,20 @@ class SearchFormEvent extends AbstractType
 
         $builder
             ->add('q', TextType::class, [
-                'label' => false,
-                'required' => false,
+                'label' => false, //Pas d'étiquette affichée pour ce champ
+                'required' => false, //Champ optionnel, l'utilsateur n'est pas oblligé de le remplir
                 'attr' => [
-                    'placeholder' => 'Rechercher',
-                    'id' => 'js-search-input'
+                    'placeholder' => 'Rechercher', // Texte affiché à l'intérieur du champ quand il est vide
+                    'id' => 'js-search-input' // Identifiant HTML du champ, utilisé pour le JS ou CSS
                 ]
                 ])
             ->add('departements', ChoiceType::class, [
                 'label' => false,
                 'required' => false,
-                'multiple' => true,
-                'expanded' => true,
-                'choices' => array_combine($departements, $departements), // ['75' => '75', '13' => '13', ...]
-                'attr' => ['style' => 'display:none'] // pour tout masquer
+                'multiple' => true, // Permet de selectionner plusieurs valeurs
+                'expanded' => true, // Affiche les choix sous forme de case à cocher
+                'choices' => $departements,
+                'attr' => ['style' => 'display:none'] // On masque toutes les cases à cacher qui seront liées à la carte SVG
             ])
             ->add('distanceMin', IntegerType::class, [
                 'required' => false,
@@ -67,14 +67,13 @@ class SearchFormEvent extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => SearchDataEvent::class,
-            'method' => 'GET',
-            'csrf_protection' => false
+            'method' => 'GET'
         ]);
     }
 
     public function getBlockPrefix()
     {
-
+        // On redifinie la méthode pour ne pas avoir de préfixe lors de la génération des identifiants et les noms d'input
         return '';
     }
 }

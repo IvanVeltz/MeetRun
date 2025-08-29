@@ -7,7 +7,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-
 class SearchService{
     
     public function __construct(
@@ -17,11 +16,11 @@ class SearchService{
     
 
     public function handleSearch(
-        Request $request,
-        object $searchData,
-        string $formTypeClass,
-        callable $findSearch,
-        array $templates,
+        Request $request, 
+        object $searchData, 
+        string $formTypeClass, 
+        callable $findSearch, 
+        array $templates, 
         callable $findMinMax
     ):array|JsonResponse
     {
@@ -34,7 +33,6 @@ class SearchService{
 
         //Execution de la recherche
         $results = $findSearch($searchData);
-
         
         // Recherche du min/max
         [$min, $max] = $findMinMax($searchData);
@@ -51,7 +49,6 @@ class SearchService{
             }
 
             return new JsonResponse($response);
-            
         }
         
         // Préparation du retour pour une requête normale
