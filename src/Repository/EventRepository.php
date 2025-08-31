@@ -71,40 +71,57 @@ class EventRepository extends ServiceEntityRepository
         return $this->paginator->paginate(
             $query,
             $search->page,
-            6
+            9
         );
     }
 
     
-    public function getSearchQuery (SearchDataEvent $search):QueryBuilder
+    /**
+     * Construit une requête Doctrine QueryBuilder pour rechercher des courses,
+     * en fonction des critères contenus dans un objet SearchDataEvent.
+     *
+     * @param SearchDataEvent $search Données de recherche fournies par le formulaire (texte, département, distance, etc.)
+     * @return QueryBuilder Requête Doctrine prête à être exécutée ou affinée
+     */
+    public function getSearchQuery(SearchDataEvent $search): QueryBuilder
     {
         $qb = $this->createQueryBuilder('e')
-        ->where('e.cancelled = :cancelled') // On enelvèe les course annulé
-        ->setParameter('cancelled', false)
-        ->orderBy('e.dateEvent', 'ASC'); // On trie par ordre croissant
-        
-        if($search->q){
-            $qb->andWhere('e.name LIKE :q')
+            ->where('e.cancelled = :cancelled') // On exclut toutes les courses annulées en filtrant sur le champ "cancelled".
+            ->setParameter('cancelled', false)
+            ->orderBy('e.dateEvent', 'ASC'); // On trie les résultats par date croissante (les courses les plus proches d'abord)
+
+        if ($search->q) {
+            $qb->andWhere('e.name LIKE :q') // On récupère les courses de le nom contiennent 'q' (ce qui est rentré par l'utilisateur)
             ->setParameter('q', '%' . $search->q . '%');
         }
-        
+
+        /**
+         * Si la liste des départements n'est pas vide, on extrait les deux premiers caractères du code postal et on les compare à la liste passée dans $search->departements.
+         */
         if (!empty($search->departements)) {
             $qb->andWhere('SUBSTRING(e.postalCode, 1, 2) IN (:departements)')
-            ->setParameter('departements', $search->departements);
+            ->setParameter('departements', $search->departements); 
         }
-        
-        if($search->distanceMin != null &&  $search->distanceMin != ""){
+
+        /**
+         * Si $search->distanceMin est défini et non vide, on ne conserve que les courses dont la distance est supérieure ou égale à cette valeur.
+         */
+        if ($search->distanceMin != null && $search->distanceMin != "") {
             $qb->andWhere('e.distance >= :distanceMin')
             ->setParameter('distanceMin', $search->distanceMin);
         }
-        
-        if($search->distanceMax != null &&  $search->distanceMax != ""){
+
+        /**
+         * Pareil pour distanceMax, on ne conserve que les courses
+         */
+        if ($search->distanceMax != null && $search->distanceMax != "") {
             $qb->andWhere('e.distance <= :distanceMax')
             ->setParameter('distanceMax', $search->distanceMax);
         }
-        
+
         return $qb;
     }
+
 
     /**
      * Récupere la distance minimum et maximum des courses

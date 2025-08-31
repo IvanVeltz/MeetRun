@@ -38,12 +38,12 @@ class SearchService{
         [$min, $max] = $findMinMax($searchData);
 
         if ($request->get('ajax')) {
-
             $response = [
                 'content' => $this->twig->render($templates['content'], ['results' => $results]),
                 'pagination' => $this->twig->render($templates['pagination'], ['results' => $results])
             ];
 
+            // sorting est défini que pour les coureurs qui tri selon le niveau
             if(isset($templates['sorting'])){
                 $response['sorting'] = $this->twig->render($templates['sorting'], ['results' => $results]);
             }

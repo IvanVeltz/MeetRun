@@ -35,14 +35,13 @@ export default class Filter{
                 this.loadUrl(e.target.getAttribute('href'))
             }
         } 
-
         if (this.sorting) {
             this.sorting.addEventListener('click', aClickListener)
         }
-    
         if (this.pagination) {
             this.pagination.addEventListener('click', aClickListener)
         }
+        
         this.form.querySelectorAll('input').forEach(input => {
             if (input.type === 'text'){
                 // On ecoute l'evenement avec un délai
