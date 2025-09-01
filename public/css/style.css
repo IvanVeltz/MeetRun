@@ -1135,8 +1135,26 @@ figcaption {
   align-self: center;
   min-width: 180px;
 }
+.delete-user{
+  margin-top: 3em;
+}
+.delete-user .delete{
+  
+  padding: 0.9em 2em;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: white;
+  background-color: var(--primary-color);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 1em;
+  align-self: center;
+  min-width: 180px;
+}
 
-.form-infos button[type="submit"]:hover {
+.form-infos button[type="submit"]:hover, .delete-user .delete:hover {
   background-color: #0056b3;
 }
 
