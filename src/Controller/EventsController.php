@@ -216,14 +216,18 @@ final class EventsController extends AbstractController
         EntityManagerInterface $em,
         RegistrationEventRepository $registrationEventRepository): Response
     {
-        $submittedToken = $request->request->get('_token');
 
-        if (!$this->isCsrfTokenValid('inscription' . $event->getId(), $submittedToken)) {
-            $this->addFlash('error', 'Token CSRF Invalide');
+        $user = $this->getUser();
+        if (! $user->isVerified()){
+            $this->addFlash('warning', 'Tu dois confirmer ton email pour t\'inscrire à la course');
             return $this->redirectToRoute('app_detailEvent', ['id' => $event->getId()]);
         }
 
-        $user = $this->getUser();
+        $submittedToken = $request->request->get('_token');
+        if (!$this->isCsrfTokenValid('inscription' . $event->getId(), $submittedToken)) {
+            $this->addFlash('error', 'Token CSRF Invalide');
+            return $this->redirectToRoute('app_detailEvent', ['id' => $event->getId()]);
+        }        
 
         // Vérifie si la course est annulée
         if ($event->isCancelled()) {

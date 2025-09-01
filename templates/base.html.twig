@@ -28,9 +28,7 @@
         <div class="navbar__wrapper" id="navbarWrapper">
             <div class="nav__menu">
                 <a href="{{ path('app_home')}}">Home</a>
-                {% if app.user.isVerified %}
                 <a href="{{ path('app_runners') }}">Runners</a>
-                {% endif %}
                 <a href="{{ path('app_events') }}">Courses</a>
                 <a href="{{path('app_forum') }}">Forum</a>
             </div>

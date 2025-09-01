@@ -163,68 +163,71 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        #[Route('/user/delete/{id}', name: 'app_delete_user', methods: ['POST'])]
-        #[IsGranted('IS_AUTHENTICATED_FULLY')]
-        public function deleteUser(
-            User $user,
-            Request $request,
-            EntityManagerInterface $entityManager,
-            FollowRepository $followRepository,
-            EventRepository $eventRepository,
-            TokenStorageInterface $tokenStorage
-        ):Response
-        {
-            $currentUser = $this->getUser();
+    #[Route('/user/delete/{id}', name: 'app_delete_user', methods: ['POST'])]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    public function deleteUser(
+        User $user,
+        Request $request,
+        EntityManagerInterface $entityManager,
+        FollowRepository $followRepository,
+        EventRepository $eventRepository,
+        TokenStorageInterface $tokenStorage
+    ):Response
+    {
+        $currentUser = $this->getUser();
 
-            // On verifie qu'on supprime bien le bon user
-            if($currentUser !== $user){
-                $this->addFlash('error', 'Vous ne pouvez pas supprimer un autre utilisateur');
-                return $this->redirectToRoute('app_user');
-            }
-
-            // On verifie que le CSRF_token est bien conforme avec celui créé par le formulaire de la vue, si ce n'est
-            // pas le cas on bloque la requete 
-            if (!$this->isCsrfTokenValid('delete-user'.$user->getId(), $request->request->get('_token'))) {
-                throw $this->createAccessDeniedException('CSRF invalide');
-            }
-
-            // Si tout est ok, on anonymise l'user
-            $deletedId = uniqid('user_deleted_');
-            $user->setFirstName($deletedId);
-            $user->setLastName($deletedId);
-            $user->setEmail($deletedId.'@deleted.fr');
-            $user->setPassword(null);
-            $user->setDateOfBirth(null);
-            $user->setPostalCode(null);
-            $user->setCity(null);
-            $user->setSexe(null);
-            $user->setLevel(null);
-            $user->setDeleted(true);
-
-            // On supprime les follows, et on le supprime dans les follow des followers
-            $follows = $followRepository->findBy(['userSource' => $user->getId()]);
-            foreach($follows as $follow){
-                $entityManager->remove($follow);
-            }
-
-            $followers = $followRepository->findBy(['userTarget' => $user->getId()]);
-            foreach($followers as $follower){
-                $entityManager->remove( $follower);
-            }
-
-            // Annuler les courses futurs
-            $events = $eventRepository->findUpcomingEventsByUser( $user);
-            foreach($events as $event){
-                $event->setCancelled(true);
-            }
-
-            $entityManager->persist( $user );
-            $entityManager->flush();
-            
-
-            $request->getSession()->invalidate();
-            $tokenStorage->setToken(null);
-            $this->addFlash('success','Votre compte a été supprimé avec succès');
-            return $this->redirectToRoute('app_logout');
+        // On verifie qu'on supprime bien le bon user
+        if($currentUser !== $user){
+            $this->addFlash('error', 'Vous ne pouvez pas supprimer un autre utilisateur');
+            return $this->redirectToRoute('app_user');
         }
+
+        // On verifie que le CSRF_token est bien conforme avec celui créé par le formulaire de la vue, si ce n'est
+        // pas le cas on bloque la requete 
+        if (!$this->isCsrfTokenValid('delete-user'.$user->getId(), $request->request->get('_token'))) {
+            throw $this->createAccessDeniedException('CSRF invalide');
+        }
+
+        // Si tout est ok, on anonymise l'user
+        $deletedId = uniqid('user_deleted_');
+        $user->setFirstName($deletedId);
+        $user->setLastName($deletedId);
+        $user->setEmail($deletedId.'@deleted.fr');
+        $user->setPassword(null);
+        $user->setDateOfBirth(null);
+        $user->setPostalCode(null);
+        $user->setCity(null);
+        $user->setLongitude(null);
+        $user->setLatitude(null);
+        $user->setBio(null);
+        $user->setSexe(null);
+        $user->setLevel(null);
+        $user->setDeleted(true);
+
+        // On supprime les follows, et on le supprime dans les follow des followers
+        $follows = $followRepository->findBy(['userSource' => $user->getId()]);
+        foreach($follows as $follow){
+            $entityManager->remove($follow);
+        }
+
+        $followers = $followRepository->findBy(['userTarget' => $user->getId()]);
+        foreach($followers as $follower){
+            $entityManager->remove( $follower);
+        }
+
+        // Annuler les courses futurs
+        $events = $eventRepository->findUpcomingEventsByUser( $user);
+        foreach($events as $event){
+            $event->setCancelled(true);
+        }
+
+        $entityManager->persist( $user );
+        $entityManager->flush();
+        
+
+        $request->getSession()->invalidate();
+        $tokenStorage->setToken(null);
+        $this->addFlash('success','Votre compte a été supprimé avec succès');
+        return $this->redirectToRoute('app_logout');
+    }
 }

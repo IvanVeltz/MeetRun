@@ -68,25 +68,29 @@
 
         {% if app.user %}
         <p>Nombre d'inscrit : {{nbrInscription}}/{{event.capacity}}</p>
-            {% if not userInscrit %}
-                {% if nbrInscription < event.capacity %} 
-                <h4>Inscription</h4>
-                
-                    <form method="post" action="{{ path('app_subscribeEvent', { id: event.id }) }}" style="display:inline">
-                        <input type="hidden" name="_token" value="{{ csrf_token('inscription' ~ event.id) }}">
-                        <button type="submit" onclick="return confirm('S\'inscrire à cette course ?')" class="btn">
-                            S'inscrire à la course
-                        </button>
-                    </form>
+            {% if app.user.isVerified %}
+                {% if not userInscrit %}
+                    {% if nbrInscription < event.capacity %} 
+                    <h4>Inscription</h4>
+                    
+                        <form method="post" action="{{ path('app_subscribeEvent', { id: event.id }) }}" style="display:inline">
+                            <input type="hidden" name="_token" value="{{ csrf_token('inscription' ~ event.id) }}">
+                            <button type="submit" onclick="return confirm('S\'inscrire à cette course ?')" class="btn">
+                                S'inscrire à la course
+                            </button>
+                        </form>
+                    {% else %}
+                        <p>Inscriptions closes</p>
+                    {% endif %}
                 {% else %}
-                    <p>Inscriptions closes</p>
+                    <form method="post" action="{{ path('app_unsubscribeEvent', { id: event.id }) }}" style="display:inline;">
+                        <input type="hidden" name="_token" value="{{ csrf_token('desinscription' ~ event.id) }}">
+                        <button type="submit" onclick="return confirm('Se désinscrire de cette course ?')" class="btn">Se
+                            désinscrire</button>
+                    </form>
                 {% endif %}
             {% else %}
-                <form method="post" action="{{ path('app_unsubscribeEvent', { id: event.id }) }}" style="display:inline;">
-                    <input type="hidden" name="_token" value="{{ csrf_token('desinscription' ~ event.id) }}">
-                    <button type="submit" onclick="return confirm('Se désinscrire de cette course ?')" class="btn">Se
-                        désinscrire</button>
-                </form>
+            <p> Vous devez vérifier votre email pour vous inscrire</p>
             {% endif %}
         {% endif %}
     </div>

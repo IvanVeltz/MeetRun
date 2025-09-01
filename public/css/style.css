@@ -325,7 +325,7 @@ main.main-container {
 
 .flash-warning {
   background-color: #ffc107;
-  color: #000;
+  color: #000 !important;
 }
 
 .flash-info {
