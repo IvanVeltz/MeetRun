@@ -42,9 +42,6 @@ class NewEventForm extends AbstractType
             ->add('postalCode', TextType::class, [
                 'label' => 'Code Postal'
             ])
-            ->add('city', TextType::class, [
-                'label' => 'Ville'
-            ])
             ->add('photos', FileType::class, [
                 'label' => 'Photos de la course',
                 'mapped' => false,
@@ -63,5 +60,11 @@ class NewEventForm extends AbstractType
         $resolver->setDefaults([
             'data_class' => Event::class,
         ]);
+    }
+
+    public function getBlockPrefix()
+    {
+        // On redifinie la méthode pour ne pas avoir de préfixe lors de la génération des identifiants et les noms d'input
+        return '';
     }
 }

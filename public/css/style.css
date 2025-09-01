@@ -1722,6 +1722,69 @@ path:hover {
 /* ----------------------- */
 /* === EVENTS === */
 /* ------------------------ */
+
+/* Creation event*/
+.modal h2 {
+  margin-top: 0;
+  margin-bottom: 1em;
+  font-size: 1.8em;
+  color: #333;
+  text-align: center;
+}
+
+.modal form {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.modal form label {
+  font-weight: bold;
+  margin-bottom: 0.3em;
+  display: inline-block;
+}
+
+.modal form input[type="text"],
+.modal form input[type="date"],
+.modal form input[type="number"],
+.modal form textarea,
+.modal form select {
+  width: 100%;
+  padding: 0.8em 1em;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1em;
+  background-color: #fff;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  box-sizing: border-box;
+  resize: none;
+}
+
+.modal form input:focus,
+.modal form textarea:focus,
+.modal form select:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+}
+
+.modal form button[type="submit"] {
+  padding: 0.8em 1.5em;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  align-self: center;
+}
+
+.modal form button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
 .events-wrapper {
   padding: 2rem;
   background-color: var(--bg-color);
@@ -1976,6 +2039,9 @@ path:hover {
   cursor: pointer;
 }
 
+.close-btn:hover {
+  color: red;
+}
 /* *** FORUM *** */
 .topics-container,
 .posts-container {

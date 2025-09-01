@@ -1,7 +1,7 @@
-const inputCp = document.getElementById('profil_form_postalCode');
+const inputCp = document.getElementById('postalCode');
 const selectCity = document.getElementById('selectCity'); 
-const latInput = document.getElementById('profil_form_latitude');
-const lonInput = document.getElementById('profil_form_longitude');
+const latInput = document.getElementById('latitude');
+const lonInput = document.getElementById('longitude');
 
 
 let villes = []; // Stocker les villes récupérées
@@ -11,16 +11,20 @@ inputCp.addEventListener('input', () => {
 
     // Réinitialiser la liste
     selectCity.innerHTML = '';
-    latInput.value = '';
-    lonInput.value = '';
+    if(latInput && lonInput){
+        latInput.value = '';
+        lonInput.value = '';
+    }
     villes = [];
 
     if (cp.length !== 5) return; // attendre un code postal complet
 
     fetch(`https://geo.api.gouv.fr/communes?codePostal=${cp}&fields=nom,centre&format=json&geometry=centre`)
+
         .then((response) => response.json())
         .then((data) => {
-            villes = data;
+
+            villes = data
 
             if (villes.length === 0) {
                 const option = document.createElement('option');
@@ -38,7 +42,9 @@ inputCp.addEventListener('input', () => {
             });
 
             // Mettre les coordonnées de la première ville par défaut
-            updateCoordinates(villes[0]);
+            if(latInput && lonInput){
+                updateCoordinates(villes[0]);
+            }
         });
 });
 
@@ -46,7 +52,7 @@ inputCp.addEventListener('input', () => {
 selectCity.addEventListener('change', () => {
     const selectedName = selectCity.value;
     const selectedVille = villes.find(v => v.nom === selectedName);
-    if (selectedVille) {
+    if (selectedVille && lonInput && latInput) {
         updateCoordinates(selectedVille);
     }
 });

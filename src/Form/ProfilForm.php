@@ -105,4 +105,10 @@ class ProfilForm extends AbstractType
             'data_class' => User::class,
         ]);
     }
+
+    public function getBlockPrefix()
+    {
+        // On redifinie la méthode pour ne pas avoir de préfixe lors de la génération des identifiants et les noms d'input
+        return '';
+    }
 }

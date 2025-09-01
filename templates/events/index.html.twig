@@ -23,7 +23,12 @@
         {{ form_row(newEventForm.capacity) }}
         {{ form_row(newEventForm.adress) }}
         {{ form_row(newEventForm.postalCode )}}
-        {{ form_row(newEventForm.city) }}
+        <div>
+            <label for="selectCity">Ville</label>
+            <select id="selectCity" name="city" class="form-control">
+                <option value="">Sélectionnez une ville</option>    
+            </select>
+        </div>
         {{ form_row(newEventForm.photos) }}
 
         <button type="submit">Créer</button>
@@ -92,4 +97,5 @@
 <div class="pastEvents">
     <a href=" {{ path('app_lastEvents') }}">Voir l'historique des courses</a>
 </div>
+<script src="{{asset('js/apiGeo.js')}}"></script>
 {% endblock %}
