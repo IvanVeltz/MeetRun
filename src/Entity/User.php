@@ -16,8 +16,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[UniqueEntity(fields: ['email'], message: 'Cet email a déjà été utilisé')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
+    #[ORM\Id] // Clé primaire
+    #[ORM\GeneratedValue] // auto-incrémenté
     #[ORM\Column]
     private ?int $id = null;
 

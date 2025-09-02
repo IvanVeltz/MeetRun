@@ -51,7 +51,7 @@ class Event
     private Collection $photos;
 
     #[ORM\ManyToOne(inversedBy: 'events')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false)] // Clé étrangé non nulle
     private ?User $organizer = null;
 
     #[ORM\Column]
@@ -63,7 +63,10 @@ class Event
     /**
      * @var Collection<int, Favori>
      */
-    #[ORM\OneToMany(targetEntity: Favori::class, mappedBy: 'event', orphanRemoval: true)]
+    #[ORM\OneToMany(
+        targetEntity: Favori::class,
+        mappedBy: 'event',
+        orphanRemoval: true)] // Suppression en cascade des favoris
     private Collection $favoris;
 
     public function __construct()
