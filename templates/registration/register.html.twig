@@ -25,7 +25,7 @@
             
             <div class="form-check">
                 {{ form_widget(registrationForm.agreeTerms) }} 
-                {{ form_label(registrationForm.agreeTerms) }}
+                <a href="{path('app_conditions_utilisation')}">{{ form_label(registrationForm.agreeTerms) }}</a>
             </div>
             
             <div class="text-center">

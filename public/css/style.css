@@ -1578,6 +1578,11 @@ input[type=number] {
   padding-left: 0;
 }
 
+.form-check label:hover{
+  color: var(--primary-color);
+  cursor: pointer;
+}
+
 /* ** CARTE SVG ** */
 .land {
   fill: #86aae0;
