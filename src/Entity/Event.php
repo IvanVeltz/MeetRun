@@ -37,7 +37,6 @@ class Event
     #[ORM\Column(nullable: true)]
     private ?int $capacity = null;
 
-
     /**
      * @var Collection<int, RegistrationEvent>
      */
@@ -89,7 +88,6 @@ class Event
     public function setName(string $name): static
     {
         $this->name = $name;
-
         return $this;
     }
 

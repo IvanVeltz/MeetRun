@@ -32,7 +32,6 @@ class NewEventForm extends AbstractType
             ->add('distance', IntegerType::class, [
                 'label'=>'Distance de la course (en km)'
             ])
-            
             ->add('capacity', IntegerType::class, [
                 'label'=>'Nombre de particpant maximum'
             ])
