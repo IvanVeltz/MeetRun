@@ -68,7 +68,10 @@
 
         {% if app.user %}
         <p>Nombre d'inscrit : {{nbrInscription}}/{{event.capacity}}</p>
-            {% if app.user.isVerified %}
+            {% if event.dateEvent|date("Y-m-d") >= today|date("Y-m-d") %}
+                
+            
+            {% if app.user.isVerified  %}
                 {% if not userInscrit %}
                     {% if nbrInscription < event.capacity %} 
                     <h4>Inscription</h4>
@@ -92,10 +95,11 @@
             {% else %}
             <p> Vous devez vérifier votre email pour vous inscrire</p>
             {% endif %}
+            {% endif %}
         {% endif %}
     </div>
     <div class="event-manager">
-        {% if app.user == event.organizer %}
+        {% if app.user == event.organizer and event.dateEvent|date("Y-m-d") >= today|date("Y-m-d") %}
         <h4>Gestion de la course</h4>
         <div class="create-event">
             <a href="" id="openModalBtn" class="btn">Modifier la course</a>

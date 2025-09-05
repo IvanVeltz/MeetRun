@@ -137,6 +137,7 @@ final class EventsController extends AbstractController
         $nbrInscription = $registrationEventRepository->countByEvent($id);
         $listInscrits = $registrationEventRepository->findBy(['event' => $event]);
         $listFavoris = $favoriRepository->findBy(['event' => $event]);
+        $today = new \DateTime('today');
         
         $newEventForm = $this->createForm(NewEventForm::class, $event, [
             'allow_extra_fields' => true
@@ -173,7 +174,8 @@ final class EventsController extends AbstractController
             "nbrInscription" => $nbrInscription,
             'listInscrits' => $listInscrits,
             'listFavoris' => $listFavoris,
-            'newEventForm' => $newEventForm
+            'newEventForm' => $newEventForm,
+            'today' => $today
         ]);
     }
 
