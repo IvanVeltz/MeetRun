@@ -51,7 +51,7 @@ class RegistrationEventRepository extends ServiceEntityRepository
     public function countByEvent(int $id): int
     {
         return (int) $this->createQueryBuilder('r')
-            ->select('SUM(r.quantity)')
+            ->select('COUNT(r.id)')
             ->where('r.event = :eventId')
             ->setParameter('eventId', $id)
             ->getQuery()

@@ -73,6 +73,7 @@ final class EventsController extends AbstractController
                 $event->setCity($extraData['city']);
             }
             
+            $event->setDateOfcreation(new \DateTime());
 
             foreach ($filenames as $filename) {
                 $eventImage = new Photo(); 
@@ -290,6 +291,7 @@ final class EventsController extends AbstractController
         $inscription = new RegistrationEvent();
         $inscription->setEvent($event);
         $inscription->setUser($this->getUser());
+        $inscription->setDateOfRegistration(new \DateTime());
 
         $em->persist($inscription);
         $em->flush();
@@ -366,6 +368,7 @@ final class EventsController extends AbstractController
             $favori = new Favori();
             $favori->setEvent($event);
             $favori->setUser($user);
+            $favori->setDateOffavori(new \DateTime());
             $em->persist($favori);
             $message = 'Course ajoutée aux favoris.';
         }

@@ -5,8 +5,13 @@ namespace App\Repository;
 use App\Entity\User;
 use App\Data\SearchDataRunner;
 use Doctrine\ORM\QueryBuilder;
+use App\Repository\PostRepository;
+use App\Repository\EventRepository;
+use App\Repository\TopicRepository;
+use App\Repository\FavoriRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
+use App\Repository\RegistrationEventRepository;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -18,7 +23,15 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
  */
 class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
-    public function __construct(ManagerRegistry $registry, PaginatorInterface $paginator)
+    public function __construct(
+        ManagerRegistry $registry,
+        PaginatorInterface $paginator,
+        private TopicRepository $topicRepo,
+        private PostRepository $postRepo,
+        private EventRepository $eventRepo,
+        private FavoriRepository $favoriRepo,
+        private RegistrationEventRepository $registrationEventRepo,
+    )
     {
         parent::__construct($registry, User::class);
         $this->paginator = $paginator;
@@ -151,5 +164,53 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->getResult();
 
         return $qb;
+    }
+
+    public function findLastactionByUser(User $user): array
+    {
+        $topics = $this->topicRepo->createQueryBuilder('t')
+            ->where('t.user = :user')
+            ->andWhere('t.isClosed = false')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult();
+        
+        $posts = $this->postRepo->createQueryBuilder('p')
+            ->where('p.user = :user')
+            ->andWhere('p.deleted = false')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult();
+
+        $organizer = $this->eventRepo->createQueryBuilder('e')
+            ->where('e.organizer = :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult();
+
+        $registrations = $this->registrationEventRepo->createQueryBuilder('re')
+            ->where('re.user = :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult();
+        
+        $favoris = $this->favoriRepo->createQueryBuilder('f')
+            ->where('f.user = :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult();
+
+        $actions = array_merge(
+            array_map(fn($t) => ['entity' => $t, 'type' => 'topic'], $topics),
+            array_map(fn($p) => ['entity' => $p, 'type' => 'post'], $posts),
+            array_map(fn($e) => ['entity' => $e, 'type' => 'organizer'], $organizer),
+            array_map(fn($re) => ['entity' => $re, 'type' => 'registration'], $registrations),
+            array_map(fn($f) => ['entity' => $f, 'type' => 'favori'], $favoris),
+        );
+
+        usort($actions, fn($a, $b) => $b['entity']->getCreatedAt() <=> $a['entity']->getCreatedAt());
+
+
+        return $actions;
     }
 }

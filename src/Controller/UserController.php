@@ -121,10 +121,6 @@ final class UserController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
 
-        $registrationNextEvents = $registrationEventRepository->findByUserAndNextEvents($user);
-        $registrationPastEvents = $registrationEventRepository->findByUserAndPastEvents($user);
-        $lastPosts = $postRepository->findBy(['user' => $user], ['dateMessage' => 'DESC'], 5);
-        $lastTopics = $topicRepository->findBy(['user' => $user], ['dateCreation' => 'DESC'], 3);
 
         $canMessage = $followRepository->areMutuallyFollowing($currentUser, $other);
 
@@ -135,15 +131,14 @@ final class UserController extends AbstractController
         }
 
 
+        $actions = $userRepository->findLastactionByUser($currentUser);
+
         return $this->render('user/profil.html.twig', [
             'user' => $user,
-            'registrationNextEvents' => $registrationNextEvents,
-            'registrationPastEvents' => $registrationPastEvents,
-            'lastPosts' => $lastPosts,
-            'lastTopics' => $lastTopics,
             'messages' => $messages,
             'other' => $other,
-            'canMessage' => $canMessage
+            'canMessage' => $canMessage,
+            'actions' => $actions
         ]);
     }
     
