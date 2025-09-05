@@ -54,14 +54,25 @@ final class EventsController extends AbstractController
 
         $event = new Event();
         $user = $this->getUser();
-        $newEventForm = $this->createForm(NewEventForm::class, $event);
+        $newEventForm = $this->createForm(NewEventForm::class, $event, [
+            'allow_extra_fields' => true
+        ]);
         $newEventForm->handleRequest($request);
         $event->setOrganizer($user);
 
         if($newEventForm->isSubmitted() && $newEventForm->isValid()){
+           
             // Uploader les fichiers
             $photos = $newEventForm->get('photos')->getData(); 
             $filenames = $imageUploader->upload($photos, null, 'event');
+
+            // récuperer la ville depuis extraData
+            $extraData = $newEventForm->getExtraData();
+            if (isset($extraData['city'])) {
+
+                $event->setCity($extraData['city']);
+            }
+            
 
             foreach ($filenames as $filename) {
                 $eventImage = new Photo(); 
@@ -73,6 +84,7 @@ final class EventsController extends AbstractController
             $entityManager->persist($event);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Course créé avec succès');
             return $this->redirectToRoute('app_events');
         }
 
@@ -115,6 +127,7 @@ final class EventsController extends AbstractController
         ImageUploader $imageUploader
     )
     {
+        // On récupere l'evenement
         $event = $eventRepository->findOneBy(['id' => $id]);
         if(!$event){
             return $this->redirectToRoute('app_events');
@@ -124,19 +137,30 @@ final class EventsController extends AbstractController
         $nbrInscription = $registrationEventRepository->countByEvent($id);
         $listInscrits = $registrationEventRepository->findBy(['event' => $event]);
         $listFavoris = $favoriRepository->findBy(['event' => $event]);
-        $newEventForm = $this->createForm(NewEventForm::class, $event);
+        
+        $newEventForm = $this->createForm(NewEventForm::class, $event, [
+            'allow_extra_fields' => true
+        ]);
         $newEventForm->handleRequest($request);
 
         if($newEventForm->isSubmitted() && $newEventForm->isValid()) {
-            // Uploader les fichiers
-            $photos = $newEventForm->get('photos')->getData(); 
-            $filenames = $imageUploader->upload($photos, null, 'event');
+            // récuperer la ville depuis extraData
+            $extraData = $newEventForm->getExtraData();
+            if (isset($extraData['city'])) {
 
+                $event->setCity($extraData['city']);
+            }
+            // Recupere les fichiers uploades depuis le formulaire
+            $photos = $newEventForm->get('photos')->getData(); 
+            //Upload de nouveux fichiers (on ne supprime rien)
+            $filenames = $imageUploader->upload($photos, null, 'event');
+            // Pour chaque nouveau fichier on crée une entite Photo lié à l'evenement
             foreach ($filenames as $filename) {
                 $eventImage = new Photo(); 
                 $eventImage->setUrl('upload/' . $filename);
                 $eventImage->setEvent($event);
                 $entityManager->persist($eventImage);
+                $this->addFlash('success', 'Photo changé');
             }
             $entityManager->flush();
 
@@ -161,7 +185,7 @@ final class EventsController extends AbstractController
     {
         $user = $this->getUser();
         // Vérification du droit sur la photo (à adapter selon ta logique)
-        if ($photo->getUser() !== $user) {
+        if ($photo->getEvent()->getOrganizer() !== $user) {
             return new JsonResponse(['success' => false, 'message' => 'Accès refusé'], 403);
         }
 
@@ -182,6 +206,7 @@ final class EventsController extends AbstractController
     }
 
 
+
     #[Route('/event/{id}/cancel', name: 'app_event_cancel', methods: ['POST'])]
     public function cancelEvent(
         int $id,
@@ -191,6 +216,7 @@ final class EventsController extends AbstractController
         $event = $eventRepository->find($id);
 
         if (!$event) {
+            $this->addFlash('error', 'Cette course n\'existe pas');
             return $this->redirectToRoute('app_events');
         }
 
@@ -244,7 +270,7 @@ final class EventsController extends AbstractController
 
         // Vérifie si la date limite d’inscription est passée
         if ($event->getDateEvent() < new \DateTime()) {
-            $this->addFlash('error', 'La course est déjà passée.');
+            $this->addFlash('error', 'La course '.$event->getName().' est déjà passée.');
             return $this->redirectToRoute('app_detailEvent', ['id' => $event->getId()]);
         }
 
@@ -299,6 +325,12 @@ final class EventsController extends AbstractController
             return $this->redirectToRoute('app_detailEvent', ['id' => $event->getId()]);
         }
 
+        // Vérifie si la date limite d’inscription est passée
+        if ($event->getDateEvent() < new \DateTime()) {
+            $this->addFlash('error', 'La course '. $event->getname() .' est déjà passée.');
+            return $this->redirectToRoute('app_detailEvent', ['id' => $event->getId()]);
+        }
+
         // Supprime l’inscription
         $em->remove($inscription);
         $em->flush();
@@ -306,7 +338,6 @@ final class EventsController extends AbstractController
         $this->addFlash('success', 'Vous avez été désinscrit de la course.');
         return $this->redirectToRoute('app_detailEvent', ['id' => $event->getId()]);
     }
-
 
     #[Route('/event/{id}/favori', name: 'app_toggle_favori', methods: ['POST'])]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]

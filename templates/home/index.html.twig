@@ -33,7 +33,7 @@
                 {% include "./events/_events.html.twig" %}
             </div>
         </section>
-        {% if app.user.isVerified %}
+        {% if app.user and app.user.isVerified %}
             
         <section class="users-container">
             <h2>Bienvenue aux nouveaux Runners</h2>

@@ -153,7 +153,7 @@
             <h2>Prochaines courses</h2>
             <div>
                 {% for registrationNextEvent in registrationNextEvents %}
-
+                <a href="{{ path('app_detailEvent', {'id': registrationNextEvent.id}) }}">
                 <div class="event-card">
                     {% set photos = registrationNextEvent.event.getPhotos() %}
                     {% if photos is iterable and photos is not empty %}
@@ -178,12 +178,13 @@
                     <p class="more-about">En savoir +</p>
                     {% endif %}
                 </div>
+                </a>
                 {% endfor %}
             </div>
             <h2>Dernières courses</h2>
             <div>
                 {% for registrationPastEvent in registrationPastEvents %}
-
+                <a href="{{ path('app_detailEvent', {'id': registrationPastEvent.id}) }}">
                 <div class="event-card">
                     {% set photos = registrationPastEvent.event.getPhotos() %}
                     {% if photos is iterable and photos is not empty %}
@@ -209,6 +210,7 @@
                     {% endif %}
                 </div>
                 {% endfor %}
+                </a>
             </div>
         </div>
     </div>

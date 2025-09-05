@@ -35,7 +35,9 @@ final class UserController extends AbstractController
         $user = $this->getUser();
         \assert($user instanceof User);
 
-        $form = $this->createForm(ProfilForm::class, $user);
+        $form = $this->createForm(ProfilForm::class, $user, [
+            'allow_extra_fields' => true
+        ]);
         $changePasswordForm = $this->createForm(ChangePasswordForm::class, $user);
 
         $form->handleRequest($request);
@@ -43,8 +45,11 @@ final class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $ville = $request->request->get('city'); // récupère la valeur du select "city"
-            $user->setCity($ville);
+            $extraData = $form->getExtraData();
+            if (isset($extraData['city'])) {
+
+                $user->setCity($extraData['city']);
+            }
 
             $imageFile = $form->get('pictureProfilUrl')->getData();
             $oldImage = $user->getPictureProfilUrl();
