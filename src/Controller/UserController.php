@@ -131,7 +131,7 @@ final class UserController extends AbstractController
         }
 
 
-        $actions = $userRepository->findLastactionByUser($currentUser);
+        $actions = $userRepository->findLastactionByUser($id);
 
         return $this->render('user/profil.html.twig', [
             'user' => $user,
