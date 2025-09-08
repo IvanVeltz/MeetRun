@@ -58,8 +58,8 @@ final class ForumController extends AbstractController
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function topicCreate(EntityManagerInterface $em, Request $request, Security $security, CategoryRepository $categoryRepository): Response
     {
-        $title = trim(filter_var($request->request->get('title'), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
-        $message = trim(filter_var($request->request->get('message'), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+        $title = trim(filter_var($request->request->get('title'), FILTER_SANITIZE_SPECIAL_CHARS));
+        $message = trim(filter_var($request->request->get('message'), FILTER_SANITIZE_SPECIAL_CHARS));
         $categoryId = $request->request->get('category');
         $category = $categoryRepository->find($categoryId);
         $user = $security->getUser();

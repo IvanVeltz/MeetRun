@@ -257,13 +257,14 @@ final class EventsController extends AbstractController
             $this->addFlash('error', 'Token CSRF Invalide');
             return $this->redirectToRoute('app_detailEvent', ['id' => $event->getId()]);
         }        
+        
 
         // Vérifie si la course est annulée
         if ($event->isCancelled()) {
             $this->addFlash('error', 'Impossible de s’inscrire : la course est annulée.');
             return $this->redirectToRoute('app_detailEvent', ['id' => $event->getId()]);
         }
-
+        
         // Vérifie si la course est complète (selon le nombre maximum de participants)
         $nbrInscription = $registrationEventRepository->countByEvent($event->getId());
         if ($nbrInscription >= $event->getCapacity()) {

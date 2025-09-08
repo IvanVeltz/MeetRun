@@ -117,9 +117,7 @@ final class UserController extends AbstractController
         }
         $currentUser = $this->getUser();
 
-        if(!$currentUser->isVerified() && $user->getId() != $currentUser->getId()){
-            return $this->redirectToRoute('app_home');
-        }
+    
 
 
         $canMessage = $followRepository->areMutuallyFollowing($currentUser, $other);
@@ -131,7 +129,7 @@ final class UserController extends AbstractController
         }
 
 
-        $actions = $userRepository->findLastactionByUser($id);
+        $actions = $userRepository->findLastactionByUser($user);
 
         return $this->render('user/profil.html.twig', [
             'user' => $user,

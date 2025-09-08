@@ -17,7 +17,7 @@ final class FollowController extends AbstractController
 {
     #[Route('/follow/request/{id}', name: 'app_follow_request', methods: ['POST'])]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
-    public function followRequest(User $user, Request $request, EntityManagerInterface $em, FollowRepository $repo): Response
+    public function followRequest(User $user, Request $request, EntityManagerInterface $em, FollowRepository $followRepository): Response
     {
         $currentUser = $this->getUser();
 
@@ -31,7 +31,7 @@ final class FollowController extends AbstractController
         }
 
         // On verifie que le follow n'existe pas encore
-        $existing = $repo->findOneBy(['userSource' => $currentUser, 'userTarget' => $user]);
+        $existing = $followRepository->findOneBy(['userSource' => $currentUser, 'userTarget' => $user]);
         if (!$existing) {
             $follow = new Follow();
             $follow->setUserSource($currentUser);
@@ -39,6 +39,13 @@ final class FollowController extends AbstractController
             $follow->setFollowAccepted(false);
             $em->persist($follow);
             $em->flush();
+        } elseif($existing->isFollowAccepted()){
+            $this->add_flash('warning', 'Vous suivez déjà ce coureur');
+            return $this->redirectToRoute('app_profil', ['id' => $user->getId()]);
+
+        } else{
+            $this->add_flash('warning', 'Une demande de follow est déjà en cours');
+            return $this->redirectToRoute('app_profil', ['id' => $user->getId()]);
         }
 
         return $this->redirectToRoute('app_profil', ['id' => $user->getId()]);
@@ -131,7 +138,7 @@ final class FollowController extends AbstractController
 
         // On verifie que ne se unfollower pas soi-meme
         if ($currentUser === $user){
-            $this->addFlash('error', 'Vous ne pouvez pas retirer votre propre abonnement.');
+            $this->addFlash('error', 'Vous ne pouvez pas vous unfollow vous-même.');
             return $this->redirectToRoute('app_profil', ['id' => $user->getId()]);
         }
 

@@ -45,12 +45,12 @@ class ProfilForm extends AbstractType
             ])
             ->add('pictureProfilUrl', FileType::class, [
                 'label' => 'Photo de profil',
-                'mapped' => false, // Ne lie pas directement le champ à l'entité (gestion manuelle)
-                'required' => false, // Rend le champ facultatif
+                'mapped' => false, 
+                'required' => false, 
                 'constraints' => [
                     new File([
-                        'maxSize' => '1024k',
-                        'mimeTypes' => ['image/jpeg', 'image/png'],
+                        'maxSize' => '2048k', // Limite la taille du fichier à 2Mo
+                        'mimeTypes' => ['image/jpeg', 'image/png'], // Limite le type MIME à jpeg et png
                         'mimeTypesMessage' => 'Veuillez télécharger une image valide (JPEG ou PNG).',
                     ]),
                 ],
