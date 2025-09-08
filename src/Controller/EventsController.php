@@ -238,7 +238,7 @@ final class EventsController extends AbstractController
     }
 
     #[Route('/event/{id}/inscription', name: 'app_subscribeEvent', methods: ['POST'])]
-    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    #[IsGranted('EMAIL_VERIFIED')]
     public function inscription(
         Event $event, 
         Request $request, 
@@ -292,7 +292,7 @@ final class EventsController extends AbstractController
         $inscription = new RegistrationEvent();
         $inscription->setEvent($event);
         $inscription->setUser($this->getUser());
-        $inscription->setDateOfRegistration(new \DateTime());
+        $inscription->setCreatedAt(new \DateTime());
 
         $em->persist($inscription);
         $em->flush();
