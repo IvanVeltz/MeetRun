@@ -32,6 +32,8 @@ security:
                 oauth_user_provider:
                     service: App\Security\OAuthUserProvider
                 default_target_path: app_home
+            pattern: ^/
+            custom_authenticator: App\Security\LoginFormAuthenticator
             logout:
                 path: app_logout
                 # where to redirect after logout
