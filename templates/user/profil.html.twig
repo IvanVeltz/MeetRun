@@ -64,13 +64,15 @@
                         <li>
                             {{ action.entity.createdAt|date('d/m/Y H:i') }} —
                             {% if action.type == 'topic' %}
-                                a créé le topic : {{ action.entity.title }}
+                                a créé le topic : <a href="{{ path('app_topic', {'id': action.entity.id}) }}">{{ action.entity.title }}</a>
                             {% elseif action.type == 'post' %}
-                                a posté : {{ action.entity.content }}
+                                a posté : <a href="{{ path('app_post', {'id': action.entity.id}) }}">{{ action.entity.content }}</a>
                             {% elseif action.type == 'registration' %}
-                                s'est inscrit à l'événement : {{ action.entity.event.name }}
+                                s'est inscrit à l'événement : <a href="{{ path('app_detailEvent', {'id': action.entity.id}) }}"> {{action.entity.event.name }}</a>
                             {% elseif action.type == 'favori' %}
-                                a ajouté un favori : {{ action.entity.event.name }}
+                                a ajouté en favori : <a href="{{ path('app_detailEvent', {'id': action.entity.id}) }}"> {{action.entity.event.name }}</a>
+                            {% elseif action.type == 'organizer' %}
+                                a organisé : <a href="{{ path('app_detailEvent', {'id': action.entity.id}) }}">{{ action.entity.name }}  </a>  
                             {% endif %}
                         </li>
                     {% endfor %}
