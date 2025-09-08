@@ -1,7 +1,6 @@
 framework:
     rate_limiter:
         login:
-            policy: 'fixed_window'
-            limit: 2
-            interval: '1 minute'
-            cache_pool: 'cache.rate_limiter'
+            policy: 'fixed_window' # période fixe pour compter les tentatives
+            limit: 2               # nombre de tentatives autorisées
+            interval: '1 minute'   # période de limitation
