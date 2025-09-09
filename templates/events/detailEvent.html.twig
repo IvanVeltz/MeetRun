@@ -41,7 +41,7 @@
     <div class="event-photos">
         {% for photo in photos %}
         <figure>
-            <img src="{{asset(photo.url)}}" alt="Photo de la course">
+            <img src="{{asset(photo.url)}}" alt='Photo de la course "{{photo.event.name}}"'>
             <caption>{{photo.description}}</caption>
         </figure>
         {% endfor %}
