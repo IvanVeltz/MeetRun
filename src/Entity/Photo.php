@@ -22,7 +22,7 @@ class Photo
 
 
     #[ORM\ManyToOne(inversedBy: 'photos')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: "CASCADE")]
     private ?Event $event = null;
 
     public function getId(): ?int
