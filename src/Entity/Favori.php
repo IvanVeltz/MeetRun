@@ -14,11 +14,11 @@ class Favori
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'favoris')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: "CASCADE")]
     private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'favoris')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: "CASCADE")]
     private ?Event $event = null;
 
     #[ORM\Column(type : 'datetime', nullable:true)]

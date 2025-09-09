@@ -21,7 +21,7 @@ class Post
     private ?\DateTime $createdAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'posts')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: "CASCADE")]
     private ?Topic $topic = null;
 
     #[ORM\ManyToOne(inversedBy: 'posts')]
