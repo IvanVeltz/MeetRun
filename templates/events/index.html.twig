@@ -79,11 +79,11 @@
     </div>
     
     <div class="search-runners-container">
-        <h2>Les courses à venir</h2>
+        <h1>Les courses à venir</h1>
         {% if results|length < 1 %}
                 <p>Aucune course ne correspond à votre recherche</p>
             {% endif %}
-        <div class="events-grid js-filter-content">
+        <div class="event-grid js-filter-content">
             {% include "events/_events.html.twig" %}
         </div>
         <div class="js-filter-pagination">

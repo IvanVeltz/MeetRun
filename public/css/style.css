@@ -1633,11 +1633,27 @@ path:hover {
   gap: 1.5rem;
 }
 
-/* Carte d’un événement */
+/* Carte d’un événement page principale */
 .events-grid .event-card {
   background-color: white;
   border-radius: 12px;
   width: 280px;
+  padding: 1rem 1rem 0 1rem;
+  border: 2px solid var(--primary-color);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Carte d’un événement page recherche */
+/* Grille responsive */
+.event-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+.event-grid .event-card {
+  background-color: white;
+  border-radius: 12px;
+  max-width: 280px;
   padding: 1rem 1rem 0 1rem;
   border: 2px solid var(--primary-color);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
