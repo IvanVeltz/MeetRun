@@ -7,7 +7,7 @@
     <!-- Header profil -->
     <header class="profil-header">
         <div class="profil-header-left">
-            <img src="{{ user.pictureProfilurl ?: '/images/default-avatar.png' }}" alt="Avatar de {{ user.firstName }}" class="avatar-profil">
+            <img src="{{ user.pictureProfilurl ? asset(user.pictureProfilurl) : asset('images/default-avatar.webp') }}" alt="Avatar de {{ user.firstName }}" class="avatar-profil">
             <div class="profil-header-info">
                 <h1>{{ user.firstName }} {{ user.lastName }}</h1>
                 {% if user.level %}

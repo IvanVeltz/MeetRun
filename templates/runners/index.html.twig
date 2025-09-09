@@ -4,8 +4,8 @@
 
 {% block body %}
 
-<div class="runners-suggest">
-    <h3>Runners proches de chez toi</h3>
+<div class="runners-suggest user">
+    <h1>Runners proches de chez toi</h1>
         <div class="grid">
 
             {% include "runners/_runners.html.twig" with {results: userSuggested} %}
@@ -14,7 +14,7 @@
 
 <div class="runners-container js-filter">
     <div class="search-container">
-        <h3 class="title-search">Recherche des Runners près de chez toi</h3>
+        <h2 class="title-search">Recherche des Runners près de chez toi</h2>
         {{ form_start(form, {attr: {class: 'filter js-filter-form'}}) }}
         <div class="form-group">
             <label for="q" id="qlabel"> Nom ou Prénom</label>
@@ -79,7 +79,7 @@
 
     </div>
     <div class="search-runners-container">
-        <h3>Liste des runners</h3>
+        <h2>Liste des runners</h2>
             {% if results|length < 1 %}
                 <p>Aucun coureurs ne correspond à votre recherche</p>
             {% endif %}

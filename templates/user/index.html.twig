@@ -7,13 +7,13 @@
     {% if not app.user %}
     <p><a class="btn btn-lg btn-primary" href=" {{path('app_login')}} ">Vous devez vous connecter</a></p>
     {% else %}
-    <h3>Bienvenue {{app.user.firstName}} {{app.user.lastName}} !!</h3>
+    <h1>Bienvenue {{app.user.firstName}} {{app.user.lastName}} !!</h1>
     <p>Pour une expèrience complète, remplissez votre profil</p>
     {% endif %}
 
     <div class="form-infos">
         <figure>
-            <img src="img/logo.png" alt="Logo du site">
+            <img src="img/logo.webp" alt="Logo du site">
         </figure>
         {{ form_errors(profilForm) }}
 
