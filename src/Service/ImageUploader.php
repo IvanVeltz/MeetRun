@@ -65,12 +65,28 @@ class ImageUploader
                 continue;
             }
 
-            // On génère le nom du fichier
-            $filename = $prefix . '-' . uniqid() . '.' . $file->guessExtension();
-            // On deplace le fichier vers le repertoire souhiaté
-            $file->move($this->targetDirectory, $filename);
+            // On génère le nom en WebP
+            $filename = $prefix . '-' . uniqid() . '.webp';
+            $destination = $this->targetDirectory . '/' . $filename;
             
-            $filenames[] = $filename;
+            $tempPath = $file->getPathname();
+            $image = null;
+
+            if ($mimeType === 'image/jpeg') {
+                $image = imagecreatefromjpeg($tempPath);
+            } elseif ($mimeType === 'image/png') {
+                $image = imagecreatefrompng($tempPath);
+                // Garde la transparence pour PNG
+                imagepalettetotruecolor($image);
+                imagealphablending($image, true);
+                imagesavealpha($image, true);
+            }
+
+            if ($image) {
+                imagewebp($image, $destination, 80); // qualité 80%
+                imagedestroy($image);
+                $filenames[] = $filename;
+            }
         }
 
         // Supprimer l’ancien fichier (utile dans les cas simples à 1 image)
