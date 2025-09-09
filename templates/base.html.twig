@@ -9,13 +9,16 @@
     <title>{% block title %}{% endblock %}</title>
     <link rel="icon" href="{{asset('img/logo_little.webp')}}" type="image/png">
     {% block stylesheets %}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-    crossorigin=""/>
-    {{ encore_entry_link_tags('app') }}
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin=""/>
+        {{ encore_entry_link_tags('app') }}
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+        {% if app.request.attributes.get('_route') == 'app_home' %}
+        <link rel="preload" as="image" href="{{ asset('img/homeRun.webp') }}" fetchpriority="high">
+        {% endif %}
     {% endblock %}
 
 
@@ -136,6 +139,7 @@
             once: true,
         });
     </script>
+    
     <script src="{{ asset('js/script.js') }}"></script>
     <script src="{{ asset('js/cartesvg.js') }}"></script>
     {% endblock %}

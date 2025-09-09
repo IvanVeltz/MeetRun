@@ -1,29 +1,27 @@
 
 {% for event in results %}
+<div class="event-card">
 <a href="{{ path('app_detailEvent', {'id': event.id}) }}">
 
-    <div class="event-card">
         {% set photos = event.getPhotos() %}
         {% if photos is iterable and photos is not empty %}
-        {% set firstPhoto = photos|first %}
+            {% set firstPhoto = photos|first %}
+            <figure>
+                <img src="{{asset(firstPhoto.url)}}" alt="Photo de la course">
+            </figure>
+        {% else %}
         <figure>
-            <img src="{{asset(firstPhoto.url)}}" alt="Photo de la course">
+            <img src="{{ asset('img/default_event.webp') }}" alt="Photo de la course {{ event.name }}" width="280" height="187">
         </figure>
-    {% else %}
-    <figure>
-        <img src="{{asset('img/default_event.webp')}}" alt="Photo illustrant la course">
-    </figure>
-    {% endif %}
-    <p class="event-date"><i class="fa-solid fa-calendar-days"></i> {{ event.dateEvent|format_date(pattern="EEE d MMMM y", locale="fr")|capitalize }}</p>
-    <h3>{{ event.name }} 
-        {% if event.isCancelled %}
-        <span>(Course annulé)</span>
-    {% endif %}</h3>
-    <p><i class="fa-solid fa-location-dot"></i> {{event.city}} ({{event.postalCode | slice(0,2) }})</p>
-    {% if app.user %}
-        <p class="more-about">En savoir +</p>
         {% endif %}
-    </div>
-
-</a>
+        <p class="event-date"><i class="fa-solid fa-calendar-days"></i> {{ event.dateEvent|format_date(pattern="EEE d MMMM y", locale="fr")|capitalize }}</p>
+        <h3>{{ event.name }} 
+            {% if event.isCancelled %}
+            <span>(Course annulé)</span>
+        {% endif %}</h3>
+        <p><i class="fa-solid fa-location-dot"></i> {{event.city}} ({{event.postalCode | slice(0,2) }})</p>
+        <p class="more-about">En savoir +</p>
+        
+    </a>
+</div>
 {% endfor %}
