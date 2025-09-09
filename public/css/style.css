@@ -832,7 +832,7 @@ p {
 }
 
 .home-header figure {
-  background-image: url('/img/homeRun.png');
+  background-image: url('/img/homeRun.webp');
   height: 600px;
   background-color: rgba(255, 255, 255, 0.8);
   background-blend-mode: lighten;

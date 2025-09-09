@@ -6,7 +6,7 @@
             {% if runner.pictureProfilUrl %}
             <img src="{{ asset(runner.pictureProfilUrl) }}" alt="Photo de {{ runner.firstName }}" class="runner-photo">
             {% else %}
-            <img src="{{ asset('img/default_picture_profil.png') }}" alt="Photo par défaut" class="runner-photo">
+            <img src="{{ asset('img/default_picture_profil.webp') }}" alt="Photo par défaut" class="runner-photo">
             {% endif %}
             <div class="runner-info">
                 {{ runner.firstName }} {{ runner.lastName }} <br>

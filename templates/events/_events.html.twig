@@ -11,7 +11,7 @@
         </figure>
     {% else %}
     <figure>
-        <img src="{{asset('img/default_event.jpg')}}" alt="Photo illustrant la course">
+        <img src="{{asset('img/default_event.webp')}}" alt="Photo illustrant la course">
     </figure>
     {% endif %}
     <p class="event-date"><i class="fa-solid fa-calendar-days"></i> {{ event.dateEvent|format_date(pattern="EEE d MMMM y", locale="fr")|capitalize }}</p>
