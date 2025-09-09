@@ -824,14 +824,14 @@ p {
 
 
 /* *************HEADER************* */
-header {
+.home-header {
   position: relative;
   width: 100%;
   overflow: hidden;
   height: 600px;
 }
 
-header figure {
+.home-header figure {
   background-image: url('/img/homeRun.png');
   height: 600px;
   background-color: rgba(255, 255, 255, 0.8);

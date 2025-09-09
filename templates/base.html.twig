@@ -22,44 +22,44 @@
 </head>
 
 <body>
-
-    <nav class="navbar">
-        {% if app.user and not app.user.isBanned %}
-        <div class="navbar__wrapper" id="navbarWrapper">
-            <div class="nav__menu">
-                <a href="{{ path('app_home')}}">Home</a>
-                <a href="{{ path('app_runners') }}">Runners</a>
-                <a href="{{ path('app_events') }}">Courses</a>
-                <a href="{{path('app_forum') }}">Forum</a>
-            </div>
-            <div class="nav__profil dropdown">
-                <button class="dropdown-toggle" id="profilDropdown">
-                    {{ app.user.firstName }} {{ app.user.lastName }}
-                </button>
-                <div class="dropdown-menu">
-                    <a href="{{ path('app_profil', { 'id': app.user.id }) }}">Mon profil</a>
-                    <a href="{{ path('app_user') }}">Mes données personnelles</a>
-                    <a href="{{ path('app_logout') }}">Se déconnecter</a>
+    <header>
+        <nav class="navbar">
+            {% if app.user and not app.user.isBanned %}
+            <div class="navbar__wrapper" id="navbarWrapper">
+                <div class="nav__menu">
+                    <a href="{{ path('app_home')}}">Home</a>
+                    <a href="{{ path('app_runners') }}">Runners</a>
+                    <a href="{{ path('app_events') }}">Courses</a>
+                    <a href="{{path('app_forum') }}">Forum</a>
+                </div>
+                <div class="nav__profil dropdown">
+                    <button class="dropdown-toggle" id="profilDropdown">
+                        {{ app.user.firstName }} {{ app.user.lastName }}
+                    </button>
+                    <div class="dropdown-menu">
+                        <a href="{{ path('app_profil', { 'id': app.user.id }) }}">Mon profil</a>
+                        <a href="{{ path('app_user') }}">Mes données personnelles</a>
+                        <a href="{{ path('app_logout') }}">Se déconnecter</a>
+                    </div>
+                </div>
+                <!-- Bouton pour fermer le menu -->
+                <div class="nav__close" id="nav-close">
+                    <i class="fa-solid fa-xmark"></i>
                 </div>
             </div>
-            <!-- Bouton pour fermer le menu -->
-            <div class="nav__close" id="nav-close">
-                <i class="fa-solid fa-xmark"></i>
+            <div class="nav__toggle" id="nav-toggle">
+                <i class="fa-solid fa-bars"></i>
             </div>
-        </div>
-        <div class="nav__toggle" id="nav-toggle">
-            <i class="fa-solid fa-bars"></i>
-        </div>
-        {% else %}
-        <div class="navbar__wrapper">
-            <div class="nav__menu">
-                <a href="{{ path('app_login') }}">Se connecter</a>
-                <a href="{{ path('app_register') }}">S'inscrire</a>
+            {% else %}
+            <div class="navbar__wrapper">
+                <div class="nav__menu">
+                    <a href="{{ path('app_login') }}">Se connecter</a>
+                    <a href="{{ path('app_register') }}">S'inscrire</a>
+                </div>
             </div>
-        </div>
-        {% endif %}
-    </nav>
-
+            {% endif %}
+        </nav>
+    </header>
     <main class="main-container">
         <div class="flash-container">
             {% for label, messages in app.flashes %}
