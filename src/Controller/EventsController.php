@@ -369,7 +369,7 @@ final class EventsController extends AbstractController
             $favori = new Favori();
             $favori->setEvent($event);
             $favori->setUser($user);
-            $favori->setDateOffavori(new \DateTime());
+            $favori->setCreatedAt(new \DateTime());
             $em->persist($favori);
             $message = 'Course ajoutée aux favoris.';
         }
