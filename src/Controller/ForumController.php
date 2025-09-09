@@ -44,7 +44,7 @@ final class ForumController extends AbstractController
 
         $posts = $postRepository->findBy(
             ['topic' => $topic],
-            ['dateMessage' => 'ASC']
+            ['createdAt' => 'ASC']
         );
 
 

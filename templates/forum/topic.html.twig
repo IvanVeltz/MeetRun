@@ -28,9 +28,9 @@
         <p>
         {% if post.deleted %}
         
-        <em>{{ post.message }}</em> - <small>Posté le {{ post.dateMessage|date("d-m-Y à H:i") }}</small>
+        <em>{{ post.message }}</em> - <small>Posté le {{ post.createdAt|date("d-m-Y à H:i") }}</small>
         {% else %}
-            {{ post.message }} - <small>Posté le {{ post.dateMessage|date("d-m-Y à H:i") }} par </small><a
+            {{ post.message }} - <small>Posté le {{ post.createdAt|date("d-m-Y à H:i") }} par </small><a
                 href="{{ path('app_profil', {'id': post.user.id})}}"> {{ post.user}}</a>
                 {% endif %}
             </p>
