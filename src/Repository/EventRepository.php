@@ -81,11 +81,7 @@ class EventRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('e')
             ->where('e.cancelled = :cancelled') // On exclut toutes les courses annulées en filtrant sur le champ "cancelled".
-<<<<<<< HEAD
             ->andWhere('e.dateEvent >= :today') // Exclut les courses déjà passées
-=======
-            ->andWhere('e.dateEvent >= CURRENT_DATE()')
->>>>>>> f0d96636d2ce1c275da83faf73975f2d3d984aff
             ->setParameter('cancelled', false)
             ->setParameter('today', new \DateTime()) // Date actuelle
             ->orderBy('e.dateEvent', 'ASC'); // On trie les résultats par date croissante (les courses les plus proches d'abord)
