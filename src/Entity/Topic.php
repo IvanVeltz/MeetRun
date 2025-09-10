@@ -19,13 +19,13 @@ class Topic
     private ?string $title = null;
 
     #[ORM\Column]
-    private ?\DateTime $dateCreation = null;
+    private ?\DateTime $createdAt = null;
 
     #[ORM\Column]
     private ?bool $isClosed = false;
 
     #[ORM\ManyToOne(inversedBy: 'topics')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: "CASCADE")]
     private ?Category $category = null;
 
     /**
@@ -62,14 +62,14 @@ class Topic
         return $this;
     }
 
-    public function getDateCreation(): ?\DateTime
+    public function getCreatedAt(): ?\DateTime
     {
-        return $this->dateCreation;
+        return $this->createdAt;
     }
 
-    public function setDateCreation(\DateTime $dateCreation): static
+    public function setCreatedAt(\DateTime $createdAt): static
     {
-        $this->dateCreation = $dateCreation;
+        $this->createdAt = $createdAt;
 
         return $this;
     }

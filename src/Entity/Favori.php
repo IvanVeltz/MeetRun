@@ -14,12 +14,15 @@ class Favori
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'favoris')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: "CASCADE")]
     private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'favoris')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: "CASCADE")]
     private ?Event $event = null;
+
+    #[ORM\Column(type : 'datetime', nullable:true)]
+    private ?\DateTime $createdAt = null;
 
     public function getId(): ?int
     {
@@ -46,6 +49,18 @@ class Favori
     public function setEvent(?Event $event): static
     {
         $this->event = $event;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTime
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTime $createdAt): static
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }

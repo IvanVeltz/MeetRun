@@ -1,0 +1,6 @@
+framework:
+    rate_limiter:
+        login:
+            policy: 'fixed_window' # période fixe pour compter les tentatives
+            limit: 2               # nombre de tentatives autorisées
+            interval: '1 minute'   # période de limitation

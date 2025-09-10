@@ -38,7 +38,7 @@ class ResetPasswordForm extends AbstractType
                         'message' => 'Veuillez saisir un mot de passe.',
                     ]),
                     new Regex([
-                        'pattern' => '/^(?=.*[A-Z])(?=.*\d)(?=.*\W).{12,}$/',
+                        'pattern' => '/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).{12,}$/',
                         'message' => 'Le mot de passe doit contenir au moins 12 caractères, une majuscule, un chiffre et un caractère spécial.',
                     ])                        
                 ],
@@ -54,7 +54,7 @@ class ResetPasswordForm extends AbstractType
             ])
             ->add('captcha', Recaptcha3Type::class, [
                 'constraints' => new Recaptcha3(),
-                'action_name' => 'signup'
+                'action_name' => 'password_reset'
             ]);
     }
 

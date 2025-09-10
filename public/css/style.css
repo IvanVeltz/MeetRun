@@ -824,15 +824,15 @@ p {
 
 
 /* *************HEADER************* */
-header {
+.home-header {
   position: relative;
   width: 100%;
   overflow: hidden;
   height: 600px;
 }
 
-header figure {
-  background-image: url('/img/homeRun.png');
+.home-header figure {
+  background-image: url('/img/homeRun.webp');
   height: 600px;
   background-color: rgba(255, 255, 255, 0.8);
   background-blend-mode: lighten;
@@ -985,7 +985,7 @@ figcaption {
   object-fit: contain;
 }
 
-.user h3 {
+.user h1 {
   text-align: center;
   font-weight: 700;
   font-size: xx-large;
@@ -1135,12 +1135,13 @@ figcaption {
   align-self: center;
   min-width: 180px;
 }
-.delete-user{
+
+.delete-user {
   margin-top: 3em;
 }
 
-.delete-user .delete{
-  
+.delete-user .delete {
+
   padding: 0.9em 2em;
   font-weight: 700;
   font-size: 1.1rem;
@@ -1155,7 +1156,8 @@ figcaption {
   min-width: 180px;
 }
 
-.form-infos button[type="submit"]:hover, .delete-user .delete:hover {
+.form-infos button[type="submit"]:hover,
+.delete-user .delete:hover {
   background-color: #0056b3;
 }
 
@@ -1190,251 +1192,179 @@ figcaption {
 }
 
 /****** PROFIL PAGE *****/
+.profil-page {
+  display: grid;
+  height: 90vh;
+  grid-template-columns: 80% 20%;
+  grid-template-rows: 50% 50%;
+  gap: 10px;
+  padding: 3em;
+}
 
-.profil-container {
+.profil-header {
   display: flex;
-  gap: 20px;
-  padding: 20px;
-  box-sizing: border-box;
+  justify-content: space-evenly;
+  gap: 5em;
+  width: 80%;
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
 }
 
-/* Colonnes */
-.profil-detail-container, .profil-chat-container {
-  width: 300px; /* colonnes fines */
-  display: flex;
-  flex-direction: column;
+.profil-actions-container{
+  grid-column: 1 / 2;
+  grid-row: 2 / 3;
 }
 
-.profil-detail-container{
-  height: fit-content;
-  background-color: var(--primary-color);
-  padding: 15px; /* espace interne */
-  border-radius: 10px; /* coins arrondis */
-  border: 1px solid rgba(0,0,0,0.1); /* bordure subtile */
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* ombre légère */
-  color: #fff; /* texte blanc */
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
+
+
+.profil-header-left{
+  text-align: center;
+
 }
 
-/* Titres et paragraphes */
-.profil-detail-container h4,
-.profil-detail-container p,
-.profil-detail-container .name-user {
-  margin: 0 0 10px 0;
-  color: #fff;
-}
-
-/* Liens et boutons */
-.profil-detail-container a {
-  color: #fff;
-  text-decoration: none;
-}
-
-.profil-detail-container a.btn {
-  display: inline-block;
-  margin-top: 5px;
-  padding: 5px 8px;
-  border-radius: 5px;
-  background-color: rgba(255,255,255,0.2);
-  transition: background-color 0.2s ease;
-}
-
-.profil-detail-container a.btn:hover {
-  background-color: rgba(255,255,255,0.3);
-}
-
-.event-container, .forum-container {
-  flex: 1; /* prennent tout l'espace restant */
-  display: flex;
-  flex-direction: column;
-}
-
-/* Cartes d'événements compactes dans le profil */
-.profil-event-container .event-card {
+.profil-header-left img {
+  padding: 1em;
+  width: 225px;
+  height: auto;
+  border-radius: 50%;
   background-color: white;
-  border-radius: 10px;
-  max-width: 180px; /* plus petite que la version normale */
-  padding: 0.5rem 0.5rem 0 0.5rem; /* padding réduit */
-  border: 2px solid var(--primary-color);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.profil-header-left h1 {
+  color: var(--primary-color);
+  font-weight: bolder;
+}
+
+.profil-header .btn-profil {
+  margin-top: 1em;
+  padding: 0.5em 1.5em;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.profil-header .btn-profil:hover{
+  background-color: var(--secondary-color);
+}
+
+.profil-header-right{
   display: flex;
   flex-direction: column;
-  cursor: pointer;
+  justify-content: space-between;
+  margin: 5em 0 0 0;
+  font-size: larger;
 }
 
-.profil-event-container .event-card:hover {
-  transform: translate(-3px, -3px);
-  box-shadow: 6px 6px 0 0 var(--primary-color);
+.profil-header-right i{
+  padding-right: 1em;
 }
 
-/* Image */
-.profil-event-container .event-card figure {
-  margin: 0 0 0.5rem 0;
-  padding: 0;
-  height: 100px; /* plus petit */
-  overflow: hidden;
+.profil-header-follow{
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
 }
 
-.profil-event-container .event-card img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 0.5rem;
-  display: block;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+.profil-chat{
+  grid-column: 2 / 3;
+  grid-row: 1 / 3; /* du haut jusqu’en bas */
+  height: 85vh;
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid var(--primary-color);
+  padding: 10px;
+  background-color: white;
 }
 
-/* Titres */
-.profil-event-container .event-card h3 {
-  font-size: 0.9rem;
-  margin-top: 0;
-  height: 2.5em; /* réduit */
-  overflow: hidden;
+/* Titre */
+.profil-chat h4 {
+  margin: 0 0 10px 0;
+  font-size: 1.2rem;
+  color: #333;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 5px;
+}
+
+/* Conteneur des messages avec scroll */
+#chat-messages {
+  flex: 1;                   /* prend tout l’espace restant */
+  overflow-y: auto;          /* scroll vertical si nécessaire */
+  padding-right: 10px;       /* éviter que le texte touche la scrollbar */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Messages */
+.message {
+  padding: 8px 12px;
+  border-radius: 12px;
+  max-width: 70%;
+  word-wrap: break-word;
+  position: relative;
+}
+
+/* Mes messages */
+.message.me {
+  background-color: #d1f0ff;
+  align-self: flex-end;      /* à droite */
+}
+
+/* Messages des autres */
+.message.other {
+  background-color: #e2e2e2;
+  align-self: flex-start;    /* à gauche */
 }
 
 /* Date */
-.profil-event-container .event-card .event-date {
-  font-size: 0.8rem;
-  margin-bottom: 0.5rem;
-  color: #555;
-}
-
-/* "En savoir +" */
-.profil-event-container .event-card .more-about {
-  font-size: 0.8rem;
-  margin-top: auto;
-  text-align: center;
-  transition: color 0.2s ease, font-weight 0.2s ease;
-}
-
-.profil-event-container .event-card:hover .more-about {
-  color: var(--primary-color);
-  font-weight: bold;
-}
-
-
-/* Container principal */
-.profil-chat-container {
-  display: flex;
-  flex-direction: column;
-  height: 90vh;
-  /* prend 90% de l'écran */
-  max-width: 300px;
-  width: 100%;
-  /* s'assure de ne pas dépasser */
-  margin: auto;
-  border: 1px solid #ccc;
-  background-color: #f9f9f9;
-  box-sizing: border-box;
-  /* inclut padding et border dans la largeur */
-}
-
-/* Zone des messages */
-#chat-messages {
-  flex: 1 1 auto;
-  overflow-y: auto;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-}
-
-/* Bulles de message */
-.message {
-  margin-bottom: 10px;
-  max-width: 70%;
-  padding: 8px 12px;
-  border-radius: 15px;
-  display: inline-block;
-  word-wrap: break-word;
-  /* évite que le texte dépasse */
-  box-sizing: border-box;
-}
-
-.message.me {
-  background-color: var(--secondary-color);
-  color: var(--bg-color);
-  align-self: flex-end;
-  margin-left: auto;
-  /* pousse à droite sans dépasser */
-}
-
-.message.me .message-time {
-  color: var(--bg-color);
-}
-
-.message.other {
-  background-color: #FFF;
-  align-self: flex-start;
-  margin-right: auto;
-  /* pousse à gauche */
-}
-
-/* Contenu et temps */
-.message-content {
-  margin: 0;
-}
-
-.message-time {
-  font-size: 0.7em;
-  color: #999;
+.message small {
+  display: block;
+  font-size: 0.7rem;
+  color: #666;
+  margin-top: 4px;
+  text-align: right;
 }
 
 /* Formulaire */
-#chat-form {
+.profil-chat form {
   display: flex;
-  padding: 10px;
-  border-top: 1px solid #ccc;
-  background-color: #fff;
-  box-sizing: border-box;
-  width: 100%;
-  /* s'assure de rester dans le container */
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 10px;
 }
 
-.chat-input {
-  flex: 1;
-  padding: 8px 10px;
-  border-radius: 20px;
+/* Textarea */
+.profil-chat textarea {
+  resize: none;
+  padding: 8px;
+  border-radius: 8px;
   border: 1px solid #ccc;
-  max-width: 100%;
-  /* empêche le débordement */
+  font-size: 0.9rem;
+  width: 100%;
   box-sizing: border-box;
 }
 
-.chat-send {
-  margin-left: 8px;
-  padding: 8px 15px;
-  border-radius: 20px;
+/* Bouton */
+.profil-chat button {
+  align-self: flex-end;
+  padding: 6px 12px;
   border: none;
-  background-color: #0084FF;
-  color: #fff;
+  background-color: #1e90ff;
+  color: white;
+  border-radius: 8px;
   cursor: pointer;
-  white-space: nowrap;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease;
 }
 
-/* Texte info si pas de chat */
-.no-chat {
-  padding: 10px;
-  text-align: center;
-  color: #666;
+.profil-chat button:hover {
+  background-color: #0073e6;
 }
-
-/* Ajustement responsive */
-@media (max-width: 650px) {
-  #chat-container {
-    max-width: 100%;
-    height: 100vh;
-  }
-
-  .message {
-    max-width: 85%;
-  }
-}
-
-
-
 /* ----------------- RUNNERS PAGE -------------- */
 
 .runners-suggest {
@@ -1578,7 +1508,7 @@ input[type=number] {
   padding-left: 0;
 }
 
-.form-check label:hover{
+.form-check label:hover {
   color: var(--primary-color);
   cursor: pointer;
 }
@@ -1827,8 +1757,25 @@ path:hover {
   gap: 1.5rem;
 }
 
-/* Carte d’un événement */
+/* Carte d’un événement page principale */
 .events-grid .event-card {
+  background-color: white;
+  border-radius: 12px;
+  width: 280px;
+  padding: 1rem 1rem 0 1rem;
+  border: 2px solid var(--primary-color);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Carte d’un événement page recherche */
+/* Grille responsive */
+.event-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.event-grid .event-card {
   background-color: white;
   border-radius: 12px;
   max-width: 280px;
@@ -2066,6 +2013,7 @@ path:hover {
 .close-btn:hover {
   color: red;
 }
+
 /* *** FORUM *** */
 .topics-container,
 .posts-container {

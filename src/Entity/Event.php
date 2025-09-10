@@ -40,7 +40,7 @@ class Event
     /**
      * @var Collection<int, RegistrationEvent>
      */
-    #[ORM\OneToMany(targetEntity: RegistrationEvent::class, mappedBy: 'event')]
+    #[ORM\OneToMany(targetEntity: RegistrationEvent::class, mappedBy: 'event', cascade:['remove'], orphanRemoval: true)]
     private Collection $registrationEvents;
 
     /**
@@ -67,6 +67,9 @@ class Event
         mappedBy: 'event',
         orphanRemoval: true)] // Suppression en cascade des favoris
     private Collection $favoris;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTime $createdAt = null;
 
     public function __construct()
     {
@@ -287,6 +290,18 @@ class Event
                 $favori->setEvent(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTime
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(?\DateTime $createdAt): static
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }

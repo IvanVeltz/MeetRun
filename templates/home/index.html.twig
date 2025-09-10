@@ -5,9 +5,9 @@
 {% block body %}
 
 <div>
-    <header>
+    <header class="home-header">
         <figure>
-            <img src="/img/logo.png" alt="Logo du site">
+            <img src="/img/logo.webp" alt="Logo du site" width="391" height="108">
             <figcaption>Où chaque course commence par une rencontre</figcaption>
         </figure>
         <div class="linear-shadow"></div>
@@ -33,7 +33,7 @@
                 {% include "./events/_events.html.twig" %}
             </div>
         </section>
-        {% if app.user.isVerified %}
+        {% if app.user and app.user.isVerified %}
             
         <section class="users-container">
             <h2>Bienvenue aux nouveaux Runners</h2>
@@ -45,7 +45,7 @@
                         <img src="{{ asset(user.pictureProfilUrl) }}" alt="Photo de {{ user.firstName }}"
                             class="runner-photo">
                         {% else %}
-                        <img src="{{ asset('img/default_picture_profil.png') }}" alt="Photo par défaut"
+                        <img src="{{ asset('img/default_picture_profil.webp') }}" alt="Photo par défaut"
                             class="runner-photo">
                         {% endif %}
                         <div class="runner-info">

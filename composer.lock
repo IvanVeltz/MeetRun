@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "71310c2fa28ad0911a5e211fe34ad32d",
+    "content-hash": "6ac0cd196320de094c18b7fdc2ac8346",
     "packages": [
         {
             "name": "beberlei/doctrineextensions",
@@ -2270,6 +2270,74 @@
                 "source": "https://github.com/phpstan/phpdoc-parser/tree/2.1.0"
             },
             "time": "2025-02-19T13:28:12+00:00"
+        },
+        {
+            "name": "presta/sitemap-bundle",
+            "version": "v4.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/prestaconcept/PrestaSitemapBundle.git",
+                "reference": "61eb5f2b5810a4f2f52bbc6a63186750c7d1f528"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/prestaconcept/PrestaSitemapBundle/zipball/61eb5f2b5810a4f2f52bbc6a63186750c7d1f528",
+                "reference": "61eb5f2b5810a4f2f52bbc6a63186750c7d1f528",
+                "shasum": ""
+            },
+            "require": {
+                "ext-simplexml": "*",
+                "php": ">=8.0",
+                "symfony/console": "^6.4|^7.0",
+                "symfony/framework-bundle": "^6.4|^7.0"
+            },
+            "require-dev": {
+                "doctrine/annotations": "^1.0",
+                "phpstan/phpstan": "^1.4",
+                "phpunit/phpunit": "^7.5|^8.0",
+                "squizlabs/php_codesniffer": "^3.5",
+                "symfony/browser-kit": "^6.4|^7.0",
+                "symfony/messenger": "^6.4|^7.0",
+                "symfony/phpunit-bridge": "^6.4|^7.0",
+                "symfony/yaml": "^6.4|^7.0"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "1.x": "1.x-dev",
+                    "2.x": "2.x-dev",
+                    "3.x": "3.x-dev",
+                    "4.x": "4.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Presta\\SitemapBundle\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Prestaconcept",
+                    "homepage": "http://www.prestaconcept.net/"
+                }
+            ],
+            "description": "A Symfony bundle that provides tools to build your application sitemap.",
+            "keywords": [
+                "Sitemap",
+                "bundle",
+                "prestaconcept",
+                "symfony",
+                "xml"
+            ],
+            "support": {
+                "issues": "https://github.com/prestaconcept/PrestaSitemapBundle/issues",
+                "source": "https://github.com/prestaconcept/PrestaSitemapBundle/tree/v4.2.0"
+            },
+            "time": "2025-07-31T12:29:35+00:00"
         },
         {
             "name": "psr/cache",
@@ -4735,6 +4803,88 @@
             "time": "2025-04-07T19:09:28+00:00"
         },
         {
+            "name": "symfony/lock",
+            "version": "v7.2.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/lock.git",
+                "reference": "538856cf96f064b0aa6e521bcfff863e46a98e15"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/lock/zipball/538856cf96f064b0aa6e521bcfff863e46a98e15",
+                "reference": "538856cf96f064b0aa6e521bcfff863e46a98e15",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.2",
+                "psr/log": "^1|^2|^3"
+            },
+            "conflict": {
+                "doctrine/dbal": "<3.6",
+                "symfony/cache": "<6.4"
+            },
+            "require-dev": {
+                "doctrine/dbal": "^3.6|^4",
+                "predis/predis": "^1.1|^2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Lock\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jérémy Derussé",
+                    "email": "jeremy@derusse.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Creates and manages locks, a mechanism to provide exclusive access to a shared resource",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "cas",
+                "flock",
+                "locking",
+                "mutex",
+                "redlock",
+                "semaphore"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/lock/tree/v7.2.9"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/nicolas-grekas",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2025-07-30T17:03:27+00:00"
+        },
+        {
             "name": "symfony/mailer",
             "version": "v7.2.6",
             "source": {
@@ -6220,6 +6370,80 @@
                 }
             ],
             "time": "2025-03-06T16:27:19+00:00"
+        },
+        {
+            "name": "symfony/rate-limiter",
+            "version": "v7.2.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/rate-limiter.git",
+                "reference": "daae5da398aca84809aa6088371314a9cb88b42e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/rate-limiter/zipball/daae5da398aca84809aa6088371314a9cb88b42e",
+                "reference": "daae5da398aca84809aa6088371314a9cb88b42e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.2",
+                "symfony/options-resolver": "^6.4|^7.0"
+            },
+            "require-dev": {
+                "psr/cache": "^1.0|^2.0|^3.0",
+                "symfony/lock": "^6.4|^7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\RateLimiter\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Wouter de Jong",
+                    "email": "wouter@wouterj.nl"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Provides a Token Bucket implementation to rate limit input and output in your application",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "limiter",
+                "rate-limiter"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/rate-limiter/tree/v7.2.9"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/nicolas-grekas",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2025-07-10T08:29:33+00:00"
         },
         {
             "name": "symfony/routing",

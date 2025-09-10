@@ -43,11 +43,11 @@ class RegistrationForm extends AbstractType
             ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
-                'label' => "Conditions d'utilisation",
+                'label' => "Veuillez accepter les conditions d'utilisation",
                 'label_attr' => ['class' => 'custom-label'], 
                 'constraints' => [
                     new IsTrue([
-                        'message' => 'Vous devez accepter nos conditions.',
+                        'message' => 'Vous devez accepter nos conditions d\'utilisation.',
                     ]),
                 ],
             ])
@@ -69,8 +69,12 @@ class RegistrationForm extends AbstractType
                     ]),
                     new Regex([
                         'pattern' => '/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).{12,}$/',
+<<<<<<< HEAD
                         'message' => 'Le mot de passe doit contenir au moins 12 caractères,
                              une majuscule, une minuscule, un chiffre et un caractère spécial.',
+=======
+                        'message' => 'Le mot de passe doit contenir au moins 12 caractères, une majuscule, un chiffre et un caractère spécial.',
+>>>>>>> f0d96636d2ce1c275da83faf73975f2d3d984aff
                     ])                        
                 ],
                 'second_options' => [

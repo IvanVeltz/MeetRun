@@ -3,35 +3,17 @@
 {% block title %}{{ user.firstName }} {{ user.lastName }} {% endblock %}
 
 {% block body %}
-<div class="profil-container {% if app.user.id == other.id %}no-chat{% endif %}">
-    <div class="profil-detail-container">
-        <aside class="infos">
-            <p class="name-user">
-                {{ user.firstName }} {{ user.lastName }}
-            </p>
-            <h4>Infos</h4>
+<div class="profil-page">
+    <!-- Header profil -->
+    <header class="profil-header">
+        <div class="profil-header-left">
 
-            {% if user.city %}
-            <p><i class="fa-solid fa-house"></i>
-                {{ user.city }}
-                {% endif %}
-            </p>
-            {% if user.level %}
-            <p><i class="fa-solid fa-star"></i>
-                {{ user.level.infoProfil }}
-                {% endif %}
-            </p>
-            {% if user.dateOfBirth %}
-            <p>
-                <i class="fa-solid fa-cake-candles"></i> {{ user.getAge }} ans
-                {% endif %}
-            </p>
+            <img src="{{ user.pictureProfilurl ? asset(user.pictureProfilurl) : asset('img/default_picture_profil.webp') }}"
+                alt="Avatar de {{ user.firstName }}" class="avatar-profil">
+            <h1>{{ user.firstName }} {{ user.lastName }}</h1>
             {% if user == app.user %}
-            <a href=" {{ path('app_user') }} " class="btn btn-primary">Modifier mon profil</a>
+            <a href="{{ path('app_user') }}" class="btn-profil">Modifier mon profil</a>
             {% else %}
-
-
-
             {% set isFollowed = false %}
             {% for follower in user.followers %}
             {% if follower.userSource.id == app.user.id %}
@@ -40,248 +22,98 @@
             {% endfor %}
 
             {% if not isFollowed %}
-            <!-- Lien "Suivre" qui envoie le formulaire avec l'id passé en parametre de la fonction getElementById -->
-            <a href="#" class="btn btn-primary"
-                onclick="event.preventDefault(); document.getElementById('follow-form-{{ user.id }}').submit();">
-                Suivre
-            </a>
-            <!-- formulaire qui envoie en methode POST vers la route de demande de follow, avec un token généré de maniere
-            unique,  -->
+            <a href="#" class="btn-profil"
+                onclick="event.preventDefault(); document.getElementById('follow-form-{{ user.id }}').submit();">Suivre</a>
             <form id="follow-form-{{ user.id }}" action="{{ path('app_follow_request', { 'id': user.id }) }}"
                 method="POST" style="display: none;">
                 <input type="hidden" name="_token" value="{{ csrf_token('follow' ~ user.id) }}">
             </form>
-            <!-- Cela permet d'eviter d'avoir juste le lien en href et d'avoir une méthode GET qui permettrai de rajouter 
-            des données en BDD -->
-
             {% else %}
-            <a href="#" class="btn btn-primary"
-                onclick="event.preventDefault(); document.getElementById('unfollow-form-{{ user.id }}').submit();">
-                Ne plus suivre
-            </a>
-
+            <a href="#" class="btn-profil"
+                onclick="event.preventDefault(); document.getElementById('unfollow-form-{{ user.id }}').submit();">Ne
+                plus suivre</a>
             <form id="unfollow-form-{{ user.id }}" action="{{ path('app_unfollow_request', { 'id': user.id }) }}"
                 method="POST" style="display: none;">
                 <input type="hidden" name="_token" value="{{ csrf_token('unfollow' ~ user.id) }}">
             </form>
             {% endif %}
             {% endif %}
-
-
-
-        </aside>
-        <div class="friends">
-            <div class="follow"></div>
-            <h4>Follow</h4>
-            {% for follow in user.follows %}
-            <p>
-                <a href=" {{ path('app_profil', {'id' :  follow.userTarget.id}) }} ">
-                    {{ follow.userTarget.firstName }} {{ follow.userTarget.lastName }}
-                </a>
-                {% if user == app.user %}
-                <a href="#" class="btn btn-primary"
-                    onclick="event.preventDefault(); document.getElementById('unfollow-form-{{ follow.userTarget.id }}').submit();">
-                    <i class="fa-solid fa-xmark" style="color: red"></i>
-                </a>
-
-            <form id="unfollow-form-{{ follow.userTarget.id }}"
-                action="{{ path('app_unfollow_request', { 'id': follow.userTarget.id }) }}" method="POST"
-                style="display: none;">
-                <input type="hidden" name="_token" value="{{ csrf_token('unfollow' ~ follow.userTarget.id) }}">
-            </form>
-            {% endif %}
-            </p>
-            {% endfor %}
-            <div class="follower"></div>
-            <h4>Follower</h4>
-            {% for follower in user.followers %}
-            {% if follower.followAccepted %}
-            <p>
-                <a href=" {{ path('app_profil', {'id' :  follower.userSource.id}) }} ">
-                    {{ follower.userSource.firstName }} {{ follower.userSource.lastName }}
-                </a>
-                {% if user == app.user %}
-                <a href="#" class="btn btn-primary"
-                    onclick="event.preventDefault(); document.getElementById('unfollower-form-{{ follower.userSource.id }}').submit();">
-                    <i class="fa-solid fa-xmark" style="color: red"></i>
-                </a>
-
-            <form id="unfollower-form-{{ follower.userSource.id }}"
-                action="{{ path('app_unfollower_request', { 'id': follower.userSource.id }) }}" method="POST"
-                style="display: none;">
-                <input type="hidden" name="_token" value="{{ csrf_token('unfollower' ~ follower.userSource.id) }}">
-            </form>
-            <a href=" {{ path('app_unfollower_request', { 'id': follower.userSource.id }) }}"><i
-                    class="fa-solid fa-xmark" style="color: red"></i></a>
-            {% endif %}
-            </p>
-            {% endif %}
-            {% endfor %}
-
-            {% if user == app.user %}
-
-            <div class="new-follower"></div>
-            <h4>Demande de follow</h4>
-            {% for follower in user.followers %}
-            {% if not follower.followAccepted %}
-            <p>
-                <a href=" {{ path('app_profil', {'id' :  follower.userSource.id}) }} ">
-                    {{ follower.userSource.firstName }} {{ follower.userSource.lastName }}
-                </a>
-
-                <a href="#" class="btn btn-success"
-                    onclick="event.preventDefault(); document.getElementById('follow-accept-form-{{ follower.id }}').submit();">
-                    Accepter
-                </a>
-            <form id="follow-accept-form-{{ follower.id }}"
-                action="{{ path('app_follow_accept', { 'id': follower.id }) }}" method="POST" style="display: none;">
-                <input type="hidden" name="_token" value="{{ csrf_token('follow-accept' ~ follower.id) }}">
-            </form>
-
-
-            <a href=" {{ path('app_unfollower_request', { 'id': follower.userSource.id }) }}"><i
-                    class="fa-solid fa-xmark" style="color: red"></i></a>
-            </p>
-            {% endif %}
-            {% endfor %}
-            {% endif %}
-
         </div>
-    </div>
-    <div class="profil-event-container">
-        <div class="events">
-            <h2>Prochaines courses</h2>
-            <div>
-                {% for registrationNextEvent in registrationNextEvents %}
+        <div class="profil-header-right">
 
-                <div class="event-card">
-                    {% set photos = registrationNextEvent.event.getPhotos() %}
-                    {% if photos is iterable and photos is not empty %}
-                    {% set firstPhoto = photos|first %}
-                    <figure>
-                        <img src="{{asset(firstPhoto.url)}}" alt="Photo de la course">
-                    </figure>
-                    {% else %}
-                    <figure>
-                        <img src="{{asset('img/default_event.jpg')}}" alt="Photo illustrant la course">
-                    </figure>
-                    {% endif %}
-                    <p class="event-date"><i class="fa-solid fa-calendar-days"></i> {{
-                        registrationNextEvent.event.dateEvent|format_date(pattern="EEE d MMMM y", locale="fr")|capitalize }}</p>
-                    <h3>{{ registrationNextEvent.event.name }}
-                        {% if registrationNextEvent.event.isCancelled %}
-                        <span>(Course annulé)</span>
-                        {% endif %}
-                    </h3>
-                    <p><i class="fa-solid fa-location-dot"></i> {{registrationNextEvent.event.city}} ({{registrationNextEvent.event.postalCode | slice(0,2) }})</p>
-                    {% if app.user %}
-                    <p class="more-about">En savoir +</p>
-                    {% endif %}
-                </div>
-                {% endfor %}
-            </div>
-            <h2>Dernières courses</h2>
-            <div>
-                {% for registrationPastEvent in registrationPastEvents %}
+            {% if user.city %}
+            <p class="city"><i class="fa-solid fa-house"></i>{{ user.city }}</p>
+            {% endif %}
+            {% if user.dateOfBirth %}
+            <p class="age"><i class="fa-solid fa-cake-candles"></i> {{ user.getAge }} ans</p>
+            {% endif %}
 
-                <div class="event-card">
-                    {% set photos = registrationPastEvent.event.getPhotos() %}
-                    {% if photos is iterable and photos is not empty %}
-                    {% set firstPhoto = photos|first %}
-                    <figure>
-                        <img src="{{asset(firstPhoto.url)}}" alt="Photo de la course">
-                    </figure>
-                    {% else %}
-                    <figure>
-                        <img src="{{asset('img/default_event.jpg')}}" alt="Photo illustrant la course">
-                    </figure>
-                    {% endif %}
-                    <p class="event-date"><i class="fa-solid fa-calendar-days"></i> {{
-                        registrationPastEvent.event.dateEvent|format_date(pattern="EEE d MMMM y", locale="fr")|capitalize }}</p>
-                    <h3>{{ registrationPastEvent.event.name }}
-                        {% if registrationPastEvent.event.isCancelled %}
-                        <span>(Course annulé)</span>
-                        {% endif %}
-                    </h3>
-                    <p><i class="fa-solid fa-location-dot"></i> {{registrationPastEvent.event.city}} ({{registrationPastEvent.event.postalCode | slice(0,2) }})</p>
-                    {% if app.user %}
-                    <p class="more-about">En savoir +</p>
-                    {% endif %}
-                </div>
-                {% endfor %}
+            {% if user.level %}
+            <p class="level"><i class="fa-solid fa-medal"></i> {{ user.level.infoProfil }}</p>
+            {% endif %}
+            <div class="profil-header-follow">
+
+                <p class="follows">
+                    <span>Follow : {{ user.follows|length }}</span> -
+                    <span>Follower : {{ user.followers|length }}</span>
+                </p>
+                {% if user == app.user %}
+                <a href="#" class="btn-profil">Gérer ses abonnements</a>
+
+                {% endif %}
             </div>
         </div>
-    </div>
-    <div class="profil-forum-container">
-        <div class="last-posts">
+    </header>
 
-            <h2>Derniers messages sur le forum</h2>
-            {% if lastPosts %}
 
-            {% for post in lastPosts %}
-            <p> {{ post.message }} </p>
+    <section class="profil-actions-container">
+        <ul>
+            {% for action in actions %}
+            <li>
+                {{ action.entity.createdAt|date('d/m/Y H:i') }} —
+                {% if action.type == 'topic' %}
+                a créé le topic : <a href="{{ path('app_topic', {'id': action.entity.id}) }}">{{
+                    action.entity.title }}</a>
+                {% elseif action.type == 'post' %}
+                a posté : <a href="{{ path('app_post', {'id': action.entity.id}) }}">{{ action.entity.content
+                    }}</a>
+                {% elseif action.type == 'registration' %}
+                s'est inscrit à l'événement : <a href="{{ path('app_detailEvent', {'id': action.entity.id}) }}">
+                    {{action.entity.event.name }}</a>
+                {% elseif action.type == 'favori' %}
+                a ajouté en favori : <a href="{{ path('app_detailEvent', {'id': action.entity.id}) }}">
+                    {{action.entity.event.name }}</a>
+                {% elseif action.type == 'organizer' %}
+                a organisé : <a href="{{ path('app_detailEvent', {'id': action.entity.id}) }}">{{
+                    action.entity.name }} </a>
+                {% endif %}
+            </li>
             {% endfor %}
-            {% else %}
-            <p>Aucun message posté</p>
-            {% endif %}
-        </div>
-
-        <div class="last-topics">
-            <h2>Derniers sujets créés sur le forum</h2>
-            {% if lastTopics %}
-
-            {% for topic in lastTopics %}
-            <p> {{ topic.title }} </p>
-            {% endfor %}
-            {% else %}
-            <p>Aucun sujet créé</p>
-            {% endif %}
-        </div>
-    </div>
-
-    <div class="profil-chat-container">
-        {% if app.user.id != other.id %}
-            {% if canMessage %}
-                <div id="chat-messages">
-                    {% for message in messages %}
-                        <div class="message {{ message.sender == app.user ? 'me' : 'other' }}">
-                            <p class="message-content">{{ message.content }}</p>
-                            {% set now = "now"|date("U") %}
-                            {% set msgTime = message.dateOfMessage|date("U") %}
-                            {% set diff = now - msgTime %}
-
-                            {% set messageDay = message.dateOfMessage|date('Y-m-d') %}
-                            {% set today = "now"|date('Y-m-d') %}
-                            {% set yesterday = "yesterday"|date('Y-m-d') %}
-
-                            <small class="message-time">
-                            {% if messageDay == today %}
-                                {{ message.dateOfMessage|date('H:i') }}
-                            {% elseif messageDay == yesterday %}
-                                Hier à {{ message.dateOfMessage|date('H:i') }}
-                            {% else %}
-                                il y a {{ (diff / 86400)|round }} jours
-                            {% endif %}
-                            </small>
+        </ul>
+    </section>
 
 
-                        </div>
-                    {% endfor %}
-                </div>
+    <!-- Aside droit : chat -->
     
-                <form method="post" action="{{ path('app_chat_addMessage', {'id': other.id}) }}" id="chat-form" class="form-message">
-                    <label for="chatMessage">Envoyer un message :</label>
-                    <textarea name="chatMessage" id="chatMessage" rows="3" required></textarea>
-                
-                    <input type="hidden" name="_token" value="{{ csrf_token('createChatMessage') }}">
-                
-                    <button type="submit">Envoyer</button>
-                </form>
-                
-            {% else %}
-                <p class="no-chat">Vous devez être mutuellement suivis pour échanger des messages avec cet utilisateur.</p>
-            {% endif %}
-        {% endif %}
-    </div>
+    {% if app.user.id != user.id %}
+    <aside class="profil-chat">
+        <h4>Discussion avec {{user}}</h4>
+        <div id="chat-messages">
+            {% for message in messages %}
+            <div class="message {{ message.sender == app.user ? 'me' : 'other' }}">
+                <p>{{ message.content }}</p>
+                <small>{{ message.dateOfMessage|date('d/m/Y H:i') }}</small>
+            </div>
+            {% endfor %}
+        </div>
+        <form method="post" action="{{ path('app_chat_addMessage', {'id': user.id}) }}">
+            <textarea name="chatMessage" rows="3" required placeholder="Écrire un message..."></textarea>
+            <input type="hidden" name="_token" value="{{ csrf_token('createChatMessage') }}">
+            <button type="submit">Envoyer</button>
+        </form>
+    </aside>
+    {% endif %}
 </div>
+</div>
+
 {% endblock %}

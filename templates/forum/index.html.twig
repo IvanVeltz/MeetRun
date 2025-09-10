@@ -45,7 +45,7 @@
     {% for topic in topics %}
     <div class="topic-container">
         <p>{{topic.category}} - <a href="{{path('app_topic', {'id': topic.id})}}" class="link-topic">{{ topic.title | capitalize}}</a> 
-            - <small> Créé le {{ topic.dateCreation|date("d-m-Y") }} par </small><a
+            - <small> Créé le {{ topic.createdAt|date("d-m-Y") }} par </small><a
                 href="{{ path('app_profil', {'id': topic.user.id})}}"> {{ topic.user}}</a></p>
     </div>
     {% endfor %}

@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,7 +28,7 @@ class SecurityController extends AbstractController
 {
     private MailerInterface $mailer;
 
-    public function __construct(MailerInterface $mailer) {
+    public function __construct(MailerInterface $mailer,) {
         $this->mailer = $mailer;
     }
 

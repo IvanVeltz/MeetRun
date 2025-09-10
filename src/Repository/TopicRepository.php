@@ -19,7 +19,7 @@ class TopicRepository extends ServiceEntityRepository
     public function findByLastPost(): array
     {
         return $this->createQueryBuilder('t')
-            ->select('t, MAX(p.dateMessage) AS HIDDEN maxDate')
+            ->select('t, MAX(p.createdAt) AS HIDDEN maxDate')
             ->leftJoin('t.posts', 'p')
             ->groupBy('t.id')
             ->where('t.isClosed = false')

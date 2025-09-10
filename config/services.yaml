@@ -35,4 +35,6 @@ services:
         arguments:
             $router: '@router'
             $tokenStorage: '@security.token_storage'
-
+    App\Security\Voter\:
+        resource: '../src/Security/Voter'
+        tags: ['security.voter']

@@ -2,23 +2,25 @@
 document.addEventListener('DOMContentLoaded', function () {
   const modal = document.getElementById('eventModal');
   const openBtn = document.getElementById('openModalBtn');
-  const closeBtn = modal.querySelector('.close-btn');
+  if(modal && openBtn){
+    const closeBtn = modal.querySelector('.close-btn');
 
-  openBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    modal.style.display = "block";
-  })
+    openBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      modal.style.display = "block";
+    })
 
-  closeBtn.addEventListener('click', () => {
-    modal.style.display = "none";
-  })
+    closeBtn.addEventListener('click', () => {
+      modal.style.display = "none";
+    })
 
-  // Ferme le modal en cliquant à l'extérieur
-  window.addEventListener('click', function (e) {
-    if (e.target === modal) {
-      modal.style.display = 'none';
-    }
-  });
+    // Ferme le modal en cliquant à l'extérieur
+    window.addEventListener('click', function (e) {
+      if (e.target === modal) {
+        modal.style.display = 'none';
+      }
+    });
+  }
 })
 
 // Affichage addFlash

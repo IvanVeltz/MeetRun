@@ -3,38 +3,31 @@
 {% block title %}{{event.name}}{% endblock %}
 
 {% block body %}
-{% for label, messages in app.flashes %}
-<div class="flash-{{ label }}">
-    {% for message in messages %}
-    <p>{{ message }}</p>
-    {% endfor %}
-</div>
-{% endfor %}
+
 <div class="event-container">
     <div class="event-header">
         <p class="event-date"><i class="fa-solid fa-calendar-days"></i> {{ event.dateEvent|format_date(pattern="EEE d
             MMMM y", locale="fr")|capitalize }}</p>
-        <h2 class="event-name">
+        <h1 class="event-name">
             {{ event.name }}
             {% if event.isCancelled %}
                 <span>(Course annulé)</span>
             {% endif %}
-        </h2>
-            {% if app.user %}
-                {% set userFavori = listFavoris|filter(f => f.user == app.user)|length > 0 %}
-                
+        </h1>
+        {% if app.user %}
+            {% set userFavori = listFavoris|filter(f => f.user == app.user)|length > 0 %}
                 <form method="post" action="{{ path('app_toggle_favori', { id: event.id }) }}" style="display:inline;" >
                     {% if userFavori %}
-                    <label>Retirer des favoirs</label>
-                {% else %}
-                <label>Ajouter aux favoris</label>
-                {% endif %}
+                        <label>Retirer des favoirs</label>
+                    {% else %}
+                        <label>Ajouter aux favoris</label>
+                    {% endif %}
                     <input type="hidden" name="_token" value="{{ csrf_token('favori' ~ event.id) }}">
                     <button type="submit" class="heart-button" title="Ajouter/Retirer des favoris">
                         <i class="fa{{ userFavori ? '-solid' : '-regular' }} fa-heart" style="color: red;"></i>
                     </button>
                 </form>
-            {% endif %}
+        {% endif %}
         <p class="place"><i class="fa-solid fa-location-dot"></i> {{event.city}} ({{event.postalCode | slice(0,2) }}) - {{event.adress }}</p>
         <p class="event-organizer">
             Organisé par
@@ -48,13 +41,13 @@
     <div class="event-photos">
         {% for photo in photos %}
         <figure>
-            <img src="{{asset(photo.url)}}" alt="Photo de la course">
+            <img src="{{asset(photo.url)}}" alt='Photo de la course "{{photo.event.name}}"'>
             <caption>{{photo.description}}</caption>
         </figure>
         {% endfor %}
     </div>
     <div class="event-infos">
-        <h4>Description de la course</h4>
+        <h2>Description de la course</h2>
         <p>{{event.description}}</p>
         <p>Distance : {{event.distance}} km</p>
 
@@ -68,7 +61,10 @@
 
         {% if app.user %}
         <p>Nombre d'inscrit : {{nbrInscription}}/{{event.capacity}}</p>
-            {% if app.user.isVerified %}
+            {% if event.dateEvent|date("Y-m-d") >= today|date("Y-m-d") %}
+                
+            
+            {% if app.user.isVerified  %}
                 {% if not userInscrit %}
                     {% if nbrInscription < event.capacity %} 
                     <h4>Inscription</h4>
@@ -92,11 +88,12 @@
             {% else %}
             <p> Vous devez vérifier votre email pour vous inscrire</p>
             {% endif %}
+            {% endif %}
         {% endif %}
     </div>
     <div class="event-manager">
-        {% if app.user == event.organizer %}
-        <h4>Gestion de la course</h4>
+        {% if app.user == event.organizer and event.dateEvent|date("Y-m-d") >= today|date("Y-m-d") %}
+        <h2>Gestion de la course</h2>
         <div class="create-event">
             <a href="" id="openModalBtn" class="btn">Modifier la course</a>
         </div>
@@ -114,7 +111,12 @@
                 {{ form_row(newEventForm.capacity) }}
                 {{ form_row(newEventForm.adress) }}
                 {{ form_row(newEventForm.postalCode )}}
-                {{ form_row(newEventForm.city) }}
+                <div>
+                    <label for="selectCity">Ville</label>
+                    <select id="selectCity" name="city" class="form-control">
+                        <option value="">Sélectionnez une ville</option>    
+                    </select>
+                </div>
                 {% if event.photos is not empty %}
                 <div class="photo-list">
                     <label>Photos existantes</label>
@@ -144,4 +146,5 @@
     </div>
 </div>
 <script src="{{asset('js/deletePhotoEvent.js')}}"></script>
+<script src="{{asset('js/apiGeo.js')}}"></script>
 {% endblock %}

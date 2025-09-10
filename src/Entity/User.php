@@ -32,6 +32,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 100)]
     private ?string $lastName = null;
+    
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+
+    public function setLastName(string $lastName): static
+    {
+        $this->lastName = $lastName;
+        return $this;
+    }
 
     #[ORM\Column(length: 100)]
     private ?string $firstName = null;
@@ -207,19 +218,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setRoles(array $roles): static
     {
         $this->roles = $roles;
-
-        return $this;
-    }
-
-
-    public function getLastName(): ?string
-    {
-        return $this->lastName;
-    }
-
-    public function setLastName(string $lastName): static
-    {
-        $this->lastName = $lastName;
 
         return $this;
     }

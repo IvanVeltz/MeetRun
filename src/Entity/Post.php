@@ -18,10 +18,10 @@ class Post
     private ?string $message = null;
 
     #[ORM\Column]
-    private ?\DateTime $dateMessage = null;
+    private ?\DateTime $createdAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'posts')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: "CASCADE")]
     private ?Topic $topic = null;
 
     #[ORM\ManyToOne(inversedBy: 'posts')]
@@ -50,14 +50,14 @@ class Post
         return $this;
     }
 
-    public function getDateMessage(): ?\DateTime
+    public function getCreatedAt(): ?\DateTime
     {
-        return $this->dateMessage;
+        return $this->createdAt;
     }
 
-    public function setDateMessage(\DateTime $dateMessage): static
+    public function setCreatedAt(\DateTime $createdAt): static
     {
-        $this->dateMessage = $dateMessage;
+        $this->createdAt = $createdAt;
 
         return $this;
     }

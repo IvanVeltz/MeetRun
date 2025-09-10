@@ -35,7 +35,9 @@ final class UserController extends AbstractController
         $user = $this->getUser();
         \assert($user instanceof User);
 
-        $form = $this->createForm(ProfilForm::class, $user);
+        $form = $this->createForm(ProfilForm::class, $user, [
+            'allow_extra_fields' => true
+        ]);
         $changePasswordForm = $this->createForm(ChangePasswordForm::class, $user);
 
         $form->handleRequest($request);
@@ -43,8 +45,11 @@ final class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $ville = $request->request->get('city'); // récupère la valeur du select "city"
-            $user->setCity($ville);
+            $extraData = $form->getExtraData();
+            if (isset($extraData['city'])) {
+
+                $user->setCity($extraData['city']);
+            }
 
             $imageFile = $form->get('pictureProfilUrl')->getData();
             $oldImage = $user->getPictureProfilUrl();
@@ -112,14 +117,8 @@ final class UserController extends AbstractController
         }
         $currentUser = $this->getUser();
 
-        if(!$currentUser->isVerified() && $user->getId() != $currentUser->getId()){
-            return $this->redirectToRoute('app_home');
-        }
+    
 
-        $registrationNextEvents = $registrationEventRepository->findByUserAndNextEvents($user);
-        $registrationPastEvents = $registrationEventRepository->findByUserAndPastEvents($user);
-        $lastPosts = $postRepository->findBy(['user' => $user], ['dateMessage' => 'DESC'], 5);
-        $lastTopics = $topicRepository->findBy(['user' => $user], ['dateCreation' => 'DESC'], 3);
 
         $canMessage = $followRepository->areMutuallyFollowing($currentUser, $other);
 
@@ -130,15 +129,14 @@ final class UserController extends AbstractController
         }
 
 
+        $actions = $userRepository->findLastactionByUser($user);
+
         return $this->render('user/profil.html.twig', [
             'user' => $user,
-            'registrationNextEvents' => $registrationNextEvents,
-            'registrationPastEvents' => $registrationPastEvents,
-            'lastPosts' => $lastPosts,
-            'lastTopics' => $lastTopics,
             'messages' => $messages,
             'other' => $other,
-            'canMessage' => $canMessage
+            'canMessage' => $canMessage,
+            'actions' => $actions
         ]);
     }
     
