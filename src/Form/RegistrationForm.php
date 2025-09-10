@@ -68,8 +68,9 @@ class RegistrationForm extends AbstractType
                         'message' => 'Veuillez saisir un mot de passe.',
                     ]),
                     new Regex([
-                        'pattern' => '/^(?=.*[A-Z])(?=.*\d)(?=.*\W).{12,}$/',
-                        'message' => 'Le mot de passe doit contenir au moins 12 caractères, une majuscule, un chiffre et un caractère spécial.',
+                        'pattern' => '/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).{12,}$/',
+                        'message' => 'Le mot de passe doit contenir au moins 12 caractères,
+                             une majuscule, une minuscule, un chiffre et un caractère spécial.',
                     ])                        
                 ],
                 'second_options' => [

@@ -76,18 +76,14 @@ class EventRepository extends ServiceEntityRepository
     }
 
     
-    /**
-     * Construit une requête Doctrine QueryBuilder pour rechercher des courses,
-     * en fonction des critères contenus dans un objet SearchDataEvent.
-     *
-     * @param SearchDataEvent $search Données de recherche fournies par le formulaire (texte, département, distance, etc.)
-     * @return QueryBuilder Requête Doctrine prête à être exécutée ou affinée
-     */
+    
     public function getSearchQuery(SearchDataEvent $search): QueryBuilder
     {
         $qb = $this->createQueryBuilder('e')
             ->where('e.cancelled = :cancelled') // On exclut toutes les courses annulées en filtrant sur le champ "cancelled".
+            ->andWhere('e.dateEvent >= :today') // Exclut les courses déjà passées
             ->setParameter('cancelled', false)
+            ->setParameter('today', new \DateTime()) // Date actuelle
             ->orderBy('e.dateEvent', 'ASC'); // On trie les résultats par date croissante (les courses les plus proches d'abord)
 
         if ($search->q) {
