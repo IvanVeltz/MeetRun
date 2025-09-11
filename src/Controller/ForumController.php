@@ -130,8 +130,7 @@ final class ForumController extends AbstractController
     {
         $message = trim(filter_var(
             $request->request->get('addMessage'),
-            FILTER_UNSAFE_RAW,
-            FILTER_FLAG_NO_ENCODE_QUOTES
+            FILTER_SANITIZE_FULL_SPECIAL_CHARS
         ));
         $user = $this->getUser();
 
