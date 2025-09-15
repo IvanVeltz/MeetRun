@@ -255,6 +255,8 @@ select option {
     z-index: 1500;
   }
 
+
+
   .nav__menu,
   .dropdown-menu {
     flex-direction: column;
@@ -2618,4 +2620,68 @@ path:hover {
     text-align: center;
     justify-content: center;
   }
+
+  /* Responsive tablette */
+@media screen and (max-width: 1024px) {
+  .profil-page {
+    grid-template-columns: 70% 30%;
+    grid-template-rows: auto auto;
+    padding: 1.5em;
+  }
+
+  .profil-header {
+    flex-direction: column;
+    align-items: center;
+    gap: 2em;
+    width: 100%;
+  }
+
+  .profil-header-right {
+    margin: 2em 0 0 0;
+    text-align: center;
+  }
+}
+
+/* Responsive mobile */
+@media screen and (max-width: 768px) {
+  .profil-page {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    padding: 1em;
+  }
+
+  .profil-header {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5em;
+    width: 100%;
+    height: 600px;
+  }
+
+  .profil-header-left img {
+    width: 150px;
+  }
+
+  .profil-header-right {
+    margin: 1em 0;
+    font-size: 1rem;
+    align-items: center;
+  }
+
+  .profil-actions-container {
+    margin: 1em 0;
+    width: 100%;
+  }
+
+  .profil-chat {
+    border-left: none;
+    border-top: 1px solid var(--primary-color);
+    width: 100%;
+    height: auto;
+    padding: 1em 0;
+    margin-top: 1em;
+  }
+}
+
 }
