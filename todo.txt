@@ -1,4 +1,0 @@
-Follow etc..
-
-	Verifie que la route soit protégé des failles CRSF pck c'est un simple a et non un form
-	Rajouté une date de demande pour eviter les spams
