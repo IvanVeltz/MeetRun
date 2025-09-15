@@ -1,0 +1,25 @@
+INSERT INTO user (
+    level_id, email, roles, last_name, first_name, date_of_register, date_of_birth,
+    is_banned, picture_profil_url, postal_code, city, bio, reset_token, sexe,
+    password, is_verified, created_by_google, first_connection, deleted, longitude, latitude
+) VALUES
+(1, 'alice.martin@example.com', '["ROLE_USER"]', 'Martin', 'Alice', '2025-09-15 14:30:00', '1990-05-12', 0, NULL, '67000', 'Strasbourg', 'Bio Alice', NULL, 'femme', 'password123', 1, 0, 0, 0, 7.750000, 48.583333),
+(2, 'benjamin.dupont@example.com', '["admin"]', 'Dupont', 'Benjamin', '2025-09-15 14:35:00', '1985-11-20', 0, NULL, '54000', 'Nancy', 'Bio Benjamin', NULL, 'homme', 'password123', 1, 0, 0, 0, 6.184417, 48.692054),
+(3, 'claire.bernard@example.com', '["ROLE_USER"]', 'Bernard', 'Claire', '2025-09-15 14:40:00', '1992-03-10', 0, NULL, '88000', 'Épinal', 'Bio Claire', NULL, 'femme', 'password123', 1, 0, 0, 0, 6.449700, 48.178100),
+(4, 'david.lefevre@example.com', '["ROLE_USER"]', 'Lefevre', 'David', '2025-09-15 14:45:00', '1988-07-25', 0, NULL, '57000', 'Metz', 'Bio David', NULL, 'homme', 'password123', 1, 0, 0, 0, 6.175000, 49.120000),
+(5, 'emma.moreau@example.com', '["ROLE_USER"]', 'Moreau', 'Emma', '2025-09-15 14:50:00', '1995-01-18', 0, NULL, '51100', 'Reims', 'Bio Emma', NULL, 'femme', 'password123', 1, 0, 0, 0, 4.031700, 49.258300),
+(1, 'franck.duval@example.com', '["ROLE_USER"]', 'Duval', 'Franck', '2025-09-15 14:55:00', '1983-09-05', 0, NULL, '68100', 'Mulhouse', 'Bio Franck', NULL, 'homme', 'password123', 1, 0, 0, 0, 7.355600, 47.750000),
+(2, 'gabrielle.richard@example.com', '["ROLE_USER"]', 'Richard', 'Gabrielle', '2025-09-15 15:00:00', '1991-06-12', 0, NULL, '68000', 'Colmar', 'Bio Gabrielle', NULL, 'femme', 'password123', 1, 0, 0, 0, 7.355600, 48.079000),
+(3, 'hugo.fabre@example.com', '["ROLE_USER"]', 'Fabre', 'Hugo', '2025-09-15 15:05:00', '1990-12-30', 0, NULL, '10000', 'Troyes', 'Bio Hugo', NULL, 'homme', 'password123', 1, 0, 0, 0, 4.074400, 48.297500),
+(5, 'isabelle.morel@example.com', '["ROLE_USER"]', 'Morel', 'Isabelle', '2025-09-15 15:10:00', '1987-04-22', 0, NULL, '67000', 'Strasbourg', 'Bio Isabelle', NULL, 'femme', 'password123', 1, 0, 0, 0, 7.750000, 48.583333),
+(4, 'julien.bertrand@example.com', '["ROLE_USER"]', 'Bertrand', 'Julien', '2025-09-15 15:15:00', '1989-08-15', 0, NULL, '54000', 'Nancy', 'Bio Julien', NULL, 'homme', 'password123', 1, 0, 0, 0, 6.184417, 48.692054),
+(1, 'karine.rousseau@example.com', '["ROLE_USER"]', 'Rousseau', 'Karine', '2025-09-15 15:20:00', '1993-02-02', 0, NULL, '88000', 'Épinal', 'Bio Karine', NULL, 'femme', 'password123', 1, 0, 0, 0, 6.449700, 48.178100),
+(2, 'lucas.girard@example.com', '["ROLE_USER"]', 'Girard', 'Lucas', '2025-09-15 15:25:00', '1994-09-17', 0, NULL, '51100', 'Reims', 'Bio Lucas', NULL, 'homme', 'password123', 1, 0, 0, 0, 4.031700, 49.258300),
+(3, 'marie.lacroix@example.com', '["ROLE_USER"]', 'Lacroix', 'Marie', '2025-09-15 15:30:00', '1992-05-03', 0, NULL, '68100', 'Mulhouse', 'Bio Marie', NULL, 'femme', 'password123', 1, 0, 0, 0, 7.355600, 47.750000),
+(4, 'nicolas.marchand@example.com', '["ROLE_USER"]', 'Marchand', 'Nicolas', '2025-09-15 15:35:00', '1986-11-11', 0, NULL, '68000', 'Colmar', 'Bio Nicolas', NULL, 'homme', 'password123', 1, 0, 0, 0, 7.355600, 48.079000),
+(5, 'olivia.blanc@example.com', '["ROLE_USER"]', 'Blanc', 'Olivia', '2025-09-15 15:40:00', '1995-07-28', 0, NULL, '10000', 'Troyes', 'Bio Olivia', NULL, 'femme', 'password123', 1, 0, 0, 0, 4.074400, 48.297500),
+(1, 'paul.martinez@example.com', '["ROLE_USER"]', 'Martinez', 'Paul', '2025-09-15 15:45:00', '1984-03-14', 0, NULL, '67000', 'Strasbourg', 'Bio Paul', NULL, 'homme', 'password123', 1, 0, 0, 0, 7.750000, 48.583333),
+(2, 'quentin.fournier@example.com', '["ROLE_USER"]', 'Fournier', 'Quentin', '2025-09-15 15:50:00', '1990-10-05', 0, NULL, '54000', 'Nancy', 'Bio Quentin', NULL, 'homme', 'password123', 1, 0, 0, 0, 6.184417, 48.692054),
+(3, 'romane.gauthier@example.com', '["ROLE_USER"]', 'Gauthier', 'Romane', '2025-09-15 15:55:00', '1991-01-20', 0, NULL, '88000', 'Épinal', 'Bio Romane', NULL, 'femme', 'password123', 1, 0, 0, 0, 6.449700, 48.178100),
+(4, 'sylvain.richard@example.com', '["ROLE_USER"]', 'Richard', 'Sylvain', '2025-09-15 16:00:00', '1987-06-30', 0, NULL, '51100', 'Reims', 'Bio Sylvain', NULL, 'homme', 'password123', 1, 0, 0, 0, 4.031700, 49.258300),
+(5, 'tania.leroy@example.com', '["ROLE_USER"]', 'Leroy', 'Tania', '2025-09-15 16:05:00', '1993-09-09', 0, NULL, '68100', 'Mulhouse', 'Bio Tania', NULL, 'femme', 'password123', 1, 0, 0, 0, 7.355600, 47.750000);

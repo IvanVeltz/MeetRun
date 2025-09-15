@@ -99,6 +99,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         ->addSelect('l')
         ->where('u.deleted = :deleted')
         ->andWhere('u.id != :currentUserId')
+        ->orderBy('u.lastName', 'ASC')
         ->setParameter('deleted', false)
         ->setParameter('currentUserId', $currentUser->getId());
 
