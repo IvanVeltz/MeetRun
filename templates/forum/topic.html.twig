@@ -35,7 +35,7 @@
                 {% endif %}
             </p>
         {% if not post.deleted %}
-        {% if post.user.id == app.user.id or is_granted('ROLE_ADMIN') %}
+        {% if post.user.id == app.user.id %}
         <a href="#" class="btn btn-primary"
             onclick="event.preventDefault(); document.getElementById('delete-post-{{ post.id }}').submit();">
             <button type="button" class="btn-danger btn-sm">
