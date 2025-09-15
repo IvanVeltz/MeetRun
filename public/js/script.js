@@ -100,3 +100,23 @@ document.addEventListener('DOMContentLoaded', () => {
       chatMessages.scrollTop = chatMessages.scrollHeight;
   }
 });
+
+const modal = document.getElementById('friendsModal');
+const openBtn = document.getElementById('openModalBtn');
+const closeBt = modal.querySelector('.close-btn');
+
+openBtn.addEventListener('click', () => modal.style.display = 'flex');
+closeBt.addEventListener('click', () => modal.style.display = 'none');
+window.addEventListener('click', e => { if(e.target == modal) modal.style.display = 'none'; });
+
+const tabButtons = document.querySelectorAll('.tab-button');
+const tabs = document.querySelectorAll('.tab');
+
+tabButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+        tabButtons.forEach(b => b.classList.remove('active'));
+        tabs.forEach(t => t.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.tab).classList.add('active');
+    });
+});

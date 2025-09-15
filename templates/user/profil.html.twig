@@ -58,9 +58,66 @@
                     <span>Follower : {{ user.followers|length }}</span>
                 </p>
                 {% if user == app.user %}
-                <a href="#" class="btn-profil">Gérer ses abonnements</a>
-
+                <button id="openModalBtn" class="btn-profil">
+                    Gérer ses abonnements
+                </button>
                 {% endif %}
+
+                <div id="friendsModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close-btn">&times;</span>
+
+                        <h2>Gérer ses abonnements</h2>
+
+                        <!-- Onglets -->
+                        <div class="tabs">
+                            <button class="tab-button active" data-tab="requests">Demandes en attente</button>
+                            <button class="tab-button" data-tab="friends">Amis</button>
+                        </div>
+
+                        <div class="tab-content">
+                            <!-- Demandes en attente -->
+                            <div id="requests" class="tab active">
+                                {% for follow in follows %}
+                                <div class="item">
+                                    <span>{{ follow.userSource.firstName }} {{ follow.userSource.lastName }}</span>
+                                    <form method="POST" action="{{ path('app_follow_accept', {'id': follow.id}) }}">
+                                        <input type="hidden" name="_token"
+                                               value="{{ csrf_token('follow-accept' ~ follow.userSource.id) }}">
+                                        <button type="submit" class="btn-accept">Accepter</button>
+                                    </form>
+                                    
+                                    <form method="POST" action="{{ path('app_unfollower_request', {'id': follow.id}) }}">
+                                        <input type="hidden" name="_token"
+                                               value="{{ csrf_token('unfollower' ~ follow.userSource.id) }}">
+                                        <button type="submit" class="btn-reject">Refuser</button>
+                                    </form>
+                                </div>
+                                {% else %}
+                                <p>Aucune demande en attente.</p>
+                                {% endfor %}
+                            </div>
+
+                            <!-- Liste des amis -->
+                            <div id="friends" class="tab">
+                                {% for friend in friends %}
+                                <div class="item">
+                                    <span>{{ friend.userTarget.firstName }}</span>
+                                    <form method="POST" action="{{ path('app_unfollow_request', {'id': friend.id}) }}">
+                                        <input type="hidden" name="_token"
+                                            value="{{ csrf_token('unfollow' ~ friend.id) }}">
+                                        <button type="submit" class="btn-unfollow">Se désabonner</button>
+                                    </form>
+                                </div>
+                                {% else %}
+                                <p>Pas d’amis pour le moment.</p>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
         </div>
     </header>
@@ -117,17 +174,18 @@
         {% else %}
         <p>Vous devez vous suivre mutuellement pour discuter</p>
         {% endif %}
-    
-    {% else %}
-    <h4>Follow(s)</h4>
-    <ul>
-        {% for friend in friends %}
-        <li><a href="{{path('app_profil', {'id' :  friend.userTarget.id})}}">{{ friend.userTarget.firstname }} {{ friend.userTarget.lastname }}</a></li>
+
         {% else %}
-        <li>Vous n'avez pas encore d'amis.</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
+        <h4>Follow(s)</h4>
+        <ul>
+            {% for friend in friends %}
+            <li><a href="{{path('app_profil', {'id' :  friend.userTarget.id})}}">{{ friend.userTarget.firstname }} {{
+                    friend.userTarget.lastname }}</a></li>
+            {% else %}
+            <li>Vous n'avez pas encore d'amis.</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
     </aside>
 </div>
 </div>

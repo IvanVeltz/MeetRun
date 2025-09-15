@@ -37,9 +37,15 @@
                     <a href="{{path('app_forum') }}">Forum</a>
                 </div>
                 <div class="nav__profil dropdown">
-                    <button class="dropdown-toggle" id="profilDropdown">
-                        {{ app.user.firstName }} {{ app.user.lastName }}
-                    </button>
+                    <div class="dropdown-flex">
+                        <a href="{{ path('app_profil', { 'id': app.user.id }) }}" class="dropdown-toggle" id="profilDropdown">
+                            {{ app.user.firstName }} {{ app.user.lastName }}
+                        </a>
+                        <a href="{{ path('app_user') }}" class="dropdown-toggle">Mes données personnelles</a>
+                        <a href="{{ path('app_logout') }}" class="dropdown-toggle">Se déconnecter</a>
+                    </div>
+                    <a href="{{ path('app_profil', { 'id': app.user.id }) }}" class="dropdown-toggle" id="profilDropdown2">
+                        {{ app.user.firstName }} {{ app.user.lastName }}</a>
                     <div class="dropdown-menu">
                         <a href="{{ path('app_profil', { 'id': app.user.id }) }}">Mon profil</a>
                         <a href="{{ path('app_user') }}">Mes données personnelles</a>

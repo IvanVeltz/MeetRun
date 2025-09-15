@@ -132,6 +132,11 @@ final class UserController extends AbstractController
             'userSource' => $currentUser->getId(),
             'followAccepted' => 1
         ]);
+        
+        $followToAccept = $followRepository->findBy([
+            'userTarget' => $currentUser->getId(),
+            'followAccepted' => 0
+        ]);
 
         $actions = $userRepository->findLastactionByUser($user);
 
@@ -141,7 +146,8 @@ final class UserController extends AbstractController
             'other' => $other,
             'canMessage' => $canMessage,
             'actions' => $actions,
-            'friends' => $friends
+            'friends' => $friends,
+            'follows' =>$followToAccept
         ]);
     }
     

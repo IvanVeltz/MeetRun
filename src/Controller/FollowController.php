@@ -54,22 +54,21 @@ final class FollowController extends AbstractController
 
     #[Route('/follow/accept/{id}', name: 'app_follow_accept', methods: ['POST'])]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
-    public function acceptFollow(User $user, Request $request, Follow $follow, EntityManagerInterface $entityManager): Response
+    public function acceptFollow(Follow $follow, Request $request, EntityManagerInterface $entityManager): Response
     {
         $currentUser = $this->getUser();
 
-        // On verfie que ce soit bien la personne connecté qui accepte la demande
+        // Vérifie que c'est bien le destinataire
         if ($follow->getUserTarget() !== $currentUser){
-            return $this->redirectToRoute('app_profil', ['id' => $this->getUser()->getId()]);
+            return $this->redirectToRoute('app_profil', ['id' => $currentUser->getId()]);
         }
 
-        // On verifie que le CSRF_token est bien conforme avec celui créé par le formulaire de la vue, si ce n'est
-        // pas le cas on bloque la requete 
-        if (!$this->isCsrfTokenValid('follow-accept'.$user->getId(), $request->request->get('_token'))) {
+        // Vérifie le CSRF
+        if (!$this->isCsrfTokenValid('follow-accept'.$follow->getUserSource()->getId(), $request->request->get('_token'))) {
             throw $this->createAccessDeniedException('CSRF invalide');
         }
 
-        // On vérifie si la demande est déjà acceptée
+        // Vérifie si déjà accepté
         if ($follow->isFollowAccepted()){
             return $this->redirectToRoute('app_profil', ['id' => $currentUser->getId()]);
         }
@@ -78,8 +77,9 @@ final class FollowController extends AbstractController
         $entityManager->persist($follow);
         $entityManager->flush();
 
-        return $this->redirectToRoute('app_profil', ['id' => $this->getUser()->getId()]);
+        return $this->redirectToRoute('app_profil', ['id' => $currentUser->getId()]);
     }
+
 
 
 
