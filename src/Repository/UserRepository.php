@@ -210,6 +210,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
         usort($actions, fn($a, $b) => $b['entity']->getCreatedAt() <=> $a['entity']->getCreatedAt());
 
+        // Limiter à 10 actions
+        $actions = array_slice($actions, 0, 6);
 
         return $actions;
     }

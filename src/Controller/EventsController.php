@@ -73,7 +73,7 @@ final class EventsController extends AbstractController
                 $event->setCity($extraData['city']);
             }
             
-            $event->setDateOfcreation(new \DateTime());
+            $event->setCreatedAt(new \DateTime());
 
             foreach ($filenames as $filename) {
                 $eventImage = new Photo(); 

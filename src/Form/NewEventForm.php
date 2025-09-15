@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class NewEventForm extends AbstractType
@@ -22,7 +23,7 @@ class NewEventForm extends AbstractType
             ->add('name', TextType::class, [
                 'label'=>'Nom de la course'
             ])
-            ->add('dateEvent', DateType::class, [
+            ->add('dateEvent', DateTimeType::class, [
                 'label'=> 'Date de la course',
                 'widget' => 'single_text'
             ])

@@ -94,10 +94,13 @@
 
 
     <!-- Aside droit : chat -->
-    
-    {% if app.user.id != user.id %}
+
     <aside class="profil-chat">
+        {% if app.user.id != user.id %}
         <h4>Discussion avec {{user}}</h4>
+        {% if canMessage %}
+
+
         <div id="chat-messages">
             {% for message in messages %}
             <div class="message {{ message.sender == app.user ? 'me' : 'other' }}">
@@ -111,8 +114,21 @@
             <input type="hidden" name="_token" value="{{ csrf_token('createChatMessage') }}">
             <button type="submit">Envoyer</button>
         </form>
-    </aside>
+        {% else %}
+        <p>Vous devez vous suivre mutuellement pour discuter</p>
+        {% endif %}
+    
+    {% else %}
+    <h4>Mes amis</h4>
+    <ul>
+        {% for friend in friends %}
+        <li><a href="{{path('app_profil', {'id' :  friend.userTarget.id})}}">{{ friend.userTarget.firstname }} {{ friend.userTarget.lastname }}</a></li>
+        {% else %}
+        <li>Vous n'avez pas encore d'amis.</li>
+        {% endfor %}
+    </ul>
     {% endif %}
+    </aside>
 </div>
 </div>
 

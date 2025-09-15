@@ -73,18 +73,18 @@ class ImageUploader
             $image = null;
 
             if ($mimeType === 'image/jpeg') {
-                $image = imagecreatefromjpeg($tempPath);
+                $image = \imagecreatefromjpeg($tempPath);
             } elseif ($mimeType === 'image/png') {
-                $image = imagecreatefrompng($tempPath);
+                $image = \imagecreatefrompng($tempPath);
                 // Garde la transparence pour PNG
-                imagepalettetotruecolor($image);
-                imagealphablending($image, true);
-                imagesavealpha($image, true);
+                \imagepalettetotruecolor($image);
+                \imagealphablending($image, true);
+                \imagesavealpha($image, true);
             }
 
             if ($image) {
-                imagewebp($image, $destination, 80); // qualité 80%
-                imagedestroy($image);
+                \imagewebp($image, $destination, 80); // qualité 80%
+                \imagedestroy($image);
                 $filenames[] = $filename;
             }
         }

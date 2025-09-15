@@ -89,6 +89,8 @@
             <p> Vous devez vérifier votre email pour vous inscrire</p>
             {% endif %}
             {% endif %}
+        {% else %}
+        <p><a href="{{path('app_login')}}">Connectez vous</a> pour vous inscire</p>
         {% endif %}
     </div>
     <div class="event-manager">

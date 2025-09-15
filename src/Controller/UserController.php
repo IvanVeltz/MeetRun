@@ -128,6 +128,10 @@ final class UserController extends AbstractController
             $messages = $messageRepository->findConversation($currentUser, $other, 30, 0);
         }
 
+        $friends = $followRepository->findBy([
+            'userSource' => $currentUser->getId(),
+            'followAccepted' => 1
+        ]);
 
         $actions = $userRepository->findLastactionByUser($user);
 
@@ -136,7 +140,8 @@ final class UserController extends AbstractController
             'messages' => $messages,
             'other' => $other,
             'canMessage' => $canMessage,
-            'actions' => $actions
+            'actions' => $actions,
+            'friends' => $friends
         ]);
     }
     
