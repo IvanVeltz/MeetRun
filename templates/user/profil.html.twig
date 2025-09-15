@@ -119,7 +119,7 @@
         {% endif %}
     
     {% else %}
-    <h4>Mes amis</h4>
+    <h4>Follow(s)</h4>
     <ul>
         {% for friend in friends %}
         <li><a href="{{path('app_profil', {'id' :  friend.userTarget.id})}}">{{ friend.userTarget.firstname }} {{ friend.userTarget.lastname }}</a></li>

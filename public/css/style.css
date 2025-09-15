@@ -240,7 +240,6 @@ main.main-container {
     inset: 0;
     background-color: var(--primary-color);
     z-index: 1500;
-    padding: 2rem;
   }
 
   .nav__menu,
@@ -268,7 +267,7 @@ main.main-container {
     display: block;
     position: absolute;
     top: 0;
-    right: 2rem;
+    right: 3rem;
     font-size: 1.5rem;
     color: var(--bg-color);
     z-index: 2000;
@@ -2489,5 +2488,62 @@ path:hover {
 
   .events-container h2 {
     font-size: 1.1rem;
+  }
+}
+
+/* Responsive : petits écrans */
+@media (max-width: 480px) {
+  .create-event{
+    margin-left: 1em;
+  }
+
+  .runners-container{
+    padding: 0;
+  }
+  .runners-suggest{
+    display: none;
+  }
+  .search-runners-container{
+    margin: 1em;
+  }
+
+  .event-card figure{
+    display:none
+  }
+  .event-card h3{
+    padding:0 !important;
+    margin: 0 !important;
+  }
+  .modal {
+    width: 90%;
+    padding: 1em;
+    border-radius: 8px;
+  }
+
+  .modal-content{
+    padding: 1em;
+    width: auto;
+  }
+
+  .modal h2 {
+    font-size: 1.4em;
+  }
+
+  .modal form {
+    margin: 0 1em;
+  }
+  .modal form input[type="text"],
+  .modal form input[type="date"],
+  .modal form input[type="datetime-local"],
+  .modal form input[type="number"],
+  .modal form textarea,
+  .modal form select {
+    font-size: 0.9em;
+    padding: 0.6em 0.8em;
+  }
+
+  .modal form button[type="submit"] {
+    font-size: 0.9em;
+    padding: 0.6em 1em;
   }
 }

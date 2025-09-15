@@ -62,7 +62,7 @@ class LevelRun
 
     public function __toString(): string
     {
-        return $this->level." - ".strtok($this->description, ' ');
+        return $this->level." - ".$this->description;
     }
 
     public function infoProfil(): string

@@ -125,7 +125,7 @@ export default class Filter{
                 this.pagination.innerHTML = data.pagination
             }
             initSlider()
-            history.replaceState({}, '', url)
+            history.replaceState({}, '', url) 
             
         } else {
             this.errorMessageDiv.textContent = 'Une erreur est survenue : ' + response.status;
