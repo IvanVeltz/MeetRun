@@ -234,7 +234,6 @@ main.main-container {
   .navbar__wrapper.show {
     display: flex;
     flex-direction: column;
-    /* colonne uniquement quand menu ouvert */
     justify-content: center;
     align-items: center;
     position: fixed;
@@ -2381,7 +2380,7 @@ path:hover {
 /* ********** RESPONSIVE QUERIES ********** */
 
 /* Pour les écrans < 992px (tablettes et petits laptops) */
-@media (max-width: 991.98px) {
+@media (max-width: 992px) {
   header {
     height: 450px;
   }
