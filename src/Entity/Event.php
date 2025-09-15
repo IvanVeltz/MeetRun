@@ -305,4 +305,8 @@ class Event
 
         return $this;
     }
+
+    public function isFull() : bool{
+        return count($this->getRegistrationEvents()) >= $this->getCapacity();
+    }
 }

@@ -12,6 +12,8 @@
             {{ event.name }}
             {% if event.isCancelled %}
                 <span>(Course annulé)</span>
+            {% elseif event.isFull %}
+                <span>(Course complète)</span>
             {% endif %}
         </h1>
         {% if app.user %}
