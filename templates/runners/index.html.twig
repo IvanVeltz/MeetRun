@@ -83,6 +83,9 @@
             {% if results|length < 1 %}
                 <p>Aucun coureurs ne correspond à votre recherche</p>
             {% endif %}
+        <div class="js-filter-sorting">
+            {% include "runners/_sorting.html.twig" with {results: results} %}
+        </div>
         <div class="grid js-filter-content">
             {% include "runners/_runners.html.twig" %}
         </div>
